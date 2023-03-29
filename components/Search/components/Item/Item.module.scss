@@ -1,0 +1,51 @@
+.wrapper {
+    display: flex;
+    align-items: center;
+    border-radius: 10px;
+    transition: all .3s ease;
+    cursor: pointer;
+    padding: 10px;
+
+    &:hover {
+        background-color: var(--bisq);
+    }
+
+    .image {
+        width: 45px;
+        height: 45px;
+        border-radius: 10px;
+        overflow: hidden;
+        margin-right: 10px;
+        flex: 0 0 auto;
+
+        img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: flex;
+        }
+    }
+    
+    .image.none {
+        opacity: .5;
+        background-color: #eaeaea;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        
+        img {
+            object-fit: contain;
+            max-width: 30px;
+            max-height: 30px;
+        }
+    }
+
+    .name {
+        overflow: hidden;
+        width: 100%;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        font-weight: 600;
+
+    }
+}

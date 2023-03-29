@@ -14,6 +14,9 @@ const Button:FC<buttonTypes> = ({
     color = '#fff',
     tooltip,
     load,
+    icon,
+    round,
+    badge,
     onClick = () => {}
 }) => {
 
@@ -31,6 +34,10 @@ const Button:FC<buttonTypes> = ({
                 return styles.brown
             case 'white':
                 return styles.white
+            case 'gray':
+                return styles.gray
+            case 'transparent':
+                return styles.transparent
             default:
                 return styles.default
         }
@@ -44,7 +51,7 @@ const Button:FC<buttonTypes> = ({
                 trigger={['hover']}
                 placement={'bottom'}
                 >
-                <button onClick={onClick} style={style} disabled={disabled} className={`${styles.button} ${switchVariant(variant)} ${load ? styles.load : ''}`}>
+                <button onClick={onClick} style={style} disabled={disabled} className={`${styles.button} ${switchVariant(variant)} ${load ? styles.load : ''} ${round ? styles.round : ''}`}>
                     <div className={styles.load}><CircleLoader color={color}/></div>   
                     {
                         before ? (
@@ -61,13 +68,25 @@ const Button:FC<buttonTypes> = ({
                             <div className={`${styles.side} ${styles.after}`}>{after}</div>
                         ) : null
                     }
+                    {
+                        icon ? (
+                            <div className={styles.icon}>{icon}</div>
+                        ) : null
+                    }
+                    {
+                        badge ? (
+                            <div className={styles.badge}>
+
+                            </div>
+                        ) : null
+                    }
                 </button>
             </Tooltip>
         )
     }
 
     return (
-        <button onClick={onClick} style={style} disabled={disabled} className={`${styles.button} ${switchVariant(variant)} ${load ? styles.load : ''}`}>
+        <button onClick={onClick} style={style} disabled={disabled} className={`${styles.button} ${switchVariant(variant)} ${load ? styles.load : ''} ${round ? styles.round : ''}`}>
             <div className={styles.load}><CircleLoader color={color}/></div>   
             {
                 before ? (
@@ -82,6 +101,18 @@ const Button:FC<buttonTypes> = ({
             {
                 after ? (
                     <div className={`${styles.side} ${styles.after}`}>{after}</div>
+                ) : null
+            }
+            {
+                icon ? (
+                    <div className={styles.icon}>{icon}</div>
+                ) : null
+            }
+            {
+                badge ? (
+                    <div className={styles.badge}>
+                        {badge < 100 ? badge : '+99'}
+                    </div>
                 ) : null
             }
         </button>

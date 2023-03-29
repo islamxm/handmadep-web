@@ -1,0 +1,1 @@
+export const updateToken = (token: string) => ({type: 'UPDATE_TOKEN', token})

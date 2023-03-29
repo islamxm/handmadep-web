@@ -12,6 +12,8 @@
     .text {
         opacity: 0;
     }
+
+    
 }
 
 .button.disabled {
@@ -21,7 +23,7 @@
 }
 
 .button {
-    overflow: hidden;
+    // overflow: hidden;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -32,6 +34,7 @@
     transition: all .3s ease;
     background-color: var(--blue);
     cursor: pointer;
+    position: relative;
 
     &:active {
         transform: scale(0.95);
@@ -48,6 +51,24 @@
     //     opacity: .7;
     // }
 
+    .badge {
+        position: absolute;
+        top: -5px;
+        right: -5px;
+        background-color: red;
+        color: #fff;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 100%;
+        width: 25px;
+        height: 25px;
+        text-align: center;
+        font-size: 10px;
+        line-height: 10px;
+        font-weight: 600;   
+    }
+
     .load {
         position: absolute;
         top: 0;
@@ -62,14 +83,23 @@
         transition: all .3s ease;
     }
 
-    .side {
+    .side, .icon {
         font-size: 16px;
         line-height: 16px;
         transition: all .3s ease;
+        flex: 0 0 auto;
+    }
+
+    .icon {
+        font-size: 16px;
+        line-height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
     }
 
     .before {
-        margin-right: 10px;
+        margin-right: 10px; 
     }
 
     .after {
@@ -89,15 +119,42 @@
     background-color: var(--brown);
 }
 
+
 .button.white {
-    
     background-color: #fff;
+    filter: drop-shadow(0 0 10px rgba(#1a1a1a, .4));
+
     .text {
         color: var(--text);    
     }
 
     .side {
         color: var(--text);
+    
     }
 
+    .icon {
+        color: var(--text);
+    }
+}
+
+.button.gray {
+    background-color: #eaeaea;
+
+    .text, .side, .icon {
+        color: var(--text);
+    }
+}
+
+.button.transparent {
+    background-color: unset;
+
+    .text, .side, .icon {
+        color: var(--text);
+    }
+}
+
+.button.round {
+    border-radius: 100%;
+    padding: 10px;
 }

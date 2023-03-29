@@ -1,0 +1,47 @@
+.wrapper {
+    border-radius: 15px;
+    background-color: #fff;
+
+    .list {
+        padding: 10px;
+    }
+
+    .item.logout {
+        .link {
+            color: red;
+        }
+    }
+
+    .item {
+        .link {
+            padding: 7px 10px;
+            border-radius: 10px;
+            transition: all .3s ease;
+            color: var(--text);
+            font-weight: 500;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+
+            .icon {
+                margin-right: 10px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+    
+            .text {
+    
+            }
+    
+            &:hover {
+                background-color: var(--bisq);
+            }
+        }
+
+    }
+
+    .item.active {
+        background-color: var(--bisq);
+    }
+}

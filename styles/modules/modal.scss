@@ -1,0 +1,20 @@
+.modal {
+
+    .ant-modal-content {
+        padding: 0;
+        border-radius: 15px;
+
+        .ant-modal-close {
+            display: none;
+        }
+
+        .ant-modal-body {
+            padding: 20px;
+        }
+
+        .ant-modal-footer {
+            display: none;
+        }
+    }
+
+}
