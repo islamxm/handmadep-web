@@ -1,3 +1,41 @@
 .wrapper {
-    
+    .ex {
+        text-align: center;
+
+        span {
+            color: var(--light_blue);
+            font-weight: 600;
+            cursor: pointer;
+        }
+    }
+
+    .itgr {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-top: 20px;
+        .item {
+            margin: 0 5px;
+            flex: 0 0 auto;
+            width: 50px;
+            height: 50px;
+            transition: all .3s ease;
+            cursor: pointer;
+
+            &:hover {
+                opacity: .5;
+            }
+
+            &:active {
+                transform: scale(0.95);
+            }
+
+            img {
+                width: 100%;
+                height: 100%;
+                object-fit: contain;
+                display: flex;
+            }
+        }
+    }
 }

@@ -13,7 +13,8 @@ export type buttonTypes = {
     icon?: React.ReactNode,
     round?: boolean,
     badge?: number | string
-    onClick?: (...args: any[]) => any 
+    onClick?: (...args: any[]) => any
+    link?: string
 } 
 
 export type buttonVariants = 'default' | 'danger' | 'success' | 'black' | 'brown' | 'white' | 'blue' | 'transparent' | 'gray'

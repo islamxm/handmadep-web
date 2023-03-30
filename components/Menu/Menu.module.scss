@@ -1,0 +1,26 @@
+.wrapper {
+    display: none;
+    background-color: #fff;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    z-index: 100;
+
+    .list {
+        padding: 10px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+
+        .item {
+            
+        }
+    }
+}
+
+@media (max-width: 1000px) {
+    .wrapper {
+        display: block;
+    }
+}

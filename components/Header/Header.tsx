@@ -11,6 +11,7 @@ import { Dropdown } from 'antd';
 import {GoSignIn} from 'react-icons/go';
 import ProfileMenu from './components/ProfileMenu/ProfileMenu';
 import Auth from '../Auth/Auth';
+import Signup from '../Signup/Signup';
 
 
 
@@ -22,6 +23,7 @@ const Header:FC<headerTypes> = () => {
     return (
         <div className={styles.wrapper}>
             <Auth/>
+            <Signup/>
             <Container>
                 <div className={styles.in}>
                     <div className={`${styles.part} ${styles.logo}`}>

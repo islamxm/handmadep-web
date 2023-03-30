@@ -3,6 +3,7 @@ import {FC} from 'react';
 import { buttonTypes, buttonVariants } from './types';
 import { CircleLoader } from 'react-spinners';
 import { Tooltip } from 'antd';
+import Link from 'next/link';
 
 const Button:FC<buttonTypes> = ({
     text,
@@ -17,6 +18,7 @@ const Button:FC<buttonTypes> = ({
     icon,
     round,
     badge,
+    link,
     onClick = () => {}
 }) => {
 
@@ -51,71 +53,140 @@ const Button:FC<buttonTypes> = ({
                 trigger={['hover']}
                 placement={'bottom'}
                 >
-                <button onClick={onClick} style={style} disabled={disabled} className={`${styles.button} ${switchVariant(variant)} ${load ? styles.load : ''} ${round ? styles.round : ''}`}>
-                    <div className={styles.load}><CircleLoader color={color}/></div>   
-                    {
-                        before ? (
-                            <div className={`${styles.side} ${styles.before}`}>{before}</div>
-                        ) : null
-                    }
-                    {
-                        text ? (
-                            <div className={styles.text}>{text}</div>
-                        ) : null
-                    }
-                    {
-                        after ? (
-                            <div className={`${styles.side} ${styles.after}`}>{after}</div>
-                        ) : null
-                    }
-                    {
-                        icon ? (
-                            <div className={styles.icon}>{icon}</div>
-                        ) : null
-                    }
-                    {
-                        badge ? (
-                            <div className={styles.badge}>
+                {
+                    link ? (
+                        <Link href={link} style={style} className={`${styles.button} ${switchVariant(variant)} ${load ? styles.load : ''} ${round ? styles.round : ''}`}>
+                            <div className={styles.load}><CircleLoader color={color}/></div>   
+                            {
+                                before ? (
+                                    <div className={`${styles.side} ${styles.before}`}>{before}</div>
+                                ) : null
+                            }
+                            {
+                                text ? (
+                                    <div className={styles.text}>{text}</div>
+                                ) : null
+                            }
+                            {
+                                after ? (
+                                    <div className={`${styles.side} ${styles.after}`}>{after}</div>
+                                ) : null
+                            }
+                            {
+                                icon ? (
+                                    <div className={styles.icon}>{icon}</div>
+                                ) : null
+                            }
+                            {
+                                badge ? (
+                                    <div className={styles.badge}>
 
-                            </div>
-                        ) : null
-                    }
-                </button>
+                                    </div>
+                                ) : null
+                            }
+                        </Link>
+                    ) : (
+                        <button onClick={onClick} style={style} disabled={disabled} className={`${styles.button} ${switchVariant(variant)} ${load ? styles.load : ''} ${round ? styles.round : ''}`}>
+                            <div className={styles.load}><CircleLoader color={color}/></div>   
+                            {
+                                before ? (
+                                    <div className={`${styles.side} ${styles.before}`}>{before}</div>
+                                ) : null
+                            }
+                            {
+                                text ? (
+                                    <div className={styles.text}>{text}</div>
+                                ) : null
+                            }
+                            {
+                                after ? (
+                                    <div className={`${styles.side} ${styles.after}`}>{after}</div>
+                                ) : null
+                            }
+                            {
+                                icon ? (
+                                    <div className={styles.icon}>{icon}</div>
+                                ) : null
+                            }
+                            {
+                                badge ? (
+                                    <div className={styles.badge}>
+
+                                    </div>
+                                ) : null
+                            }
+                        </button>
+                    )
+                }
+                
             </Tooltip>
         )
     }
 
     return (
-        <button onClick={onClick} style={style} disabled={disabled} className={`${styles.button} ${switchVariant(variant)} ${load ? styles.load : ''} ${round ? styles.round : ''}`}>
-            <div className={styles.load}><CircleLoader color={color}/></div>   
-            {
-                before ? (
-                    <div className={`${styles.side} ${styles.before}`}>{before}</div>
-                ) : null
-            }
-            {
-                text ? (
-                    <div className={styles.text}>{text}</div>
-                ) : null
-            }
-            {
-                after ? (
-                    <div className={`${styles.side} ${styles.after}`}>{after}</div>
-                ) : null
-            }
-            {
-                icon ? (
-                    <div className={styles.icon}>{icon}</div>
-                ) : null
-            }
-            {
-                badge ? (
-                    <div className={styles.badge}>
-                        {badge < 100 ? badge : '+99'}
-                    </div>
-                ) : null
-            }
-        </button>
+        link ? (
+            <Link href={link} style={style} className={`${styles.button} ${switchVariant(variant)} ${load ? styles.load : ''} ${round ? styles.round : ''}`}>
+                <div className={styles.load}><CircleLoader color={color}/></div>   
+                {
+                    before ? (
+                        <div className={`${styles.side} ${styles.before}`}>{before}</div>
+                    ) : null
+                }
+                {
+                    text ? (
+                        <div className={styles.text}>{text}</div>
+                    ) : null
+                }
+                {
+                    after ? (
+                        <div className={`${styles.side} ${styles.after}`}>{after}</div>
+                    ) : null
+                }
+                {
+                    icon ? (
+                        <div className={styles.icon}>{icon}</div>
+                    ) : null
+                }
+                {
+                    badge ? (
+                        <div className={styles.badge}>
+
+                        </div>
+                    ) : null
+                }
+            </Link>
+        ) : (
+            <button onClick={onClick} style={style} disabled={disabled} className={`${styles.button} ${switchVariant(variant)} ${load ? styles.load : ''} ${round ? styles.round : ''}`}>
+                <div className={styles.load}><CircleLoader color={color}/></div>   
+                {
+                    before ? (
+                        <div className={`${styles.side} ${styles.before}`}>{before}</div>
+                    ) : null
+                }
+                {
+                    text ? (
+                        <div className={styles.text}>{text}</div>
+                    ) : null
+                }
+                {
+                    after ? (
+                        <div className={`${styles.side} ${styles.after}`}>{after}</div>
+                    ) : null
+                }
+                {
+                    icon ? (
+                        <div className={styles.icon}>{icon}</div>
+                    ) : null
+                }
+                {
+                    badge ? (
+                        <div className={styles.badge}>
+
+                        </div>
+                    ) : null
+                }
+            </button>
+        )
     )
 }
 

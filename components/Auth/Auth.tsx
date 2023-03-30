@@ -19,7 +19,6 @@ const Auth:FC<ModalFuncProps> = (props) => {
 
     return (
         <Modal
-            open
             {...props}
             width={500}
             className={`${styles.wrapper} modal`}
