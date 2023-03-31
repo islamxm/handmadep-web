@@ -1,0 +1,91 @@
+.wrapper {
+    border-radius: 20px;
+    overflow: hidden;
+    background-color: #fff;
+    position: relative;
+
+    .layer {
+        // display: none;
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        height: 0;
+        width: 100%;
+        z-index: 2;
+        // border-radius: 20px;
+        height: 0;
+        background-color: var(--bisq);
+        // transition: all 1.5s ease;
+        z-index: 100;
+    }
+
+    .like {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 20px;
+        font-size: 100px;
+        line-height: 100px;
+        // opacity: 0;
+        transform: scale(0);
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        color: var(--brown)
+    }
+
+    .opts {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        z-index: 15;
+        filter: drop-shadow(0 0 10px rgba(26, 26, 26, 0.4));
+        display: flex;
+        align-items: center;
+
+        .item {
+            margin: 0 5px;
+
+            &:first-child {
+                margin-left: 0;
+            }
+            &:last-child {
+                margin-right: 0;
+            }
+        }
+    }
+
+    .action {
+        position: absolute;
+        bottom: 10px;
+        right: 10px;
+
+        
+    }
+
+    .body {
+
+        .image {
+            border-radius: 20px;
+            overflow: hidden;
+
+            img {
+                width: 100%;
+                height: 100%;
+                object-fit: cover;
+                display: flex;
+            }
+        }
+
+        .label {
+           
+            padding: 15px 40px 15px 10px;
+            overflow: hidden;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+            font-weight: 500;
+        }
+    }
+}

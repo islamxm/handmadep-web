@@ -1,7 +1,13 @@
+import List from "@/components/List/List";
+import prodsMock from "@/mock/prodsMock";
+import ContentLayout from "@/components/ContentLayout/ContentLayout";
+
 const HomePage = () => {
 
   return (
-    <div></div>
+    <ContentLayout>
+      <List list={prodsMock}/>
+    </ContentLayout>
   )
 }
 

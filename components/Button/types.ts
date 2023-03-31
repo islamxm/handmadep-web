@@ -12,7 +12,7 @@ export type buttonTypes = {
     style?: CSSProperties,
     icon?: React.ReactNode,
     round?: boolean,
-    badge?: number | string
+    badge?: number
     onClick?: (...args: any[]) => any
     link?: string
 } 

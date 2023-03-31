@@ -80,7 +80,7 @@ const Button:FC<buttonTypes> = ({
                             {
                                 badge ? (
                                     <div className={styles.badge}>
-
+                                        {badge > 99 ? '+99' : badge}
                                     </div>
                                 ) : null
                             }
@@ -111,7 +111,7 @@ const Button:FC<buttonTypes> = ({
                             {
                                 badge ? (
                                     <div className={styles.badge}>
-
+                                        {badge > 99 ? '+99' : badge}
                                     </div>
                                 ) : null
                             }
@@ -150,7 +150,7 @@ const Button:FC<buttonTypes> = ({
                 {
                     badge ? (
                         <div className={styles.badge}>
-
+                            {badge > 99 ? '+99' : badge}
                         </div>
                     ) : null
                 }
@@ -181,7 +181,7 @@ const Button:FC<buttonTypes> = ({
                 {
                     badge ? (
                         <div className={styles.badge}>
-
+                            {badge > 99 ? '+99' : badge}
                         </div>
                     ) : null
                 }

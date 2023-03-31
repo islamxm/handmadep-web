@@ -33,6 +33,7 @@ const Header:FC<headerTypes> = () => {
                         <div className={styles.item}>
                             <Button
                                 text='Home'
+                                link='/'
                                 />
                         </div>
                         <div className={styles.item}>
@@ -61,7 +62,7 @@ const Header:FC<headerTypes> = () => {
                                 dropdownRender={() => <ProfileMenu/>}
                                 trigger={['click']}
                                 
-                                placement={'bottomCenter'}
+                                placement={'bottomLeft'}
                                 >
                                     <div>
                                     <Avatar

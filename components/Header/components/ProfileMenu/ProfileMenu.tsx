@@ -10,19 +10,19 @@ const ProfileMenu = () => {
         <div className={styles.wrapper}>
             <ul className={styles.list}>
                 <li className={styles.item}>
-                    <Link href={'/'} className={styles.link}>
+                    <Link href={'/profile'} className={styles.link}>
                         <div className={styles.icon}><FaUserAlt/></div>
                         <div className={styles.text}>Profile</div>
                     </Link> 
                 </li>
                 <li className={styles.item}>
-                    <Link href={'/'} className={styles.link}>
+                    <Link href={'/favourites'} className={styles.link}>
                         <div className={styles.icon}><BsHeartFill/></div>
                         <div className={styles.text}>Favourites</div>
                     </Link> 
                 </li>
                 <li className={styles.item}>
-                    <Link href={'/'} className={styles.link}>
+                    <Link href={'/saved'} className={styles.link}>
                         <div className={styles.icon}><BsBookmarkFill/></div>
                         <div className={styles.text}>Saved</div>
                     </Link> 
