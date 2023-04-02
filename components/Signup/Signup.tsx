@@ -18,10 +18,18 @@ const Signup:FC<ModalFuncProps> = (props) => {
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
     const [repeatPassword, setRepeatPassword] = useState('')
+    const [username, setUsername] = useState('')
 
 
     const onSubmit = useCallback(() => {
-        
+        service.register({
+            email,
+            password,
+            re_password: repeatPassword,
+            username
+        }).then(res => {
+            console.log(res)
+        })
     }, [email, password, repeatPassword])
 
 
@@ -29,6 +37,7 @@ const Signup:FC<ModalFuncProps> = (props) => {
         <Modal  
             {...props}
             width={500}
+            // open
             className={`${styles.wrapper} modal`}
             >
             <div className='modal__head page-title'>Sign up</div>
@@ -37,22 +46,39 @@ const Signup:FC<ModalFuncProps> = (props) => {
                     <Col span={24}>
                         <Input
                             placeholder='E-mail'
+                            value={email}
+                            onChange={(e: React.ChangeEvent<HTMLInputElement>) => setEmail(e.target.value)}
+                            />
+                    </Col>
+                    <Col span={24}>
+                        <Input
+                            placeholder='Username'
+                            value={username}
+                            onChange={(e: React.ChangeEvent<HTMLInputElement>) => setUsername(e.target.value)}
                             />
                     </Col>
                     <Col span={24}>
                         <Input 
                             placeholder='Password'
                             type='password'
+                            value={password}
+                            onChange={(e: React.ChangeEvent<HTMLInputElement>) => setPassword(e.target.value)}
                             />
                     </Col>
                     <Col span={24}>
                         <Input
+                            value={repeatPassword}
+                            errorText={'Пароли не совпадают'}
+                            error={repeatPassword && repeatPassword !== password ? true : false}
+                            onChange={(e: React.ChangeEvent<HTMLInputElement>) => setRepeatPassword(e.target.value)}
                             placeholder='Confirm password'
                             type='password'
                             />
                     </Col>
                     <Col span={24} style={{display: 'flex', justifyContent: 'center'}}>
                         <Button
+                            disabled={email && password && repeatPassword && (repeatPassword === password) ? false : true}
+                            onClick={onSubmit}
                             text={'Sign up'}
                             />
                     </Col>

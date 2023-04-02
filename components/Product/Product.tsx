@@ -81,7 +81,7 @@ const Product = ({
                     },
                 }}
                 viewport={{once: true}}
-            className={styles.layer}></motion.div>
+                className={styles.layer}></motion.div>
             <div className={styles.opts}>
                 <div className={styles.item}>
                     <Button
