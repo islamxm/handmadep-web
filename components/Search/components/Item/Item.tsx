@@ -12,9 +12,9 @@ const Item:FC<searchItemType> = ({
 
     return (
         <div className={styles.wrapper}>
-            <div className={`${styles.image} ${!image ? styles.none : ''}`}>
+            {/* <div className={`${styles.image} ${!image ? styles.none : ''}`}>
                 <Image src={image ? image : placeholder} alt=""/>
-            </div>
+            </div> */}
             <div className={styles.name}>{name}</div>
         </div>
     )

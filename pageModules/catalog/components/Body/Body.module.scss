@@ -1,0 +1,49 @@
+.wrapper {
+    
+    .body {
+
+        .action {
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            margin-right: -10px;
+            margin-left: -10px;
+            margin-bottom: 25px;
+            
+            .item {
+                margin: 0 10px;
+            }
+        }
+
+        .main {
+
+            .title {
+                font-size: 25px;
+                line-height: 30px;
+                font-weight: 700;
+            }
+
+            .descr {
+
+            }
+
+            .keywords {
+                display: flex;
+                flex-wrap: wrap;
+                margin-left: -5px;
+                margin-right: -5px;
+
+                .keywords_item {
+                    margin: 0 5px;
+                    margin-bottom: 10px;
+                }
+            }
+
+            .ex {
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+            }
+        }
+    }
+}

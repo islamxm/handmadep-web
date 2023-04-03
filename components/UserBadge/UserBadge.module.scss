@@ -1,0 +1,22 @@
+.wrapper {
+    display: flex;
+    align-items: center;
+    background-color: var(--bisq);
+    padding: 10px;
+    border-radius: 15px;
+    overflow: hidden;
+
+    .avatar {
+        flex: 0 0 auto;
+        margin-right: 10px;
+    }
+    .label {
+        font-size: 18px;
+        line-height: 25px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        font-weight: 500;
+
+    }
+}

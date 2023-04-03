@@ -4,6 +4,16 @@
     box-sizing: border-box;
     outline: none;
     font-family: 'Montserrat Alternates', sans-serif;
+
+    &::-webkit-scrollbar-thumb {
+        border-radius: 10px;
+        background-color: var(--blue);
+    }
+
+    &::-webkit-scrollbar {
+        background-color: var(--bisq);
+        width: 8px;
+    }
 }
 
 a {
@@ -50,3 +60,37 @@ body {
     font-weight: 700;
     font-family: 'Montserrat Alternates', sans-serif;
 }
+
+
+
+//product slider pagination
+.pag {
+    bottom: 20px;
+    left: 0;
+    width: 100%;
+    position: absolute;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 4;
+
+    .pag__item {
+        margin: 0 5px;
+        border-radius: 100%;
+        width: 10px;
+        height: 10px;
+        opacity: .5;
+        display: block;
+        flex: 0 0 auto;
+        cursor: pointer;
+        background-color: #fff;
+        transition: all .3s ease;
+    }
+
+    .pag__item.active {
+        opacity: 1;
+        transform: scale(1.5);
+    }
+}
+
+

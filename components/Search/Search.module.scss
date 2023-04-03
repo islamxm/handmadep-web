@@ -40,3 +40,8 @@
         pointer-events: all;
     }
 }
+
+.wrapper.focused {
+    background-color: #fff;
+    border-color: var(--light_blue);
+}

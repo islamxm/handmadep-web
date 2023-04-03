@@ -20,51 +20,51 @@ const prodsMock: IProduct[] = [
         label: 'Product name',
         id: '2'
     },
-    // {   
-    //     image: img3,
-    //     label: 'Product name',
-    //     id: '3'
-    // },
-    // {   
-    //     image: img4,
-    //     label: 'Product name',
-    //     id: '4'
-    // },
-    // {   
-    //     image: img5,
-    //     label: 'Product name',
-    //     id: '5'
-    // },
-    // {   
-    //     image: img6,
-    //     label: 'Product name',
-    //     id: '6'
-    // },
-    // {   
-    //     image: img7,
-    //     label: 'Product name',
-    //     id: '7'
-    // },
-    // {   
-    //     image: img8,
-    //     label: 'Product name',
-    //     id: '8'
-    // },
-    // {   
-    //     image: img1,
-    //     label: 'Product name',
-    //     id: '1'
-    // },
-    // {   
-    //     image: img2,
-    //     label: 'Product name',
-    //     id: '2'
-    // },
-    // {   
-    //     image: img3,
-    //     label: 'Product name',
-    //     id: '3'
-    // },
+    {   
+        image: img3,
+        label: 'Product name',
+        id: '3'
+    },
+    {   
+        image: img4,
+        label: 'Product name',
+        id: '4'
+    },
+    {   
+        image: img5,
+        label: 'Product name',
+        id: '5'
+    },
+    {   
+        image: img6,
+        label: 'Product name',
+        id: '6'
+    },
+    {   
+        image: img7,
+        label: 'Product name',
+        id: '7'
+    },
+    {   
+        image: img8,
+        label: 'Product name',
+        id: '8'
+    },
+    {   
+        image: img1,
+        label: 'Product name',
+        id: '1'
+    },
+    {   
+        image: img2,
+        label: 'Product name',
+        id: '2'
+    },
+    {   
+        image: img3,
+        label: 'Product name',
+        id: '3'
+    },
     // {   
     //     image: img4,
     //     label: 'Product name',

@@ -13,5 +13,4 @@ export type searchItemType = {
 
 export type resultType = {
     items?: searchItemType[],
-    categories?: searchItemType[]
 }

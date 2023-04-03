@@ -22,7 +22,7 @@ class ApiService {
                 method: 'POST',
                 headers,
                 body: JSON.stringify(body),
-                mode: 'no-cors'
+                //mode: 'no-cors'
             })
             return await checkAuth(res)
         } catch(err) {
@@ -128,6 +128,7 @@ class ApiService {
             console.log(err)
         }
     }
+
 }
 
 

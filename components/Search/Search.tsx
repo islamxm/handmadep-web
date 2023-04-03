@@ -35,21 +35,25 @@ const Search:FC<searchTypes> = ({
 
         <Dropdown
             trigger={['click']}
-            overlay={<Result items={listMock} categories={listMock}/>}
+            overlay={<Result items={listMock}/>}
             >
-                <div className={`${styles.wrapper} ${focused ? styles.active : ''}`}>
+                <div className={`${styles.wrapper} ${focused ? styles.focused : ''}`}>
                     <div className={styles.icon}>
                         <BiSearch/>
                     </div>
 
                     <div className={styles.body}>
-                        <input 
+                        <input
+                            onBlur={() => setFocused(false)}
+                            onFocus={() => setFocused(true)} 
                             onChange={e => setValue(e.target.value)}
                             placeholder={"Search something"}
+                            value={value}
                             type="text"/>
                     </div>
                     <div className={`${styles.close} ${value ? styles.active : ''}`}>
                         <Button
+                            onClick={() => setValue('')}
                             round
                             variant={'transparent'}
                             icon={<CgClose size={20}/>}

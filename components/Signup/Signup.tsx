@@ -8,6 +8,7 @@ import facebook from '@/public/assets/auth-facebook.png';
 import twitter from '@/public/assets/auth-twitter.png';
 import Image from 'next/image';
 import ApiService from '@/service/apiService';
+import { GoogleLogin, useGoogleLogin   } from '@react-oauth/google';
 
 
 
@@ -30,14 +31,23 @@ const Signup:FC<ModalFuncProps> = (props) => {
         }).then(res => {
             console.log(res)
         })
-    }, [email, password, repeatPassword])
+    }, [email, username, password, repeatPassword])
+
+    const googleAuth = useGoogleLogin({
+        onSuccess: credentialResponse => {
+            console.log(credentialResponse);
+        },
+        onError: () => {
+            console.log('Login Failed');
+        },
+    })
 
 
     return (
         <Modal  
             {...props}
             width={500}
-            // open
+            open
             className={`${styles.wrapper} modal`}
             >
             <div className='modal__head page-title'>Sign up</div>
@@ -89,7 +99,9 @@ const Signup:FC<ModalFuncProps> = (props) => {
                     </Col>
                     <Col span={24}>
                         <div className={styles.itgr}>
-                            <button className={styles.item}>
+                            <button 
+                                onClick={() => googleAuth()}
+                                className={styles.item}>
                                 <Image src={google} alt="" />
                             </button>
                             <button className={styles.item}>
@@ -99,6 +111,16 @@ const Signup:FC<ModalFuncProps> = (props) => {
                                 <Image src={twitter} alt="" />
                             </button>
                         </div>
+                    </Col>
+                    <Col span={24}>
+                    {/* <GoogleLogin
+                        onSuccess={credentialResponse => {
+                            console.log(credentialResponse);
+                        }}
+                        onError={() => {
+                            console.log('Login Failed');
+                        }}
+                        />; */}
                     </Col>
                 </Row>    
             </Col>    

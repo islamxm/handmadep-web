@@ -8,7 +8,6 @@ import {Row, Col} from 'antd';
 
 const Result:FC<resultType> = ({
     items,
-    categories
 }) => {
 
     return (
@@ -20,24 +19,6 @@ const Result:FC<resultType> = ({
                     ))
                 }
             </div>
-            {
-                categories ? (
-                    <div className={styles.ex}>
-                        <div className={styles.label}></div>
-                        <div className={styles.list}>
-                            <Row gutter={[10,10]}>
-                                {
-                                    categories?.map((item,index) => (
-                                        <Col span={6} key={index}><Card {...item}/></Col>
-                                    ))
-                                }
-                            </Row>
-                            
-                        </div>
-                    </div>
-                ) : null
-            }
-            
         </div>
     )
 }

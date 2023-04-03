@@ -38,9 +38,7 @@ const Product = ({
         setLiked(true)
         setLikeLayer(true)
       }, 350, {
-        // onSingleTap: (e) => {
-        //     nav(`/product/${name}`)
-        // }
+        // ! Когда один клик
       });
 
     useEffect(() => {
