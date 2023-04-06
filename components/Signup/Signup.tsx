@@ -9,20 +9,41 @@ import twitter from '@/public/assets/auth-twitter.png';
 import Image from 'next/image';
 import ApiService from '@/service/apiService';
 import { GoogleLogin, useGoogleLogin   } from '@react-oauth/google';
-
-
+import { endpoints } from '@/service/endpoints';
+import notify from '@/helpers/notify';
+import Checkbox from '../Checkbox/Checkbox';
+import { useAppDispatch } from '@/hooks/useTypesRedux';
+import { updateToken, updateLoading } from '@/store/actions';
+import { Cookies } from 'typescript-cookie';
 
 const service = new ApiService();
 
-const Signup:FC<ModalFuncProps> = (props) => {
+
+interface IAuthModal extends ModalFuncProps {
+    toggleModal: (...args: any[]) => any
+}
+
+
+const Signup:FC<IAuthModal> = (props) => {
+    const {onCancel, toggleModal} = props;
+    const dispatch = useAppDispatch();
+
+
+    const [load, setLoad] = useState(false);
 
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
     const [repeatPassword, setRepeatPassword] = useState('')
     const [username, setUsername] = useState('')
 
+    const [emailError, setEmailError] = useState('')
+    const [passwordError, setPasswordError] = useState('')
+    const [usernameError, setUsernameError] = useState('')
+
+    const [save, setSave] = useState(false)
 
     const onSubmit = useCallback(() => {
+        setLoad(true)
         service.register({
             email,
             password,
@@ -30,24 +51,87 @@ const Signup:FC<ModalFuncProps> = (props) => {
             username
         }).then(res => {
             console.log(res)
-        })
-    }, [email, username, password, repeatPassword])
+            if(typeof res?.username === 'object') {
+                setUsernameError(res?.username[0])
+            }
+            if(typeof res?.password === 'object') {
+                setPasswordError(res?.password[0])
+            }
+            if(typeof res?.email === 'object') {
+                setEmailError(res?.email[0])
+            }
+            if(typeof res?.email === 'string') {
+                
 
-    const googleAuth = useGoogleLogin({
-        onSuccess: credentialResponse => {
-            console.log(credentialResponse);
-        },
-        onError: () => {
-            console.log('Login Failed');
-        },
-    })
+                service.getTokens({email: res?.email, password: password}).then(res => {
+                    console.log(res)
+                    if(save) {
+                        //save user
+                    } else {
+                        onClose();
+
+                    }
+                    notify('Some text', 'SUCCESS')
+
+                })
+
+            } else {
+                notify('Some text', 'ERROR')
+            }
+        }).finally(() => {
+            setLoad(false)
+        })
+    }, [email, username, password, repeatPassword, save])
+
+    const authGoogle = async () => {
+        dispatch(updateLoading(true))
+        const res = await fetch('https://handmadep.com/api/auth/o/google-oauth2/?redirect_uri=https://handmadep.com/google');
+        const r =  await res?.json().finally(() => {
+            dispatch(updateLoading(false))
+            onClose()
+        })
+        if(r?.authorization_url) {
+            window.location.replace(r?.authorization_url)
+        }
+    }
+
+    const authFacebook = async () => {
+        dispatch(updateLoading(true))
+        const res = await fetch('https://handmadep.com/api/auth/o/facebook/?redirect_uri=https://handmadep.com/facebook');
+        const r = await res?.json().finally(() => {
+            dispatch(updateLoading(false))
+            onClose()
+        })
+        if(r?.authorization_url) {
+            window.location.replace(r?.authorization_url)
+        }
+    }
+
+
+    const onClose = () => {
+        if(onCancel) {
+            setEmail('')
+            setUsername('')
+            setPassword('')
+            setRepeatPassword('')
+
+            setEmailError('')
+            setUsernameError('')
+            setPasswordError('')
+            setRepeatPassword('')
+
+            onCancel()
+        }   
+    }
+
+  
 
 
     return (
         <Modal  
             {...props}
+            onCancel={onClose}
             width={500}
-            open
             className={`${styles.wrapper} modal`}
             >
             <div className='modal__head page-title'>Sign up</div>
@@ -58,6 +142,8 @@ const Signup:FC<ModalFuncProps> = (props) => {
                             placeholder='E-mail'
                             value={email}
                             onChange={(e: React.ChangeEvent<HTMLInputElement>) => setEmail(e.target.value)}
+                            errorText={emailError}
+                            error={emailError}
                             />
                     </Col>
                     <Col span={24}>
@@ -65,6 +151,8 @@ const Signup:FC<ModalFuncProps> = (props) => {
                             placeholder='Username'
                             value={username}
                             onChange={(e: React.ChangeEvent<HTMLInputElement>) => setUsername(e.target.value)}
+                            errorText={usernameError}
+                            error={usernameError}
                             />
                     </Col>
                     <Col span={24}>
@@ -73,6 +161,8 @@ const Signup:FC<ModalFuncProps> = (props) => {
                             type='password'
                             value={password}
                             onChange={(e: React.ChangeEvent<HTMLInputElement>) => setPassword(e.target.value)}
+                            errorText={passwordError}
+                            error={passwordError}
                             />
                     </Col>
                     <Col span={24}>
@@ -85,31 +175,46 @@ const Signup:FC<ModalFuncProps> = (props) => {
                             type='password'
                             />
                     </Col>
+                    <Col span={24}>
+                        <Checkbox 
+                            checked={save}
+                            onChange={(e: React.ChangeEvent<HTMLInputElement>) => setSave(e.target.checked)}
+                            id='save-me' 
+                            text='Save me'/>
+                    </Col>
                     <Col span={24} style={{display: 'flex', justifyContent: 'center'}}>
                         <Button
                             disabled={email && password && repeatPassword && (repeatPassword === password) ? false : true}
                             onClick={onSubmit}
                             text={'Sign up'}
+                            load={load}
                             />
                     </Col>
                     <Col span={24}>
                         <div className={styles.ex}>
-                            Do you have account? <span>Log in</span> 
+                            Do you have account? 
+                            <span onClick={() => {
+                                onClose()
+                                toggleModal()
+                            }}>Log in</span> 
                         </div>
                     </Col>
                     <Col span={24}>
                         <div className={styles.itgr}>
-                            <button 
-                                onClick={() => googleAuth()}
+                            <button
+                                onClick={() => authGoogle()}
                                 className={styles.item}>
                                 <Image src={google} alt="" />
                             </button>
-                            <button className={styles.item}>
+                            <button 
+                                onClick={() => authFacebook()}
+                                className={styles.item}>
                                 <Image src={facebook} alt="" />
                             </button>
-                            <button className={styles.item}>
+                            {/* <button 
+                                className={styles.item}>
                                 <Image src={twitter} alt="" />
-                            </button>
+                            </button> */}
                         </div>
                     </Col>
                     <Col span={24}>

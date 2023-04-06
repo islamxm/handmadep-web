@@ -1,9 +1,10 @@
 import styles from './Button.module.scss';
 import {FC} from 'react';
 import { buttonTypes, buttonVariants } from './types';
-import { CircleLoader } from 'react-spinners';
+import { CircleLoader, MoonLoader } from 'react-spinners';
 import { Tooltip } from 'antd';
 import Link from 'next/link';
+import {LoadingOutlined} from '@ant-design/icons';
 
 const Button:FC<buttonTypes> = ({
     text,
@@ -55,8 +56,8 @@ const Button:FC<buttonTypes> = ({
                 >
                 {
                     link ? (
-                        <Link href={link} style={style} className={`${styles.button} ${switchVariant(variant)} ${load ? styles.load : ''} ${round ? styles.round : ''}`}>
-                            <div className={styles.load}><CircleLoader color={color}/></div>   
+                        <Link href={link} style={style} className={`${styles.button} ${switchVariant(variant)} ${load ? styles.load : ''} ${round ? styles.round : ''} ${disabled ? styles.disabled : ''}`}>
+                            <div className={styles.load}><LoadingOutlined size={35}  color={color}/></div>   
                             {
                                 before ? (
                                     <div className={`${styles.side} ${styles.before}`}>{before}</div>
@@ -86,8 +87,8 @@ const Button:FC<buttonTypes> = ({
                             }
                         </Link>
                     ) : (
-                        <button onClick={onClick} style={style} disabled={disabled} className={`${styles.button} ${switchVariant(variant)} ${load ? styles.load : ''} ${round ? styles.round : ''}`}>
-                            <div className={styles.load}><CircleLoader color={color}/></div>   
+                        <button onClick={onClick} style={style} className={`${styles.button} ${switchVariant(variant)} ${load ? styles.load : ''} ${round ? styles.round : ''} ${disabled ? styles.disabled : ''}`}>
+                            <div className={styles.load}><LoadingOutlined size={35} color={color}/></div>   
                             {
                                 before ? (
                                     <div className={`${styles.side} ${styles.before}`}>{before}</div>
@@ -125,8 +126,8 @@ const Button:FC<buttonTypes> = ({
 
     return (
         link ? (
-            <Link href={link} style={style} className={`${styles.button} ${switchVariant(variant)} ${load ? styles.load : ''} ${round ? styles.round : ''}`}>
-                <div className={styles.load}><CircleLoader color={color}/></div>   
+            <Link href={link} style={style} className={`${styles.button} ${switchVariant(variant)} ${load ? styles.load : ''} ${round ? styles.round : ''} ${disabled ? styles.disabled : ''}`}>
+                <div className={styles.load}><LoadingOutlined size={35} color={color}/></div>   
                 {
                     before ? (
                         <div className={`${styles.side} ${styles.before}`}>{before}</div>
@@ -156,8 +157,8 @@ const Button:FC<buttonTypes> = ({
                 }
             </Link>
         ) : (
-            <button onClick={onClick} style={style} disabled={disabled} className={`${styles.button} ${switchVariant(variant)} ${load ? styles.load : ''} ${round ? styles.round : ''}`}>
-                <div className={styles.load}><CircleLoader color={color}/></div>   
+            <button onClick={onClick} style={style} className={`${styles.button} ${switchVariant(variant)} ${load ? styles.load : ''} ${round ? styles.round : ''} ${disabled ? styles.disabled : ''}`}>
+                <div className={styles.load}><LoadingOutlined size={35} color={color}/></div>   
                 {
                     before ? (
                         <div className={`${styles.side} ${styles.before}`}>{before}</div>

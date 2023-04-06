@@ -1,0 +1,9 @@
+.Toastify__toast {
+    color: var(--text) !important;
+}
+
+@media (max-width: 480px) {
+    .Toastify__toast {
+        border-radius: 0 !important;
+    }
+}

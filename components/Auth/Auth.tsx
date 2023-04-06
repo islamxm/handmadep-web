@@ -1,25 +1,103 @@
 import styles from './Auth.module.scss';
 import {Row, Col, Modal, ModalFuncProps } from 'antd';
-import {FC, useState} from 'react';
+import {FC, useState, useCallback} from 'react';
 import Button from '../Button/Button';
 import Input from '../Input/Input';
-import { updateToken } from '@/store/actions';
+import { updateToken, updateLoading } from '@/store/actions';
 import { useAppDispatch } from '@/hooks/useTypesRedux';
 import google from '@/public/assets/auth-google.png';
 import facebook from '@/public/assets/auth-facebook.png';
 import twitter from '@/public/assets/auth-twitter.png';
 import Image from 'next/image';
+import { Cookies } from 'typescript-cookie';
+import Checkbox from '../Checkbox/Checkbox';
+import ApiService from '@/service/apiService';
+import { GoogleLogin, useGoogleLogin   } from '@react-oauth/google';
+import { endpoints } from '@/service/endpoints';
 
 
-const Auth:FC<ModalFuncProps> = (props) => {
+
+const service = new ApiService();
+
+
+interface IAuthModal extends ModalFuncProps {
+    toggleModal: (...args: any[]) => any
+}
+
+const Auth:FC<IAuthModal> = (props) => {
+    const {onCancel, toggleModal} = props
+    const dispatch = useAppDispatch()
+
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-    const dispatch = useAppDispatch()
+
+    const [emailError, setEmailError] = useState('')
+    const [passwordError, setPasswordError] = useState('')
+    
+    const [save, setSave] = useState(false)
+
+    const [load, setLoad] = useState(false)
+
+    const onClose = () => {
+        if(onCancel) {
+            setSave(false)
+            setEmail('')
+            setPassword('')
+            onCancel()
+        }
+    }
+
+
+    const onSubmit = useCallback(() => {
+        setLoad(true)
+        service.getTokens({email: email, password: password}).then(res => {
+            console.log(res)
+
+            if(save) {
+
+            } else {
+                
+            }
+            
+        }).finally(() => {
+            setLoad(false)
+        })
+    }, [email, password, save])
+
+
+    const authGoogle = async () => {
+        dispatch(updateLoading(true))
+        const res = await fetch('https://handmadep.com/api/auth/o/google-oauth2/?redirect_uri=https://handmadep.com/google');
+        const r =  await res?.json().finally(() => {
+            dispatch(updateLoading(false))
+            onClose()
+        })
+        if(r?.authorization_url) {
+            window.location.replace(r?.authorization_url)
+        }
+    }
+
+    const authFacebook = async () => {
+        dispatch(updateLoading(true))
+        const res = await fetch('https://handmadep.com/api/auth/o/facebook/?redirect_uri=https://handmadep.com/facebook');
+        const r = await res?.json().finally(() => {
+            dispatch(updateLoading(false))
+            onClose()
+        })
+        if(r?.authorization_url) {
+            window.location.replace(r?.authorization_url)
+        }
+    }
+
+    // const authTwitter = async () => {
+    //     const res = await fetch('')
+    // }
 
 
     return (
         <Modal
             {...props}
+            onCancel={onClose}
             width={500}
             className={`${styles.wrapper} modal`}
             >
@@ -43,28 +121,47 @@ const Auth:FC<ModalFuncProps> = (props) => {
                             type={'password'}
                             />
                     </Col>
+                    <Col span={24}>
+                        <Checkbox 
+                            checked={save}
+                            text='Save me'
+                            onChange={(e: React.ChangeEvent<HTMLInputElement>) => setSave(e.target.checked)}
+                            id='save-me'/>
+                    </Col>
                     <Col span={24} style={{justifyContent: 'center', display: 'flex'}}>
                         <Button
                             text={'Log in'}
-                            
+                            load={load}
+                            disabled={email && password ? false : true}
+                            onClick={onSubmit}
                             />
                     </Col>
                     <Col span={24}>
                         <div className={styles.ex}>
-                            Don&apos;t have account? <span>Sign up</span>
+                            Don&apos;t have account? 
+                            <span
+                                onClick={() => {
+                                    onClose()
+                                    toggleModal()
+                                }}
+                                >Sign up</span>
                         </div>
                     </Col>
                     <Col span={24}>
                         <div className={styles.itgr}>
-                            <button className={styles.item}>
+                            <button 
+                                onClick={authGoogle}
+                                className={styles.item}>
                                 <Image src={google} alt="" />
                             </button>
-                            <button className={styles.item}>
+                            <button 
+                                onClick={authFacebook}
+                                className={styles.item}>
                                 <Image src={facebook} alt="" />
                             </button>
-                            <button className={styles.item}>
+                            {/* <button className={styles.item}>
                                 <Image src={twitter} alt="" />
-                            </button>
+                            </button> */}
                         </div>
                     </Col>
                 </Row>

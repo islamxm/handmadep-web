@@ -13,17 +13,34 @@ import ProfileMenu from './components/ProfileMenu/ProfileMenu';
 import Auth from '../Auth/Auth';
 import Signup from '../Signup/Signup';
 
+import { useAppSelector } from '@/hooks/useTypesRedux';
+
+
 
 
 const Header:FC<headerTypes> = () => {
     const [authModal, setAuthModal] = useState(false)
     const [signupModal, setSignupModal] = useState(false)
-    
+    const {token} = useAppSelector(s => s)
+
+    const {access} = token;
+
+    const openAuth = () => setAuthModal(true)
+    const closeAuth = () => setAuthModal(false)
+
+    const openSignup = () => setSignupModal(true)
+    const closeSignup = () => setSignupModal(false)
 
     return (
         <div className={styles.wrapper}>
-            <Auth/>
-            <Signup/>
+            <Auth 
+                open={authModal}
+                onCancel={closeAuth}
+                toggleModal={openSignup}/>
+            <Signup 
+                open={signupModal}
+                onCancel={closeSignup}
+                toggleModal={openAuth}/>
             <Container>
                 <div className={styles.in}>
                     <div className={`${styles.part} ${styles.logo}`}>
@@ -53,33 +70,39 @@ const Header:FC<headerTypes> = () => {
                             <Button
                                 variant={'transparent'}
                                 round
-                                badge={100}
+                                // badge={100}
                                 icon={<BsBellFill size={25} color="#fff"/>}
                                 />
                         </div>
                         <div className={styles.item}>
-                            <Dropdown
-                                dropdownRender={() => <ProfileMenu/>}
-                                trigger={['click']}
-                                
-                                placement={'bottomLeft'}
-                                >
-                                    <div>
-                                    <Avatar
-                                    isActive
-                                    size={40}
-                                    image={avatarImg}
-                                    />
-                                    </div>
-                                
-                            </Dropdown>
+                            {
+                                access ? (
+                                    <Dropdown
+                                        dropdownRender={() => <ProfileMenu/>}
+                                        trigger={['click']}
+                                        placement={'bottomLeft'}
+                                        >
+                                            <div>
+                                            <Avatar
+                                            isActive
+                                            size={40}
+                                            image={avatarImg}
+                                            />
+                                            </div>
+                                        
+                                    </Dropdown>
+                                ) : (
+                                    <Button
+                                        onClick={openAuth}
+                                        round
+                                        variant={'transparent'}
+                                        icon={<GoSignIn size={25} color="#fff"/>}
+                                        />
+                                )
+                            }
+                            
 
-
-                            {/* <Button
-                                round
-                                variant={'transparent'}
-                                icon={<GoSignIn size={25} color="#fff"/>}
-                                /> */}
+                            
                         </div>
                     </div>
                 </div>

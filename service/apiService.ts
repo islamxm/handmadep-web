@@ -18,13 +18,15 @@ class ApiService {
         re_password: string
     }) => {
         try {
-            let res = await fetch(endpoints.auth, {
+            let res = await fetch('https://handmadep.com/api/users/', {
                 method: 'POST',
-                headers,
+                headers: {
+                    'Content-type': 'application/json',
+                    'Accept': 'application/json',
+                },
                 body: JSON.stringify(body),
-                //mode: 'no-cors'
             })
-            return await checkAuth(res)
+            return await res?.json()
         } catch(err) {
             console.log(err)
         }
@@ -67,7 +69,7 @@ class ApiService {
     // ** Получить токены (access, refresh)
     getTokens = async (body: {
         email?: string,
-        username?: string
+        password?: string
     }) => {
         try {
             let res = await fetch(endpoints.getTokens, {

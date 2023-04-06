@@ -1,7 +1,7 @@
 
 
 export interface inputTypes extends React.HTMLProps<HTMLInputElement> {
-    error?: boolean,
+    error?: boolean | string,
     label?: string,
     nodeLabel?: React.ReactNode
     errorText?: string,

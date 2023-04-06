@@ -1,5 +1,7 @@
 .button.load {
-
+    pointer-events: none;
+    touch-action: none;
+    
     .load {
         z-index: 10;
         opacity: 1;
