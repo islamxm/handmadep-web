@@ -28,5 +28,8 @@ export const endpoints = {
     //refresh token expire - 1 day
     verifyToken: `${PATH}jwt/verify/`,
     //проверка актуальности токена
-    authExternal: (provider: any) => `${PATH}/o/${provider}/`
+    authExternal: (provider: any) => `${PATH}/o/${provider}/`,
+    //авторизация через соцсети
+    cardsList: `${PATH}cards/`,
+    //GET - получиение списка товаров
 }

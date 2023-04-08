@@ -26,7 +26,7 @@ class ApiService {
                 },
                 body: JSON.stringify(body),
             })
-            return await res?.json()
+            return await res
         } catch(err) {
             console.log(err)
         }
@@ -77,8 +77,8 @@ class ApiService {
                 headers,
                 body: JSON.stringify(body)
             })
-
-            return await checkAuth(res)
+            // return await checkAuth(res)
+            return await res
         } catch(err) {
             console.log(err)
         }
@@ -93,7 +93,6 @@ class ApiService {
                 headers,
                 body: JSON.stringify({refresh})
             })
-
             return await checkAuth(res)
         } catch(err) {
             console.log(err)
@@ -130,6 +129,20 @@ class ApiService {
             console.log(err)
         }
     }
+
+
+    // ** Получить товары
+    getCardsList = async (page: number) => {
+        try {
+            let res = await fetch(endpoints.cardsList + `?p=${page = 1}`, {
+                method: 'GET',
+                headers
+            })
+            return await res?.json()
+        } catch(err) {
+            console.log(err)
+        }
+    } 
 
 }
 

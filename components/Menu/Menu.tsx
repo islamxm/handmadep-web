@@ -15,7 +15,7 @@ const Menu = () => {
                         link='/'
                         round
                         variant={'transparent'}
-                        icon={<AiFillHome size={30}/>}
+                        icon={<AiFillHome size={25}/>}
                         />
                 </li>
                 <li className={styles.item}>
@@ -23,7 +23,7 @@ const Menu = () => {
                         link='/'
                         round
                         variant={'transparent'}
-                        icon={<AiOutlineSearch size={30}/>}
+                        icon={<AiOutlineSearch size={25}/>}
                         />
                 </li>
                 <li className={styles.item}>
@@ -31,21 +31,21 @@ const Menu = () => {
                         tooltip="Coming soon"
                         round
                         variant={'transparent'}
-                        icon={<AiOutlinePlus size={30}/>}
+                        icon={<AiOutlinePlus size={25}/>}
                         />
                 </li>
                 <li className={styles.item}>
                     <Button
                         round
                         variant={'transparent'}
-                        icon={<BsBellFill size={30}/>}
+                        icon={<BsBellFill size={25}/>}
                         />
                 </li>
                 <li className={styles.item}>
                     <Button
                         round
                         variant={'transparent'}
-                        icon={<ImEnter size={30}/>}
+                        icon={<ImEnter size={25}/>}
                         />
                 </li>
             </ul>

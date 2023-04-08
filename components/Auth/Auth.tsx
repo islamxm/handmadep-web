@@ -14,6 +14,8 @@ import Checkbox from '../Checkbox/Checkbox';
 import ApiService from '@/service/apiService';
 import { GoogleLogin, useGoogleLogin   } from '@react-oauth/google';
 import { endpoints } from '@/service/endpoints';
+import notify from '@/helpers/notify';
+import { Session } from '@/helpers/sessionStorage';
 
 
 
@@ -51,12 +53,28 @@ const Auth:FC<IAuthModal> = (props) => {
     const onSubmit = useCallback(() => {
         setLoad(true)
         service.getTokens({email: email, password: password}).then(res => {
-            console.log(res)
-
-            if(save) {
-
+            
+            if(res?.status === 200) {
+                res?.json().then(res => {
+                    console.log(res)
+                    dispatch(updateToken({
+                        access: res?.access,
+                        refresh: res?.refresh
+                    }))
+                    if(save) {
+                        Cookies.set('handmadep-web-access-token', res?.access)
+                        Cookies.set('handmadep-web-refresh-token', res?.refresh)
+                    } else {
+                        if(process?.browser) {
+                            sessionStorage.setItem('handmadep-web-access-token', res?.access)
+                            sessionStorage.setItem('handmadep-web-refresh-token', res?.refresh)
+                        }
+                    }
+                })
             } else {
-                
+                res?.json().then(res => {
+                    notify(res?.detail, 'ERROR')
+                })
             }
             
         }).finally(() => {
@@ -147,7 +165,7 @@ const Auth:FC<IAuthModal> = (props) => {
                                 >Sign up</span>
                         </div>
                     </Col>
-                    <Col span={24}>
+                    {/* <Col span={24}>
                         <div className={styles.itgr}>
                             <button 
                                 onClick={authGoogle}
@@ -159,11 +177,11 @@ const Auth:FC<IAuthModal> = (props) => {
                                 className={styles.item}>
                                 <Image src={facebook} alt="" />
                             </button>
-                            {/* <button className={styles.item}>
+                            <button className={styles.item}>
                                 <Image src={twitter} alt="" />
-                            </button> */}
+                            </button>
                         </div>
-                    </Col>
+                    </Col> */}
                 </Row>
             </Col>
         </Modal>

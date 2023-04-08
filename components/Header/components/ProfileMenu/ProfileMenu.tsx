@@ -3,11 +3,24 @@ import Link from 'next/link';
 import {BsHeartFill, BsBookmarkFill} from 'react-icons/bs';
 import {FaUserAlt} from 'react-icons/fa';
 import {FiLogOut} from 'react-icons/fi';
+import { Cookies } from 'typescript-cookie';
+import {useState} from 'react';
 
-const ProfileMenu = () => {
+
+const ProfileMenu = ({
+    openLogoutModal
+}: {
+    openLogoutModal?: (...args: any) => any
+}) => {
+    
+
+
 
     return (
         <div className={styles.wrapper}>
+
+            
+
             <ul className={styles.list}>
                 <li className={styles.item}>
                     <Link href={'/profile'} className={styles.link}>
@@ -28,7 +41,9 @@ const ProfileMenu = () => {
                     </Link> 
                 </li>
                 <li className={`${styles.item} ${styles.logout}`}>
-                    <div className={styles.link}>
+                    <div onClick={() => {
+                        openLogoutModal && openLogoutModal()
+                    }} className={styles.link}>
                         <div className={styles.icon}><FiLogOut/></div>
                         <div className={styles.text}>Log out</div>
                     </div> 

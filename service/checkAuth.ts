@@ -2,7 +2,8 @@ import Router from "next/router";
 
 const checkAuth = (res: any) => {
     if(res?.status === 401) {
-        Router.push('/')
+        // Router.push('/')
+        return res?.json()
     } else {
         return res?.json()
     }

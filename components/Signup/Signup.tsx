@@ -51,37 +51,27 @@ const Signup:FC<IAuthModal> = (props) => {
             username
         }).then(res => {
             console.log(res)
-            if(typeof res?.username === 'object') {
-                setUsernameError(res?.username[0])
-            }
-            if(typeof res?.password === 'object') {
-                setPasswordError(res?.password[0])
-            }
-            if(typeof res?.email === 'object') {
-                setEmailError(res?.email[0])
-            }
-            if(typeof res?.email === 'string') {
-                
-
-                service.getTokens({email: res?.email, password: password}).then(res => {
-                    console.log(res)
-                    if(save) {
-                        //save user
-                    } else {
-                        onClose();
-
-                    }
-                    notify('Some text', 'SUCCESS')
-
-                })
-
+            if(res?.status === 200) {
+                notify('Signup success', 'SUCCESS')
+                toggleModal()
             } else {
+                res?.json().then(res => {
+                    if(typeof res?.username === 'object') {
+                        setUsernameError(res?.username[0])
+                    }
+                    if(typeof res?.password === 'object') {
+                        setPasswordError(res?.password[0])
+                    }
+                    if(typeof res?.email === 'object') {
+                        setEmailError(res?.email[0])
+                    }
+                })
                 notify('Some text', 'ERROR')
             }
         }).finally(() => {
             setLoad(false)
         })
-    }, [email, username, password, repeatPassword, save])
+    }, [email, username, password, repeatPassword])
 
     const authGoogle = async () => {
         dispatch(updateLoading(true))
@@ -175,13 +165,13 @@ const Signup:FC<IAuthModal> = (props) => {
                             type='password'
                             />
                     </Col>
-                    <Col span={24}>
+                    {/* <Col span={24}>
                         <Checkbox 
                             checked={save}
                             onChange={(e: React.ChangeEvent<HTMLInputElement>) => setSave(e.target.checked)}
                             id='save-me' 
                             text='Save me'/>
-                    </Col>
+                    </Col> */}
                     <Col span={24} style={{display: 'flex', justifyContent: 'center'}}>
                         <Button
                             disabled={email && password && repeatPassword && (repeatPassword === password) ? false : true}
@@ -199,7 +189,7 @@ const Signup:FC<IAuthModal> = (props) => {
                             }}>Log in</span> 
                         </div>
                     </Col>
-                    <Col span={24}>
+                    {/* <Col span={24}>
                         <div className={styles.itgr}>
                             <button
                                 onClick={() => authGoogle()}
@@ -211,12 +201,12 @@ const Signup:FC<IAuthModal> = (props) => {
                                 className={styles.item}>
                                 <Image src={facebook} alt="" />
                             </button>
-                            {/* <button 
+                            <button 
                                 className={styles.item}>
                                 <Image src={twitter} alt="" />
-                            </button> */}
+                            </button>
                         </div>
-                    </Col>
+                    </Col> */}
                     <Col span={24}>
                     {/* <GoogleLogin
                         onSuccess={credentialResponse => {

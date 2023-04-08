@@ -1,7 +1,7 @@
 import styles from './Product.module.scss';
 import Link from 'next/link';
 import {FC, useEffect, useState} from 'react';
-import IProduct from '@/models/IProduct';
+import {IProduct} from '@/models/IProduct';
 import Image from 'next/image';
 import {motion, AnimatePresence} from 'framer-motion';
 import {
@@ -18,21 +18,39 @@ import {
 import placeholder from '@/public/assets/handmade-watermark.png';
 import Button from '../Button/Button';
 import { useDoubleTap } from 'use-double-tap';
+import colors from '@/helpers/colors';
+import * as _ from 'lodash';
 
 
 const Product = ({
     data 
 }: {data:IProduct}) => {
-    const {isLiked, isPinned, id, image, label} = data
+    const {
+        cover_url,
+        created_at,
+        description,
+        etsy_ext_id,
+        id,
+        shop,
+        tags,
+        title,
+        views
+    } = data
     const [liked, setLiked] = useState(false)
     const [pinned, setPinned] = useState(false)
     const [likeLayer, setLikeLayer] = useState(false)
 
+    const [bg, setBg] = useState('rgb(55, 29, 49)')
 
+    
     useEffect(() => {
-        isPinned ? setPinned(true) : setPinned(false)
-        isLiked ? setLiked(true) : setLiked(false)
-    }, [isPinned, isLiked])
+        setBg(colors[_.random(colors?.length - 1)])
+    }, [])
+
+    // useEffect(() => {
+    //     isPinned ? setPinned(true) : setPinned(false)
+    //     isLiked ? setLiked(true) : setLiked(false)
+    // }, [isPinned, isLiked])
 
     const bind = useDoubleTap((event) => {
         setLiked(true)
@@ -58,7 +76,10 @@ const Product = ({
     }, [likeLayer])
 
     return (
-        <div className={styles.wrapper}>
+        <motion.div 
+            initial={{opacity: 0}}
+            animate={{opacity: 1}}
+            className={styles.wrapper}>
             <motion.div 
                 // initial={{height: '100%'}}
                 // animate={{height: 0}}
@@ -106,7 +127,7 @@ const Product = ({
                         round
                         variant={'transparent'}
                         onClick={() => setPinned(s => !s)}
-                        icon={pinned ? <BsBookmarkFill/> : <BsBookmark/>}
+                        icon={pinned ? <BsBookmarkFill size={25}/> : <BsBookmark size={25}/>}
                         />
                 </div>
             </div>
@@ -126,16 +147,26 @@ const Product = ({
                         )
                     }
                 </AnimatePresence>
-                
-                <div className={styles.image}>
+                <div className={styles.image} style={{backgroundColor: bg}}>
                     <Image
-                        placeholder={'blur'} 
-                        src={image ? image : placeholder} 
+                        className={styles.image_el}
+                        // placeholder={'blur'}
+                        loader={() => {
+                            if(cover_url) {
+                                return cover_url
+                            } else {
+                                return ''
+                            }
+                        }} 
+                        width={100}
+                        height={100}
+                        src={cover_url ? cover_url : placeholder} 
                         alt=''/>
                 </div>
-                <div className={styles.label}>{label}</div>
+                
+                <div className={styles.label}>{title}</div>
             </div>
-        </div>
+        </motion.div>
     )
 }
 

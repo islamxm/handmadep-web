@@ -1,13 +1,13 @@
 import styles from './List.module.scss';
 import {FC, useEffect, useState} from 'react';
 import { Masonry } from 'masonic';
-import IProduct from '@/models/IProduct';
+import {IProduct} from '@/models/IProduct';
 import Product from '../Product/Product';
 import Image, { StaticImageData } from 'next/image';
 import pl from '@/public/assets/handmade-watermark.png';
 
 const List:FC<{list: IProduct[]}> = ({
-    list
+    list = []
 }) => {
 
     const [itemWidth, setItemWidth] = useState(0);

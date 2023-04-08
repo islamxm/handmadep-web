@@ -14,13 +14,15 @@ import Auth from '../Auth/Auth';
 import Signup from '../Signup/Signup';
 
 import { useAppSelector } from '@/hooks/useTypesRedux';
-
+import LogoutModal from './components/LogoutModal/LogoutModal';
 
 
 
 const Header:FC<headerTypes> = () => {
     const [authModal, setAuthModal] = useState(false)
     const [signupModal, setSignupModal] = useState(false)
+    const [logoutModal, setLogoutModal] = useState(false)
+
     const {token} = useAppSelector(s => s)
 
     const {access} = token;
@@ -30,6 +32,9 @@ const Header:FC<headerTypes> = () => {
 
     const openSignup = () => setSignupModal(true)
     const closeSignup = () => setSignupModal(false)
+
+    const openLogoutModal = () => setLogoutModal(true)
+    const closeLogoutModal = () => setLogoutModal(false)
 
     return (
         <div className={styles.wrapper}>
@@ -41,6 +46,10 @@ const Header:FC<headerTypes> = () => {
                 open={signupModal}
                 onCancel={closeSignup}
                 toggleModal={openAuth}/>
+            <LogoutModal
+                open={logoutModal}
+                onCancel={closeLogoutModal}
+                />
             <Container>
                 <div className={styles.in}>
                     <div className={`${styles.part} ${styles.logo}`}>
@@ -78,18 +87,17 @@ const Header:FC<headerTypes> = () => {
                             {
                                 access ? (
                                     <Dropdown
-                                        dropdownRender={() => <ProfileMenu/>}
-                                        trigger={['click']}
+                                        dropdownRender={() => <ProfileMenu openLogoutModal={openLogoutModal}/>}
+                                        trigger={['hover']}
                                         placement={'bottomLeft'}
                                         >
                                             <div>
                                             <Avatar
                                             isActive
                                             size={40}
-                                            image={avatarImg}
+                                            // image={avatarImg}
                                             />
                                             </div>
-                                        
                                     </Dropdown>
                                 ) : (
                                     <Button
@@ -100,9 +108,6 @@ const Header:FC<headerTypes> = () => {
                                         />
                                 )
                             }
-                            
-
-                            
                         </div>
                     </div>
                 </div>

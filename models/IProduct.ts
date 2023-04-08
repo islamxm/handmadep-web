@@ -1,22 +1,27 @@
 import { StaticImageData } from "next/image";
 
-interface IProduct {  
-    image?: StaticImageData,
-    images?: StaticImageData[] | string[]
-    label?: string,
-    
-    id?: string,
-    descr?: string,
-    keywords?: string[],
-    author?: string,
-    link?: string | URL,
-
-
+export interface IProduct {  
+    cover_url?: string,
+    created_at?: string,
+    description?: string,
+    etsy_ext_id?: number,
+    id?: number,
+    shop?: number,
+    tags?: number[],
+    title?: string,
+    views?: number 
 
     // ** свойства текущего состояния (нужно уточнить)
-    isPinned?: boolean,
-    isLiked?: boolean,
+    is_favorited?: boolean,
+}
+
+export interface DetailProduct extends IProduct {
+    
 }
 
 
-export default IProduct;
+
+interface TestProd {
+   
+}
+

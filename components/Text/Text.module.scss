@@ -1,0 +1,81 @@
+.wrapper {
+    border-radius: 15px;
+    // background-color: var(--bisq);
+    border: 2px solid #E6E6FA;
+    transition: all .3s ease;
+    position: relative;
+    width: 100%;
+    // overflow: hidden;
+
+    .label {
+        // font-weight: 600;
+        // font-family: 'Montserrat Alternates', sans-serif;
+        // padding: 2px 20px;
+        // border-radius: 15px;
+        // // background-color: var(--bisq);
+        // background-color: #fff;
+        // position: absolute;
+        // top: 0;
+        // left: 0;
+        // // width: 100%;
+        // height: 100%;
+        // display: flex;
+        // align-items: center;
+        // transition: all .3s ease;
+        // line-height: 16px;
+
+
+        font-weight: 600;
+        font-family: 'Montserrat Alternates', sans-serif;
+        padding: 10px 20px;
+        
+        background-color: #fff;
+        border-radius: 15px;
+        position: absolute;
+        top: 0;
+        left: 0;
+        // width: 100%;
+        height: 46px;
+        
+        display: flex;
+        align-items: flex-start;
+        transition: all .3s ease;
+        line-height: 16px;
+    }
+
+    .input {
+        width: 100%;
+        display: block;
+        padding: 15px 20px;
+        font-weight: 500;
+        font-family: 'Montserrat Alternates', sans-serif;
+        resize: none;
+    }
+}
+.wrapper.focus {
+    border-color: var(--light_blue);
+
+    .label {
+        transform: translateY(-50%);
+        font-size: 12px;
+        line-height: 12px;
+        height: 20px;
+        left: 5px;
+        padding: 2px 20px;
+        border-radius: 8px;
+
+    }
+}
+
+// .Text.focus {
+//     border-color: var(--light_blue);
+
+//     .Text__label {
+        
+
+//     }
+// }
+
+.wrapper.error {
+    border-color: #FF0000;
+}
