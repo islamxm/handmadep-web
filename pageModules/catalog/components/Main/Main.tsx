@@ -13,7 +13,7 @@ const Main = () => {
                     <Slider/>
                 </Col>
                 <Col span={12}>
-                    <Body/>
+                    {/* <Body/> */}
                 </Col>
             </Row>
         </div>
