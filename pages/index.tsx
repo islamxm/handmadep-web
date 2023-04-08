@@ -1,5 +1,5 @@
 import List from "@/components/List/List";
-import prodsMock from "@/mock/prodsMock";
+// import prodsMock from "@/mock/prodsMock";
 import ContentLayout from "@/components/ContentLayout/ContentLayout";
 import ApiService from "@/service/apiService";
 import {useEffect} from 'react';

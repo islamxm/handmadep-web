@@ -1,6 +1,6 @@
 import styles from './Body.module.scss';
 import {FC} from 'react';
-import IProduct from '@/models/IProduct';
+import {IProduct} from '@/models/IProduct';
 import { Row, Col } from 'antd';
 import Button from '@/components/Button/Button';
 import UserBadge from '@/components/UserBadge/UserBadge';
@@ -11,16 +11,12 @@ const kwMock = ['keyword 1', 'keyword 2', 'keyword 3', 'keyword 1', 'keyword 2',
 
 
 const Body:FC<IProduct> = ({
-    label,
-    descr,
-    keywords = kwMock,
-    link,
-    author
+   
 }) => {
 
     return (
         <div className={`${styles.wrapper} panel`}>
-            <div className={styles.body}>
+            {/* <div className={styles.body}>
                 <div className={styles.action}>
                     <div className={styles.item}>
                         <Button text='Save' variant={'brown'}/>
@@ -87,7 +83,7 @@ const Body:FC<IProduct> = ({
                         </Col>
                     </Row>
                 </div>
-            </div>
+            </div> */}
         </div>
     )
 }

@@ -3,7 +3,7 @@ import { useRouter } from "next/router";
 import { useEffect } from "react";
 import PageTitle from "@/components/PageTitle/PageTitle";
 import List from "@/components/List/List";
-import prodsMock from "@/mock/prodsMock";
+// import prodsMock from "@/mock/prodsMock";
 
 
 
@@ -15,7 +15,7 @@ const SearchPage = () => {
             <PageTitle
                 title={query?.keyword}
                 />
-            <List list={prodsMock}/>
+            {/* <List list={prodsMock}/> */}
         </ContentLayout>
     )
 }
