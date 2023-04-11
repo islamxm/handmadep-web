@@ -151,13 +151,10 @@ const Product = ({
                     <Image
                         className={styles.image_el}
                         // placeholder={'blur'}
-                        loader={() => {
-                            if(cover_url) {
-                                return cover_url
-                            } else {
-                                return ''
-                            }
+                        loader={(p) => {
+                            return p?.src ? p?.src : ''
                         }} 
+                        unoptimized
                         width={100}
                         height={100}
                         src={cover_url ? cover_url : placeholder} 

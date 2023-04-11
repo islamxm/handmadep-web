@@ -134,7 +134,7 @@ class ApiService {
     // ** Получить товары
     getCardsList = async (page: number) => {
         try {
-            let res = await fetch(endpoints.cardsList + `?p=${page = 1}`, {
+            let res = await fetch(endpoints.cardsList + `?p=${page}`, {
                 method: 'GET',
                 headers
             })
