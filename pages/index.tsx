@@ -62,7 +62,7 @@ const HomePage = ({list}: {list: any[]}) => {
     if(currentPage > 1) {
       setLoad(true)
       service.getCardsList(currentPage).then(res => {
-        console.log(res?.results)
+        // console.log(res?.results)
         if(res?.results?.length > 0) {
           setLocalList(s => [...s, ...res?.results])
         }
@@ -70,9 +70,9 @@ const HomePage = ({list}: {list: any[]}) => {
     }
   }, [currentPage])
 
-  // useEffect(() => {
-  //   updateList()
-  // }, [currentPage])
+  useEffect(() => {
+    updateList()
+  }, [currentPage])
 
 
 
