@@ -45,6 +45,7 @@ const List:FC<{list: IProduct[], setCurrentPage: (...args: any[]) => any}> = ({
             <ResponsiveMasonry columnsCountBreakPoints={{300: 2, 768: 5}}>
                 <Masonry
                     className='sss'
+                    
                     gutter={'20px'}
                     
                     >

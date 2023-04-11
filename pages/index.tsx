@@ -5,7 +5,7 @@ import ApiService from "@/service/apiService";
 import {useEffect, useState, useRef, useCallback} from 'react';
 import { useScroll } from '@react-hooks-library/core'
 import styles from '@/pageModules/home/home.module.scss';
-
+import { PulseLoader } from "react-spinners";
 const service = new ApiService()
 
 
@@ -27,18 +27,21 @@ const HomePage = ({list}: {list: any[]}) => {
   const [currentPage, setCurrentPage] = useState(1)
   const [canLoad, setCanLoad] = useState(true)
   const [localList, setLocalList] = useState<any[]>([])
-
+  const [load, setLoad] = useState(false);
 
   
 
 
   useEffect(() => {
     if(list) {
+      setLoad(false)
       setLocalList(list)
 
       if(box?.current) {
         setHeight(box?.current?.scrollHeight)
       }
+    } else {
+      setLoad(true)
     }
   }, [list, box])
 
@@ -57,18 +60,19 @@ const HomePage = ({list}: {list: any[]}) => {
 
   const updateList = useCallback(() => {
     if(currentPage > 1) {
+      setLoad(true)
       service.getCardsList(currentPage).then(res => {
         console.log(res?.results)
         if(res?.results?.length > 0) {
           setLocalList(s => [...s, ...res?.results])
         }
-      })
+      }).finally(() => setLoad(false))
     }
   }, [currentPage])
 
-  useEffect(() => {
-    updateList()
-  }, [currentPage])
+  // useEffect(() => {
+  //   updateList()
+  // }, [currentPage])
 
 
 
@@ -76,6 +80,13 @@ const HomePage = ({list}: {list: any[]}) => {
     <div ref={box} className={styles.wrapper}>
       <ContentLayout>
         <List setCurrentPage={setCurrentPage} list={localList}/>
+        {
+          load ? (
+            <div className={styles.load}>
+              <PulseLoader color="var(--text)"/>
+            </div>
+          ) : null
+        }
       </ContentLayout>
     </div>
     

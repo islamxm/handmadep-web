@@ -1,4 +1,17 @@
 .wrapper {
     height: calc(100vh - 80px);
     overflow-y: auto;
+
+    .load {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 20px 0;
+    }
+}
+
+@media (max-width: 768px) {
+    .wrapper {
+        height: calc(100vh - 65px);
+    }
 }
