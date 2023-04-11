@@ -1,6 +1,6 @@
 import styles from './Product.module.scss';
 import Link from 'next/link';
-import {FC, useEffect, useState} from 'react';
+import {FC, useEffect, useState, useRef} from 'react';
 import {IProduct} from '@/models/IProduct';
 import Image from 'next/image';
 import {motion, AnimatePresence} from 'framer-motion';
@@ -21,10 +21,14 @@ import { useDoubleTap } from 'use-double-tap';
 import colors from '@/helpers/colors';
 import * as _ from 'lodash';
 
+interface ITest extends IProduct {
+    isLast?: boolean,
+    newLimit?: (...args: any[]) => any
+} 
 
 const Product = ({
     data 
-}: {data:IProduct}) => {
+}: {data: ITest}) => {
     const {
         cover_url,
         created_at,
@@ -34,23 +38,25 @@ const Product = ({
         shop,
         tags,
         title,
-        views
+        views,
+        isLast,
+        newLimit
     } = data
+    const cardRef = useRef<HTMLDivElement | null>(null)
     const [liked, setLiked] = useState(false)
     const [pinned, setPinned] = useState(false)
     const [likeLayer, setLikeLayer] = useState(false)
 
     const [bg, setBg] = useState('rgb(55, 29, 49)')
 
+    const [loaded, setLoaded] = useState(false)
+
+
     
     useEffect(() => {
         setBg(colors[_.random(colors?.length - 1)])
     }, [])
 
-    // useEffect(() => {
-    //     isPinned ? setPinned(true) : setPinned(false)
-    //     isLiked ? setLiked(true) : setLiked(false)
-    // }, [isPinned, isLiked])
 
     const bind = useDoubleTap((event) => {
         setLiked(true)
@@ -75,11 +81,27 @@ const Product = ({
         }
     }, [likeLayer])
 
+
+    useEffect(() => {
+        if(!cardRef?.current) return;
+
+        const observer = new IntersectionObserver(([entry]) => {
+            if(isLast && entry?.isIntersecting) {
+                newLimit && newLimit()
+                observer?.unobserve(entry?.target)
+            }
+        })
+
+        observer.observe(cardRef?.current)
+    }, [isLast])
+
+
+
     return (
         <motion.div 
-            initial={{opacity: 0}}
-            animate={{opacity: 1}}
-            className={styles.wrapper}>
+            className={`${styles.wrapper} ${loaded ? styles.loaded : ''}`}
+            ref={cardRef}
+            >
             <motion.div 
                 // initial={{height: '100%'}}
                 // animate={{height: 0}}
@@ -154,11 +176,17 @@ const Product = ({
                         loader={(p) => {
                             return p?.src ? p?.src : ''
                         }} 
+                        onLoad={(e) => {
+                            // console.log(e)
+                            setLoaded(true)
+                        }}
+                        priority
                         unoptimized
                         width={100}
                         height={100}
                         src={cover_url ? cover_url : placeholder} 
                         alt=''/>
+                    
                 </div>
                 
                 <div className={styles.label}>{title}</div>

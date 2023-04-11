@@ -8,8 +8,8 @@ import pl from '@/public/assets/handmade-watermark.png';
 import Masonry, {ResponsiveMasonry} from "react-responsive-masonry"
 
 
-const List:FC<{list: IProduct[]}> = ({
-    list = []
+const List:FC<{list: IProduct[], setCurrentPage: (...args: any[]) => any}> = ({
+    list = [], setCurrentPage
 }) => {
 
     const [itemWidth, setItemWidth] = useState(0);
@@ -44,14 +44,20 @@ const List:FC<{list: IProduct[]}> = ({
                 render={Product}/> */}
             <ResponsiveMasonry columnsCountBreakPoints={{300: 2, 768: 5}}>
                 <Masonry
+                    className='sss'
                     gutter={'20px'}
+                    
                     >
                     
                     {
                         list?.length > 0 ? (
                             list.map((item, index) => (
                                 <Product
-                                    data={item}
+                                    data={{
+                                        ...item,
+                                        isLast: index === list?.length - 1,
+                                        newLimit: () => setCurrentPage((s: number) => s + 1)
+                                    }}
                                     key={index}
                                     />
                             ))  

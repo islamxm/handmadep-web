@@ -1,8 +1,14 @@
+.wrapper.loaded {
+    opacity: 1;
+}
+
 .wrapper {
     border-radius: 20px;
     overflow: hidden;
     background-color: #fff;
     position: relative;
+    transition: all .3s ease;
+    opacity: 0;
 
     .layer {
         // display: none;
@@ -72,6 +78,7 @@
             border-radius: 20px;
             overflow: hidden;
             user-select: none;
+            // position: relative;
             
             img {
                 width: 100%;
