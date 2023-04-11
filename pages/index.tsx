@@ -26,6 +26,8 @@ const HomePage = ({list}: {list: any[]}) => {
   const [currentPage, setCurrentPage] = useState(1)
   const [localList, setLocalList] = useState<any[]>([])
 
+
+
   useEffect(() => {
     if(list) {
       setLocalList(list)
@@ -35,20 +37,13 @@ const HomePage = ({list}: {list: any[]}) => {
 
 
   useScroll(box, ({ scrollY }) => {
-    setScrollY(scrollY * 100)
-  })  
+    // setScrollY(scrollY * 100)
+    let currentPos = scrollY * 100
 
-
-
-  useEffect(() => {
-    console.log(scrollY)
-    if(scrollY >= 95) {
-      setScrollY(0)
+    if(currentPos >= 95) {
       setCurrentPage(s => s + 1)
-    } else {
-      return;
     }
-  }, [scrollY, list])
+  })  
 
 
 
