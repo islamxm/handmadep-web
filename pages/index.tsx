@@ -27,46 +27,52 @@ const HomePage = ({list}: {list: any[]}) => {
   const [currentPage, setCurrentPage] = useState(1)
   const [canLoad, setCanLoad] = useState(true)
   const [localList, setLocalList] = useState<any[]>([])
-  const [load, setLoad] = useState(false);
+  const [load, setLoad] = useState(true);
 
+  const ref = useRef<HTMLDivElement | null>(null)
   
 
 
   useEffect(() => {
     if(list) {
-      setLoad(false)
       setLocalList(list)
 
       if(box?.current) {
         setHeight(box?.current?.scrollHeight)
       }
-    } else {
-      setLoad(true)
     }
   }, [list, box])
 
 
 
-  // useScroll(box, ({ scrollY }) => {
-  //   // setScrollY(scrollY * 100)
-  //   let currentPos = scrollY * 100
+    useEffect(() => {
+        if(!ref.current) return;
+ 
+        const observer = new IntersectionObserver(([entry]) => {
+            if(entry?.isIntersecting) {
+                setCurrentPage(s => s + 1)
+                observer?.unobserve(entry?.target)
+            }
+        })
 
-  //   if(currentPos >= 95) {
-  //     setCurrentPage(s => s + 1)
-  //   }
-  // })  
+        observer.observe(ref.current)
+    }, [localList])
+
 
 
 
   const updateList = useCallback(() => {
     if(currentPage > 1) {
-      setLoad(true)
+      
       service.getCardsList(currentPage).then(res => {
-        // console.log(res?.results)
+        console.log(res?.results)
         if(res?.results?.length > 0) {
           setLocalList(s => [...s, ...res?.results])
         }
-      }).finally(() => setLoad(false))
+        if(res?.results?.length < 20) {
+          setLoad(false)
+        }
+      })
     }
   }, [currentPage])
 
@@ -80,13 +86,9 @@ const HomePage = ({list}: {list: any[]}) => {
     <div ref={box} className={styles.wrapper}>
       <ContentLayout>
         <List setCurrentPage={setCurrentPage} list={localList}/>
-        {
-          load ? (
-            <div className={styles.load}>
-              <PulseLoader color="var(--text)"/>
-            </div>
-          ) : null
-        }
+        <div ref={ref} className={styles.load}>
+            <PulseLoader color="var(--text)"/>
+          </div>
       </ContentLayout>
     </div>
     

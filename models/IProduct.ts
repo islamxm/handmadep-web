@@ -5,7 +5,7 @@ export interface IProduct {
     created_at?: string,
     description?: string,
     etsy_ext_id?: number,
-    id?: number,
+    id: number,
     shop?: number,
     tags?: number[],
     title?: string,

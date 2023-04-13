@@ -1,53 +1,104 @@
 import styles from './List.module.scss';
 import {FC, useEffect, useState} from 'react';
-// import { Masonry } from 'masonic';
+import { Masonry } from 'masonic';
 import {IProduct} from '@/models/IProduct';
 import Product from '../Product/Product';
 import Image, { StaticImageData } from 'next/image';
 import pl from '@/public/assets/handmade-watermark.png';
-import Masonry, {ResponsiveMasonry} from "react-responsive-masonry"
+// import Masonry, { ResponsiveMasonry } from 'react-responsive-masonry';
+
+// import {
+//     CellMeasurer,
+//     CellMeasurerCache,
+//     createMasonryCellPositioner,
+//     Masonry,
+//     AutoSizer
+//   } from "react-virtualized";
 
 
-const List:FC<{list: IProduct[], setCurrentPage: (...args: any[]) => any}> = ({
-    list = [], setCurrentPage
+const columnWidth = 200;
+
+const defaultHeight = 250;
+const defaultWidth = columnWidth;
+
+
+
+// const cache = new CellMeasurerCache({
+//     defaultHeight,
+//     defaultWidth,
+//     fixedWidth: true
+// });
+
+
+// const cellPositionerConfig = {
+//     cellMeasurerCache: cache,
+//     columnCount: 3,
+//     columnWidth,
+//     spacer: 10
+// };
+
+
+// const cellPositioner = createMasonryCellPositioner(cellPositionerConfig);
+
+
+const List:FC<{
+    list: IProduct[], 
+    setCurrentPage: (...args: any[]) => any
+}> = ({
+    list = [], 
+    setCurrentPage
 }) => {
 
-    const [itemWidth, setItemWidth] = useState(0);
+    const [itemWidth, setItemWidth] = useState(0)
+    const [localList, setLocalList] = useState<any[]>([])
+
+    const getItemSize = () => {
+        if(window.innerWidth < 500) {
+            setItemWidth(150)
+        } else {
+            setItemWidth(200)
+        }
+    }
 
 
-    // const getItemSize = () => {
-    //     if(window.innerWidth < 500) {
-    //         setItemWidth(150)
-    //     } else {
-    //         setItemWidth(200)
-    //     }
-    // }
+
+    useEffect(() => {
+        getItemSize()
+        window.addEventListener('resize', getItemSize)
+
+        return () => {
+            window.removeEventListener('resize', getItemSize)
+        }
+    }, [])
 
     // useEffect(() => {
-    //     getItemSize()
-    //     window.addEventListener('resize', getItemSize)
+    //     setLocalList(list?.map((i,index) => {
+    //         return {...i, isLast: index === list?.length - 1, newLimit: () => setCurrentPage((s: number) => s + 1)}
+    //     }))
+    // }, [list])
 
-    //     return () => {
-    //         window.removeEventListener('resize', getItemSize)
-    //     }
-    // }, [])
+
+    
+    // isLast: item.index === list?.length - 1,
+    // newLimit: () => setCurrentPage((s: number) => s + 1)
 
 
     return (
         <div className={styles.wrapper}>
-            {/* <Masonry
+          
+            <Masonry
                 rowGutter={20}
                 columnGutter={20}
                 columnWidth={itemWidth}
-                items={list} 
+                items={list}
+                itemKey={(item) => item.id} 
                 overscanBy={5}
-                render={Product}/> */}
-            <ResponsiveMasonry columnsCountBreakPoints={{300: 2, 768: 5}}>
+                // className='sss'
+                render={Product}/>
+            {/* <ResponsiveMasonry columnsCountBreakPoints={{300: 2, 768: 5}}>
                 <Masonry
                     className='sss'
-                    
                     gutter={'20px'}
-                    
                     >
                     
                     {
@@ -65,7 +116,7 @@ const List:FC<{list: IProduct[], setCurrentPage: (...args: any[]) => any}> = ({
                         ) : null
                     }
                 </Masonry>
-            </ResponsiveMasonry>
+            </ResponsiveMasonry> */}
         </div>
     )
 }

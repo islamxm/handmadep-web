@@ -1,6 +1,6 @@
 import styles from './Product.module.scss';
 import Link from 'next/link';
-import {FC, useEffect, useState, useRef} from 'react';
+import {FC, useEffect, useState, useRef, memo} from 'react';
 import {IProduct} from '@/models/IProduct';
 import Image from 'next/image';
 import {motion, AnimatePresence} from 'framer-motion';
@@ -20,13 +20,14 @@ import Button from '../Button/Button';
 import { useDoubleTap } from 'use-double-tap';
 import colors from '@/helpers/colors';
 import * as _ from 'lodash';
+import { useInView } from 'react-intersection-observer';
 
 interface ITest extends IProduct {
     isLast?: boolean,
     newLimit?: (...args: any[]) => any
 } 
 
-const Product = ({
+const ProductItem = ({
     data 
 }: {data: ITest}) => {
     const {
@@ -50,7 +51,6 @@ const Product = ({
     const [bg, setBg] = useState('rgb(55, 29, 49)')
 
     const [loaded, setLoaded] = useState(false)
-
 
     
     useEffect(() => {
@@ -82,18 +82,7 @@ const Product = ({
     }, [likeLayer])
 
 
-    useEffect(() => {
-        if(!cardRef?.current) return;
-
-        const observer = new IntersectionObserver(([entry]) => {
-            if(isLast && entry?.isIntersecting) {
-                newLimit && newLimit()
-                observer?.unobserve(entry?.target)
-            }
-        })
-
-        observer.observe(cardRef?.current)
-    }, [isLast])
+    
 
 
 
@@ -170,29 +159,32 @@ const Product = ({
                     }
                 </AnimatePresence>
                 <div className={styles.image} style={{backgroundColor: bg}}>
-                    <Image
-                        className={styles.image_el}
-                        // placeholder={'blur'}
-                        loader={(p) => {
-                            return p?.src ? p?.src : ''
-                        }} 
-                        onLoad={(e) => {
-                            // console.log(e)
-                            setLoaded(true)
-                        }}
-                        priority
-                        unoptimized
-                        width={100}
-                        height={100}
-                        src={cover_url ? cover_url : placeholder} 
-                        alt=''/>
-                    
+                            <Image
+                                className={styles.image_el}
+                                // placeholder={'blur'}
+                                loader={(p) => {
+                                    return p?.src ? p?.src : ''
+                                }} 
+                                onLoad={(e) => {
+                                    setLoaded(true)
+                                }}
+                                // priority
+                                loading={'lazy'}
+                                unoptimized
+                                width={100}
+                                height={100}
+                                src={cover_url ? cover_url : placeholder} 
+                                alt=''/>
                 </div>
                 
                 <div className={styles.label}>{title}</div>
             </div>
         </motion.div>
     )
-}
+    
+    
 
-export default Product;
+    
+}
+const Product = memo(ProductItem);
+export default Product
