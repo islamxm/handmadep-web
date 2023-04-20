@@ -21,6 +21,9 @@ import { useDoubleTap } from 'use-double-tap';
 import colors from '@/helpers/colors';
 import { useInView } from 'react-intersection-observer';
 import * as _ from 'lodash';
+import Router from 'next/router';
+
+
 
 interface ITest extends IProduct {
     isLast?: boolean,
@@ -43,15 +46,19 @@ const ProductItem = ({
         isLast,
         newLimit
     } = data
+    const [randomHeight, setRandomHeight] = useState<number>(150)
     const cardRef = useRef<HTMLDivElement | null>(null)
     const [liked, setLiked] = useState(false)
     const [pinned, setPinned] = useState(false)
     const [likeLayer, setLikeLayer] = useState(false)
 
     const [bg, setBg] = useState('rgb(55, 29, 49)')
-
     const [loaded, setLoaded] = useState(false)
 
+
+    useEffect(() => {
+        setRandomHeight(_.random(150, 350))
+    }, [])
     
     useEffect(() => {
         setBg(colors[_.random(colors?.length - 1)])
@@ -62,7 +69,9 @@ const ProductItem = ({
         setLiked(true)
         setLikeLayer(true)
       }, 350, {
-        // ! Когда один клик
+        onSingleTap: () => {
+            Router.push(`/itm/${id}`)
+        } 
       });
 
       
@@ -160,7 +169,7 @@ const ProductItem = ({
                         )
                     }
                 </AnimatePresence>
-                <div className={styles.image} style={{backgroundColor: bg, height: _.random(150, 350)}}>
+                <div className={styles.image} style={{backgroundColor: bg, height: randomHeight}}>
                             <Image
                                 className={styles.image_el}
                                 // placeholder={'blur'}

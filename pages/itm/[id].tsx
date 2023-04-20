@@ -4,6 +4,18 @@ import {Row, Col} from 'antd';
 import PageTitle from "@/components/PageTitle/PageTitle";
 import List from "@/components/List/List";
 // import prodsMock from "@/mock/prodsMock";
+import ApiService from "@/service/apiService";
+import { GetServerSideProps } from 'next'
+
+const service = new ApiService()
+
+export const getServerSideProps:GetServerSideProps<{}> = async (context) => {
+    return {
+        props: {
+            
+        }
+    }
+}
 
 
 const ProductPage = () => {
