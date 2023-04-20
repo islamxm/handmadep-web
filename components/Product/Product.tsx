@@ -19,8 +19,8 @@ import placeholder from '@/public/assets/handmade-watermark.png';
 import Button from '../Button/Button';
 import { useDoubleTap } from 'use-double-tap';
 import colors from '@/helpers/colors';
-import * as _ from 'lodash';
 import { useInView } from 'react-intersection-observer';
+import * as _ from 'lodash';
 
 interface ITest extends IProduct {
     isLast?: boolean,
@@ -64,6 +64,8 @@ const ProductItem = ({
       }, 350, {
         // ! Когда один клик
       });
+
+      
 
     useEffect(() => {
         let tm: any;
@@ -158,7 +160,7 @@ const ProductItem = ({
                         )
                     }
                 </AnimatePresence>
-                <div className={styles.image} style={{backgroundColor: bg}}>
+                <div className={styles.image} style={{backgroundColor: bg, height: _.random(150, 350)}}>
                             <Image
                                 className={styles.image_el}
                                 // placeholder={'blur'}
