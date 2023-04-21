@@ -8,7 +8,7 @@ import Keyword from '@/components/Keyword/Keyword';
 import {BsHeart, BsHeartFill, BsShareFill, BsFlagFill} from 'react-icons/bs';
 import parse from 'html-react-parser';
 import { useState, useEffect } from 'react';
-
+import { useRouter } from 'next/router';
 
 const Body:FC<IProduct> = ({
     cover_url,
@@ -25,11 +25,21 @@ const Body:FC<IProduct> = ({
     is_favorited,
     last_updated
 }) => { 
+    const router = useRouter()
     const [fav, setFav] = useState(false)
 
     useEffect(() => {
         setFav(is_favorited ? true : false)
     }, [is_favorited])
+
+
+    const onShare = () => {
+        process?.browser && navigator?.share({
+            url: window?.location?.href,
+            text: title,
+            title: title,
+        })
+    }
 
     return (
         <div className={`${styles.wrapper} panel`}>
@@ -47,6 +57,7 @@ const Body:FC<IProduct> = ({
                     </div>
                     <div className={styles.item}>
                         <Button
+                            onClick={onShare}
                             icon={<BsShareFill size={25}/>}
                             round
                             variant='white'
