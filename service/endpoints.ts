@@ -32,4 +32,5 @@ export const endpoints = {
     //авторизация через соцсети
     cardsList: `${PATH}cards/`,
     //GET - получиение списка товаров
+
 }

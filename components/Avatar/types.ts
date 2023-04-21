@@ -5,5 +5,6 @@ export type avatarTypes = {
     image?: StaticImageData | string,
     size?: number | string,
     isActive?: boolean,
-    style?: CSSProperties
+    style?: CSSProperties,
+    label?: string
 }

@@ -21,6 +21,7 @@ const UserBadge:FC<{
         <div style={style} className={`${styles.wrapper} ${classNames ? classNames?.map(i => i) : ''}`}>
             <div className={styles.avatar}>
                 <Avatar
+                    label={username}
                     size={35}
                     image={image}
                     />    

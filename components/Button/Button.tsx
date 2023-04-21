@@ -20,6 +20,7 @@ const Button:FC<buttonTypes> = ({
     round,
     badge,
     link,
+    blank,
     onClick = () => {}
 }) => {
 
@@ -55,7 +56,41 @@ const Button:FC<buttonTypes> = ({
                 placement={'bottom'}
                 >
                 {
-                    link ? (
+                    link && blank ? (
+                        <a href={link} target='_blank' style={style} className={`${styles.button} ${switchVariant(variant)} ${load ? styles.load : ''} ${round ? styles.round : ''} ${disabled ? styles.disabled : ''}`}>
+                            <div className={styles.load}><LoadingOutlined size={35}  color={color}/></div>   
+                            {
+                                before ? (
+                                    <div className={`${styles.side} ${styles.before}`}>{before}</div>
+                                ) : null
+                            }
+                            {
+                                text ? (
+                                    <div className={styles.text}>{text}</div>
+                                ) : null
+                            }
+                            {
+                                after ? (
+                                    <div className={`${styles.side} ${styles.after}`}>{after}</div>
+                                ) : null
+                            }
+                            {
+                                icon ? (
+                                    <div className={styles.icon}>{icon}</div>
+                                ) : null
+                            }
+                            {
+                                badge ? (
+                                    <div className={styles.badge}>
+                                        {badge > 99 ? '+99' : badge}
+                                    </div>
+                                ) : null
+                            }
+                        </a>
+                    ) : null
+                }
+                {
+                    link && !blank ? (
                         <Link href={link} style={style} className={`${styles.button} ${switchVariant(variant)} ${load ? styles.load : ''} ${round ? styles.round : ''} ${disabled ? styles.disabled : ''}`}>
                             <div className={styles.load}><LoadingOutlined size={35}  color={color}/></div>   
                             {
@@ -125,69 +160,110 @@ const Button:FC<buttonTypes> = ({
     }
 
     return (
-        link ? (
-            <Link href={link} style={style} className={`${styles.button} ${switchVariant(variant)} ${load ? styles.load : ''} ${round ? styles.round : ''} ${disabled ? styles.disabled : ''}`}>
-                <div className={styles.load}><LoadingOutlined size={35} color={color}/></div>   
-                {
-                    before ? (
-                        <div className={`${styles.side} ${styles.before}`}>{before}</div>
-                    ) : null
-                }
-                {
-                    text ? (
-                        <div className={styles.text}>{text}</div>
-                    ) : null
-                }
-                {
-                    after ? (
-                        <div className={`${styles.side} ${styles.after}`}>{after}</div>
-                    ) : null
-                }
-                {
-                    icon ? (
-                        <div className={styles.icon}>{icon}</div>
-                    ) : null
-                }
-                {
-                    badge ? (
-                        <div className={styles.badge}>
-                            {badge > 99 ? '+99' : badge}
-                        </div>
-                    ) : null
-                }
-            </Link>
-        ) : (
-            <button onClick={onClick} style={style} className={`${styles.button} ${switchVariant(variant)} ${load ? styles.load : ''} ${round ? styles.round : ''} ${disabled ? styles.disabled : ''}`}>
-                <div className={styles.load}><LoadingOutlined size={35} color={color}/></div>   
-                {
-                    before ? (
-                        <div className={`${styles.side} ${styles.before}`}>{before}</div>
-                    ) : null
-                }
-                {
-                    text ? (
-                        <div className={styles.text}>{text}</div>
-                    ) : null
-                }
-                {
-                    after ? (
-                        <div className={`${styles.side} ${styles.after}`}>{after}</div>
-                    ) : null
-                }
-                {
-                    icon ? (
-                        <div className={styles.icon}>{icon}</div>
-                    ) : null
-                }
-                {
-                    badge ? (
-                        <div className={styles.badge}>
-                            {badge > 99 ? '+99' : badge}
-                        </div>
-                    ) : null
-                }
-            </button>
-        )
+        <>
+            {
+                link && !blank ? (
+                    <Link href={link} style={style} className={`${styles.button} ${switchVariant(variant)} ${load ? styles.load : ''} ${round ? styles.round : ''} ${disabled ? styles.disabled : ''}`}>
+                        <div className={styles.load}><LoadingOutlined size={35} color={color}/></div>   
+                        {
+                            before ? (
+                                <div className={`${styles.side} ${styles.before}`}>{before}</div>
+                            ) : null
+                        }
+                        {
+                            text ? (
+                                <div className={styles.text}>{text}</div>
+                            ) : null
+                        }
+                        {
+                            after ? (
+                                <div className={`${styles.side} ${styles.after}`}>{after}</div>
+                            ) : null
+                        }
+                        {
+                            icon ? (
+                                <div className={styles.icon}>{icon}</div>
+                            ) : null
+                        }
+                        {
+                            badge ? (
+                                <div className={styles.badge}>
+                                    {badge > 99 ? '+99' : badge}
+                                </div>
+                            ) : null
+                        }
+                    </Link>
+                ) : null
+            }
+            {
+                !link && !blank ? (
+                    <button onClick={onClick} style={style} className={`${styles.button} ${switchVariant(variant)} ${load ? styles.load : ''} ${round ? styles.round : ''} ${disabled ? styles.disabled : ''}`}>
+                        <div className={styles.load}><LoadingOutlined size={35} color={color}/></div>   
+                        {
+                            before ? (
+                                <div className={`${styles.side} ${styles.before}`}>{before}</div>
+                            ) : null
+                        }
+                        {
+                            text ? (
+                                <div className={styles.text}>{text}</div>
+                            ) : null
+                        }
+                        {
+                            after ? (
+                                <div className={`${styles.side} ${styles.after}`}>{after}</div>
+                            ) : null
+                        }
+                        {
+                            icon ? (
+                                <div className={styles.icon}>{icon}</div>
+                            ) : null
+                        }
+                        {
+                            badge ? (
+                                <div className={styles.badge}>
+                                    {badge > 99 ? '+99' : badge}
+                                </div>
+                            ) : null
+                        }
+                    </button>
+                ) : null
+            }
+            {
+                link && blank ? (
+                    <a href={link} target='_blank' style={style} className={`${styles.button} ${switchVariant(variant)} ${load ? styles.load : ''} ${round ? styles.round : ''} ${disabled ? styles.disabled : ''}`}>
+                        <div className={styles.load}><LoadingOutlined size={35}  color={color}/></div>   
+                        {
+                            before ? (
+                                <div className={`${styles.side} ${styles.before}`}>{before}</div>
+                            ) : null
+                        }
+                        {
+                            text ? (
+                                <div className={styles.text}>{text}</div>
+                            ) : null
+                        }
+                        {
+                            after ? (
+                                <div className={`${styles.side} ${styles.after}`}>{after}</div>
+                            ) : null
+                        }
+                        {
+                            icon ? (
+                                <div className={styles.icon}>{icon}</div>
+                            ) : null
+                        }
+                        {
+                            badge ? (
+                                <div className={styles.badge}>
+                                    {badge > 99 ? '+99' : badge}
+                                </div>
+                            ) : null
+                        }
+                    </a>
+                ) : null
+            }
+        </>
     )
 }
 

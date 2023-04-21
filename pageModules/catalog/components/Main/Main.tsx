@@ -2,18 +2,25 @@ import styles from './Main.module.scss';
 import Slider from '../Slider/Slider';
 import Body from '../Body/Body';
 import {Row, Col} from 'antd';
+import { IProduct } from '@/models/IProduct';
+import {FC} from 'react';
 
 
-const Main = () => {
+const Main:FC<IProduct> = (props) => {
+
+    const {cover_url} = props;
+
 
     return (
         <div className={styles.wrapper}>
             <Row gutter={[20,20]}>
                 <Col span={12}>
-                    <Slider/>
+                    <Slider
+                        images={cover_url ? [cover_url] : []}
+                        />
                 </Col>
                 <Col span={12}>
-                    {/* <Body/> */}
+                    <Body {...props}/>
                 </Col>
             </Row>
         </div>

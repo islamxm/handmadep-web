@@ -144,6 +144,21 @@ class ApiService {
         }
     } 
 
+
+
+    // ** Получить конкретный товар
+    getProduct = async (id?: string | string[]) => {
+        try {
+            let res = await fetch(endpoints.cardsList + id, {
+                method: 'GET',
+                headers
+            })
+            return await res?.json()
+        } catch(err) {
+            console.log(err)
+        }
+    }
+
 }
 
 

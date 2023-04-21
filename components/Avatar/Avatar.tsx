@@ -9,7 +9,8 @@ const Avatar:FC<avatarTypes> = ({
     size = 40,
     image,
     isActive,
-    style
+    style,
+    label
 }) => {
     const {placeholderColor} = useAppSelector(s => s)
 
@@ -20,7 +21,7 @@ const Avatar:FC<avatarTypes> = ({
                 {
                     image ? (
                         <Image className={styles.image_el} src={image} alt="" placeholder={'blur'}/>
-                    ) : <div style={{fontSize: typeof size === 'number' ? size - 20 : `calc(${size} - 20px)`,lineHeight: typeof size === 'number' ? size - 20 : `calc(${size} - 20px)`}} className={styles.label}>A</div>
+                    ) : <div style={{fontSize: typeof size === 'number' ? size - 20 : `calc(${size} - 20px)`,lineHeight: typeof size === 'number' ? size - 20 : `calc(${size} - 20px)`}} className={styles.label}>{label ? label[0] : ''}</div>
                 }
                 
             </div>

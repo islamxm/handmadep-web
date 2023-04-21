@@ -12,7 +12,7 @@ const testImgs = [img1, img2];
 
 
 const Slider:FC<{
-    images?: string[] | StaticImageData[]
+    images?: string[]
 }> = ({
     images
 }) => {
@@ -33,10 +33,17 @@ const Slider:FC<{
                 modules={[Pagination]}
                 className={styles.slider}>
                 {
-                    testImgs && testImgs.length > 0 ? (
-                        testImgs?.map((item, index) => (
+                    images && images.length > 0 ? (
+                        images?.map((item, index) => (
                             <SwiperSlide className={styles.slide} key={index}>
-                                <Image placeholder={'blur'} src={item} alt=''/>
+                                <Image 
+                                    //placeholder={'blur'} 
+                                    src={item}
+                                    loader={p => p?.src && typeof p?.src === 'string' ? p.src : ''}
+                                    unoptimized 
+                                    width={350}
+                                    height={350}
+                                    alt=''/>
                             </SwiperSlide>
                         ))
                     ) : (
@@ -45,7 +52,12 @@ const Slider:FC<{
                         </SwiperSlide>
                     )
                 }   
-                <div className={'pag'}></div>   
+                {
+                    images && images?.length > 1 ? (
+                        <div className={'pag'}></div>   
+                    ) : null
+                }
+               
             </Swiper>
         </div>
     )

@@ -6,13 +6,22 @@ export interface IProduct {
     description?: string,
     etsy_ext_id?: number,
     id: number,
-    shop?: number,
+    shop?: {
+        id: number,
+        name: string,
+        owner: number,
+        shop_cover_url: string,
+        shop_url: string
+    },
     tags?: number[],
     title?: string,
     views?: number 
+    active?: boolean
 
+    
     // ** свойства текущего состояния (нужно уточнить)
     is_favorited?: boolean,
+    last_updated?: any,
 }
 
 export interface DetailProduct extends IProduct {
