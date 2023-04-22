@@ -44,34 +44,43 @@ const Signup:FC<IAuthModal> = (props) => {
 
     const onSubmit = useCallback(() => {
         setLoad(true)
+        setUsernameError('')
+        setPasswordError('')
+        setEmailError('')
+
         service.register({
             email,
             password,
             re_password: repeatPassword,
             username
         }).then(res => {
-            console.log(res)
             if(res?.status === 200) {
-                notify('Signup success', 'SUCCESS')
+                notify('Success', 'SUCCESS')
                 toggleModal()
             } else {
-                res?.json().then(res => {
-                    if(typeof res?.username === 'object') {
-                        setUsernameError(res?.username[0])
+                res?.json()?.then(r => {
+                    if(typeof r?.username === 'object') {
+                        setUsernameError(r?.username[0])
+                        notify(r?.username[0], 'ERROR')
                     }
-                    if(typeof res?.password === 'object') {
-                        setPasswordError(res?.password[0])
+                    if(typeof r?.password === 'object') {
+                        setPasswordError(r?.password[0])
+                        notify(r?.password[0], 'ERROR')
                     }
-                    if(typeof res?.email === 'object') {
-                        setEmailError(res?.email[0])
+                    if(typeof r?.email === 'object') {
+                        setEmailError(r?.email[0])
+                        notify(r?.email[0], 'ERROR')
                     }
                 })
-                notify('Some text', 'ERROR')
             }
+           
+            
         }).finally(() => {
             setLoad(false)
         })
     }, [email, username, password, repeatPassword])
+
+
 
     const authGoogle = async () => {
         dispatch(updateLoading(true))

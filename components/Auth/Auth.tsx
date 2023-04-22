@@ -56,7 +56,7 @@ const Auth:FC<IAuthModal> = (props) => {
             
             if(res?.status === 200) {
                 res?.json().then(res => {
-                    console.log(res)
+                    notify('Welcome!', 'SUCCESS')
                     dispatch(updateToken({
                         access: res?.access,
                         refresh: res?.refresh
@@ -65,11 +65,14 @@ const Auth:FC<IAuthModal> = (props) => {
                         Cookies.set('handmadep-web-access-token', res?.access)
                         Cookies.set('handmadep-web-refresh-token', res?.refresh)
                     } else {
+                        Cookies.remove('handmadep-web-access-token')
+                        Cookies.remove('handmadep-web-refresh-token')
                         if(process?.browser) {
                             sessionStorage.setItem('handmadep-web-access-token', res?.access)
                             sessionStorage.setItem('handmadep-web-refresh-token', res?.refresh)
                         }
                     }
+                    onClose()
                 })
             } else {
                 res?.json().then(res => {

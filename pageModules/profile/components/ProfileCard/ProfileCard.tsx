@@ -13,7 +13,8 @@ import { useAppSelector } from '@/hooks/useTypesRedux';
 
 const ProfileCard:FC<IUser> = ({
     avatar,
-    username = 'Andrey'
+    username
+    
 }) => {
     const {placeholderColor} = useAppSelector(s => s)
 
@@ -26,7 +27,7 @@ const ProfileCard:FC<IUser> = ({
                 <div className={styles.img}>
                     <div className={styles.bg} style={{background: placeholderColor}}></div>
                     {
-                        avatar ? <Image className={styles.img_el} src={placeholder} alt='Avatar'/> : <div className={styles.label}>{username[0]}</div>
+                        avatar ? <Image className={styles.img_el} src={placeholder} alt='Avatar'/> : <div className={styles.label}>{username ? username[0] : ''}</div>
                     }
                     
                 </div>    

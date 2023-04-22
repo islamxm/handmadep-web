@@ -23,7 +23,7 @@ const Header:FC<headerTypes> = () => {
     const [signupModal, setSignupModal] = useState(false)
     const [logoutModal, setLogoutModal] = useState(false)
 
-    const {token} = useAppSelector(s => s)
+    const {token, userData} = useAppSelector(s => s)
 
     const {access} = token;
 
@@ -95,6 +95,7 @@ const Header:FC<headerTypes> = () => {
                                             <Avatar
                                             isActive
                                             size={40}
+                                            label={userData?.username}
                                             // image={avatarImg}
                                             />
                                             </div>

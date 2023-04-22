@@ -28,7 +28,7 @@ const ProfileMenu = ({
                         <div className={styles.text}>Profile</div>
                     </Link> 
                 </li>
-                <li className={styles.item}>
+                {/* <li className={styles.item}>
                     <Link href={'/favourites'} className={styles.link}>
                         <div className={styles.icon}><BsHeartFill/></div>
                         <div className={styles.text}>Favourites</div>
@@ -39,7 +39,7 @@ const ProfileMenu = ({
                         <div className={styles.icon}><BsBookmarkFill/></div>
                         <div className={styles.text}>Saved</div>
                     </Link> 
-                </li>
+                </li> */}
                 <li className={`${styles.item} ${styles.logout}`}>
                     <div onClick={() => {
                         openLogoutModal && openLogoutModal()

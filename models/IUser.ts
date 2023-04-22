@@ -6,6 +6,7 @@ interface IUser {
     // firstname?: string,
     // lastname?: string,
     email?: string,
+    id?: number
     site?: URL | string,
     descr?: string
 }

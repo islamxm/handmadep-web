@@ -6,6 +6,8 @@ import {useEffect, useState, useRef, useCallback} from 'react';
 import { useScroll } from '@react-hooks-library/core'
 import styles from '@/pageModules/home/home.module.scss';
 import { PulseLoader } from "react-spinners";
+import { IProduct } from "@/models/IProduct";
+import * as _ from 'lodash';
 const service = new ApiService()
 
 
@@ -15,7 +17,9 @@ export const getServerSideProps = async () => {
     const data = await res?.results
 
     return {
-        props: {list: data}
+        props: {
+          list: data
+        }
     }
 }
 
@@ -63,9 +67,7 @@ const HomePage = ({list}: {list: any[]}) => {
 
   const updateList = useCallback(() => {
     if(currentPage > 1) {
-      
       service.getCardsList(currentPage).then(res => {
-        console.log(res?.results)
         if(res?.results?.length > 0) {
           setLocalList(s => [...s, ...res?.results])
         }

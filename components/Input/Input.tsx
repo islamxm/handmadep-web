@@ -1,5 +1,5 @@
 import { inputTypes } from "./types";
-import {FC, useRef, useState} from 'react';
+import {FC, useRef, useState, useEffect} from 'react';
 import styles from './Input.module.scss';
 
 
@@ -16,6 +16,11 @@ const Input:FC<inputTypes> = (props) => {
     const focusInp = () => {
         inpRef?.current && inpRef.current.focus()
     }
+
+    useEffect(() => {
+        !value ? setFocused(false) : setFocused(true)
+    }, [value])
+    
 
     const onFocus = () => setFocused(true)
 

@@ -41,8 +41,10 @@ const defaultWidth = columnWidth;
 // const cellPositioner = createMasonryCellPositioner(cellPositionerConfig);
 
 
+
+
 const List:FC<{
-    list: IProduct[], 
+    list: any[] 
     setCurrentPage: (...args: any[]) => any
 }> = ({
     list = [], 
@@ -60,7 +62,15 @@ const List:FC<{
         }
     }
 
-
+    // useEffect(() => {
+    //     // console.log(localList)
+    //     if(list?.length > 0) {
+    //         const array = list.map((item, index) => item.id)
+    //         console.log(list.map(i => i.id))
+    //         const dup = array.filter((item,index, arr) => arr.indexOf(item) !== index)
+    //         console.log(dup)
+    //     }
+    // }, [list])
 
     useEffect(() => {
         getItemSize()
@@ -91,7 +101,9 @@ const List:FC<{
                 columnGutter={20}
                 columnWidth={itemWidth}
                 items={list}
-                itemKey={(item) => item.id} 
+                itemKey={(item, index) => {
+                    return item.id
+                }} 
                 overscanBy={5}
                 // className='sss'
                 render={Product}/>

@@ -27,7 +27,8 @@ import Router from 'next/router';
 
 interface ITest extends IProduct {
     isLast?: boolean,
-    newLimit?: (...args: any[]) => any
+    newLimit?: (...args: any[]) => any,
+  
 } 
 
 const ProductItem = ({
@@ -44,9 +45,9 @@ const ProductItem = ({
         title,
         views,
         isLast,
-        newLimit
+        newLimit,
     } = data
-    const [randomHeight, setRandomHeight] = useState<number>(150)
+    const [randomHeight, setRandomHeight] = useState(150)
     const cardRef = useRef<HTMLDivElement | null>(null)
     const [liked, setLiked] = useState(false)
     const [pinned, setPinned] = useState(false)
@@ -57,8 +58,9 @@ const ProductItem = ({
 
 
     useEffect(() => {
-        setRandomHeight(_.random(150, 350))
+        setRandomHeight(_.random(150,350))
     }, [])
+
     
     useEffect(() => {
         setBg(colors[_.random(colors?.length - 1)])
@@ -102,6 +104,7 @@ const ProductItem = ({
             className={`${styles.wrapper} ${loaded ? styles.loaded : ''}`}
             ref={cardRef}
             >
+            <div className={styles.id}>{id}</div>
             <motion.div 
                 // initial={{height: '100%'}}
                 // animate={{height: 0}}

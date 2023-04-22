@@ -1,10 +1,14 @@
 import { endpoints } from "./endpoints";
 import axios from "axios";
 import checkAuth from "./checkAuth";
+import { IToken } from "@/store/reducer";
+
 const headers = {
     'Content-type': 'application/json',
     'Accept': 'application/json',
 }
+
+
 
 class ApiService {
 
@@ -34,14 +38,17 @@ class ApiService {
 
 
     // ** Получение информации о себе
-    getSelf = async () => {
+    getSelf = async (token: IToken) => {
         try {
             let res = await fetch(endpoints.me, {
                 method: 'GET',
-                headers
+                headers: {
+                    ...headers,
+                    'Authorization': `JWT ${token}`
+                }
             })
 
-            return await checkAuth(res)
+            return await res?.json()
         } catch(err) {
             console.log(err)
         }
@@ -51,15 +58,19 @@ class ApiService {
     // ** Изменение данных о себе
     editSelf = async (body: {
         username?: string,
-    }) => {
+        email?: string
+    }, token: IToken) => {
         try {
             let res = await fetch(endpoints.me, {
                 method: 'PUT',
-                headers,
+                headers: {
+                    ...headers,
+                    'Authorization': `JWT ${token}`
+                },
                 body: JSON.stringify(body)
             })
 
-            return await checkAuth(res)
+            return await res?.json()
         } catch(err) {
             console.log(err)
         }
