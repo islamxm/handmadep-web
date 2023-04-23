@@ -8,7 +8,7 @@ const ProductPage = () => {
 
     return (
         <ContentLayout>
-            <Main/>
+            {/* <Main/> */}
         </ContentLayout>
     )
 }
