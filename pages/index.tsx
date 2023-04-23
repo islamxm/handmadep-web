@@ -12,16 +12,16 @@ const service = new ApiService()
 
 
 
-// export const getServerSideProps = async () => {
-//     const res = await service.getCardsList(1)
-//     const data = await res?.results
+export const getServerSideProps = async () => {
+    const res = await service.getCardsList(1)
+    const data = await res?.results
 
-//     return {
-//         props: {
-//           list: data
-//         }
-//     }
-// }
+    return {
+        props: {
+          list: data
+        }
+    }
+}
 
 
 const HomePage = ({list}: {list: any[]}) => { 
@@ -65,22 +65,22 @@ const HomePage = ({list}: {list: any[]}) => {
 
 
 
-  // const updateList = useCallback(() => {
-  //   if(currentPage > 1) {
-  //     service.getCardsList(currentPage).then(res => {
-  //       if(res?.results?.length > 0) {
-  //         setLocalList(s => [...s, ...res?.results])
-  //       }
-  //       if(res?.results?.length < 20) {
-  //         setLoad(false)
-  //       }
-  //     })
-  //   }
-  // }, [currentPage])
+  const updateList = useCallback(() => {
+    if(currentPage > 1) {
+      service.getCardsList(currentPage).then(res => {
+        if(res?.results?.length > 0) {
+          setLocalList(s => [...s, ...res?.results])
+        }
+        if(res?.results?.length < 20) {
+          setLoad(false)
+        }
+      })
+    }
+  }, [currentPage])
 
-  // useEffect(() => {
-  //   updateList()
-  // }, [currentPage])
+  useEffect(() => {
+    updateList()
+  }, [currentPage])
 
 
 
