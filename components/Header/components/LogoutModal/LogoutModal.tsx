@@ -21,7 +21,7 @@ const LogoutModal:FC<ModalFuncProps> = (props) => {
     }
 
     const logout = () => {
-        Router.push('/')
+        Router.replace('/')
         setLoad(true)
         dispatch(updateLoading(true))
         Cookies.remove('handmadep-web-access-token')

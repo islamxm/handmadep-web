@@ -35,8 +35,10 @@ const HomePage = ({list}: {list: any[]}) => {
 
   const ref = useRef<HTMLDivElement | null>(null)
   
+  
 
 
+  // ** пополнение локального списка и определение высоты контейнера
   useEffect(() => {
     if(list) {
       setLocalList(list)
@@ -48,23 +50,23 @@ const HomePage = ({list}: {list: any[]}) => {
   }, [list, box])
 
 
+  // ** перехват последнего элемента списка для догрузки
+  useEffect(() => {
+      if(!ref.current) return;
 
-    useEffect(() => {
-        if(!ref.current) return;
- 
-        const observer = new IntersectionObserver(([entry]) => {
-            if(entry?.isIntersecting) {
-                setCurrentPage(s => s + 1)
-                observer?.unobserve(entry?.target)
-            }
-        })
+      const observer = new IntersectionObserver(([entry]) => {
+          if(entry?.isIntersecting) {
+              setCurrentPage(s => s + 1)
+              observer?.unobserve(entry?.target)
+          }
+      })
 
-        observer.observe(ref.current)
-    }, [localList])
-
-
+      observer.observe(ref.current)
+  }, [localList])
 
 
+
+  // ** обновление списка
   const updateList = useCallback(() => {
     if(currentPage > 1) {
       service.getCardsList(currentPage).then(res => {
@@ -78,6 +80,8 @@ const HomePage = ({list}: {list: any[]}) => {
     }
   }, [currentPage])
 
+
+  // ** обновление списка
   useEffect(() => {
     updateList()
   }, [currentPage])

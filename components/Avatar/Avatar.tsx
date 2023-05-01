@@ -14,9 +14,6 @@ const Avatar:FC<avatarTypes> = ({
 }) => {
     const {placeholderColor} = useAppSelector(s => s)
 
-    useEffect(() => {
-        console.log(label)
-    }, [label])
 
     return (
         <div style={{...style, width: size, height: size}} className={`${styles.wrapper} ${isActive ? styles.active : ''}`}>

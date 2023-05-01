@@ -18,7 +18,6 @@ export interface IProduct {
     views?: number 
     active?: boolean
 
-    
     // ** свойства текущего состояния (нужно уточнить)
     is_favorited?: boolean,
     last_updated?: any,

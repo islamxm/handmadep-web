@@ -48,7 +48,7 @@ class ApiService {
                 }
             })
 
-            return await res?.json()
+            return await checkAuth(res)
         } catch(err) {
             console.log(err)
         }
@@ -58,7 +58,10 @@ class ApiService {
     // ** Изменение данных о себе
     editSelf = async (body: {
         username?: string,
-        email?: string
+        email?: string,
+        about?: string,
+        image?: string,
+        site?: string
     }, token: IToken) => {
         try {
             let res = await fetch(endpoints.me, {
@@ -70,7 +73,7 @@ class ApiService {
                 body: JSON.stringify(body)
             })
 
-            return await res?.json()
+            return await checkAuth(res)
         } catch(err) {
             console.log(err)
         }
@@ -170,6 +173,72 @@ class ApiService {
         }
     }
 
+
+
+    // ** поставить лайк
+    productLike = async (id: string | number, token: IToken) => {
+        try {
+            let res = await fetch(endpoints.productLike(id), {
+                method: 'POST',
+                headers: {
+                    ...headers,
+                    'Authorization': `JWT ${token}`
+                }
+            })
+
+            return await checkAuth(res, true)
+        } catch(err) {
+            console.log(err)
+        }
+    }
+
+    // ** удалить лайк
+    productUnlike = async (id: string | number, token: IToken) => {
+        try {
+            let res = await fetch(endpoints.productLike(id), {
+                method: 'DELETE',
+                headers: {
+                    ...headers,
+                    'Authorization': `JWT ${token}`
+                }
+            })
+            return await checkAuth(res, true)
+        } catch(err) {
+            console.log(err)
+        }
+    }
+
+    // ** сохранить
+    productSave = async (id: string | number, token: IToken) => {
+        try {
+            let res = await fetch(endpoints.productSave(id), {
+                method: 'POST',
+                headers: {
+                    ...headers,
+                    'Authorization': `JWT ${token}`
+                }
+            })
+            return await checkAuth(res, true)
+        } catch(err) {
+            console.log(err)
+        }
+    }
+
+    // ** удалить из сохраненных
+    productUnsave = async (id: string | number, token: IToken) => {
+        try {
+            let res = await fetch(endpoints.productSave(id), {
+                method: 'DELETE',
+                headers: {
+                    ...headers,
+                    'Authorization': `JWT ${token}`
+                }
+            })
+            return await checkAuth(res, true)
+        } catch(err) {
+            console.log(err)
+        }
+    }
 }
 
 

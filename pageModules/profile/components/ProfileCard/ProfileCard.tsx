@@ -13,8 +13,10 @@ import { useAppSelector } from '@/hooks/useTypesRedux';
 
 const ProfileCard:FC<IUser> = ({
     avatar,
-    username
-    
+    username,
+    site,
+    about,
+    email
 }) => {
     const {placeholderColor} = useAppSelector(s => s)
 
@@ -47,18 +49,22 @@ const ProfileCard:FC<IUser> = ({
             <div className={styles.name}>
                 {username}
             </div>
-            <div className={styles.email}>somemail@mail.com</div>   
-            <div className={styles.site}>
-                <a href="www.mysite.com" target='_blank'>www.mysite.com</a>    
-            </div>   
-            <div className={styles.descr}>
-                <p>
-                    Lorem ipsum dolor, sit amet consectetur adipisicing elit. Quo delectus nesciunt eligendi atque quas iure eveniet quos, obcaecati amet quis? Sunt enim et suscipit aliquam, molestiae nostrum corrupti reprehenderit quibusdam.    
-                </p>    
-            </div>   
-            {/* <div className={styles.action}>
-                <Button text='Delete my account' variant='brown'/>
-            </div> */}
+            <div className={styles.email}>{email}</div>   
+            {
+                site && (
+                    <div className={styles.site}>
+                        <a href="www.mysite.com" target='_blank'>{site}</a>    
+                    </div>   
+                )
+            }
+           
+            {
+                about && (
+                    <div className={styles.descr}>
+                        <p>{about}</p> 
+                    </div>   
+                )
+            }
         </div>
     )
 }

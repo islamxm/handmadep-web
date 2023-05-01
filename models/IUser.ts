@@ -7,8 +7,9 @@ interface IUser {
     // lastname?: string,
     email?: string,
     id?: number
-    site?: URL | string,
-    descr?: string
+    site?: string,
+    about?: string,
+    image?: string
 }
 
 export default IUser;

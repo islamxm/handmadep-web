@@ -3,6 +3,7 @@ import Link from 'next/link';
 import {FC, useEffect, useState, useRef, memo} from 'react';
 import {IProduct} from '@/models/IProduct';
 import Image from 'next/image';
+import { useAppSelector, useAppDispatch } from '@/hooks/useTypesRedux';
 import {motion, AnimatePresence} from 'framer-motion';
 import {
     BsFillHeartFill,
@@ -22,13 +23,16 @@ import colors from '@/helpers/colors';
 import { useInView } from 'react-intersection-observer';
 import * as _ from 'lodash';
 import Router from 'next/router';
+import { useRouter } from 'next/router';
+import { updateAuthPopup, updateSignupPopup } from '@/store/actions';
+import ApiService from '@/service/apiService';
 
+const service = new ApiService()
 
 
 interface ITest extends IProduct {
     isLast?: boolean,
     newLimit?: (...args: any[]) => any,
-  
 } 
 
 const ProductItem = ({
@@ -47,6 +51,7 @@ const ProductItem = ({
         isLast,
         newLimit,
     } = data
+    const router = useRouter()
     const [randomHeight, setRandomHeight] = useState(150)
     const cardRef = useRef<HTMLDivElement | null>(null)
     const [liked, setLiked] = useState(false)
@@ -56,6 +61,11 @@ const ProductItem = ({
     const [bg, setBg] = useState('rgb(55, 29, 49)')
     const [loaded, setLoaded] = useState(false)
 
+    const dispatch = useAppDispatch()
+    const {token} = useAppSelector(s => s)
+    const {access} = token
+
+    const openAuth = () => dispatch(updateAuthPopup(true))
 
     useEffect(() => {
         setRandomHeight(_.random(150,350))
@@ -66,10 +76,17 @@ const ProductItem = ({
         setBg(colors[_.random(colors?.length - 1)])
     }, [])
 
+    useEffect(() => {
+        console.log(data?.is_favorited)
+        if(data) {
+            setPinned(data?.is_favorited ? true : false)
+        }
+     
+    }, [data])
 
     const bind = useDoubleTap((event) => {
-        setLiked(true)
-        setLikeLayer(true)
+        onLike && onLike()
+
       }, 350, {
         onSingleTap: () => {
             Router.push(`/itm/${id}`)
@@ -95,7 +112,77 @@ const ProductItem = ({
     }, [likeLayer])
 
 
+
+    const onShare = () => {
+        if(process?.browser) {
+            window.navigator.share({
+                url:window.location.origin + `/itm/${id}`,
+                title: title,  
+            })   
+        }
+    }
     
+
+    const onLike = () => {
+        // if(access && id) {
+        //     if(!liked) {
+        //         // setLikeLayer(true)
+        //         service.productLike(id, access).then(res => {
+        //             console.log(res)
+        //             if(res?.status === 201 || res?.status === 204) {
+        //                 setLikeLayer(true)
+        //                 setLiked(true)
+        //             } else {
+        //                 setLikeLayer(false)
+        //                 setLiked(false)
+        //             }
+        //         })
+        //     } else {
+        //         service.productUnlike(id, access).then(res => {
+        //             if(res?.status === 201 || res?.status === 204) {
+        //                 setLikeLayer(false)
+        //                 setLiked(false)
+        //             } else {
+        //                 setLikeLayer(true)
+        //                 setLiked(true)
+        //             }
+        //         })
+        //         // setLikeLayer(false)
+        //     }
+        //     // setLiked(s => !s)
+        // } else {
+        //     openAuth()
+        // }
+
+        setLikeLayer(s => !s)
+        setLiked(s => !s)
+    }   
+
+    const onSave = () => {
+        if(access && id) {
+            if(!pinned) {
+                service.productSave(id, access).then(res => {
+                    console.log(res)
+                    if(res?.status === 201 || res?.status === 204) {
+                        setPinned(true)
+                    } else {
+                        setPinned(false)
+                    }
+                })
+            } else {
+                service.productUnsave(id, access).then(res => {
+                    console.log(res)
+                    if(res?.status === 201 || res?.status === 204) {
+                        setPinned(false)
+                    } else {
+                        setPinned(true)
+                    }
+                })
+            }
+        } else {
+            openAuth()
+        }
+    }
 
 
 
@@ -105,6 +192,7 @@ const ProductItem = ({
             ref={cardRef}
             >
             <div className={styles.id}>{id}</div>
+
             <motion.div 
                 // initial={{height: '100%'}}
                 // animate={{height: 0}}
@@ -131,15 +219,13 @@ const ProductItem = ({
                     <Button
                         round
                         variant={'white'}
-                        onClick={() => {
-                            !liked ? setLikeLayer(true) : setLikeLayer(false)
-                            setLiked(s => !s)
-                        }}
+                        onClick={onLike}
                         icon={liked ? <BsHeartFill color='var(--brown)'/> : <BsHeart/>}
                         />
                 </div>
                 <div className={styles.item}>
                     <Button
+                        onClick={onShare}
                         round
                         variant={'white'}
                         icon={<BsShareFill/>}
@@ -151,7 +237,7 @@ const ProductItem = ({
                     <Button
                         round
                         variant={'transparent'}
-                        onClick={() => setPinned(s => !s)}
+                        onClick={onSave}
                         icon={pinned ? <BsBookmarkFill size={25}/> : <BsBookmark size={25}/>}
                         />
                 </div>

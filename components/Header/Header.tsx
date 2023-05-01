@@ -12,26 +12,31 @@ import {GoSignIn} from 'react-icons/go';
 import ProfileMenu from './components/ProfileMenu/ProfileMenu';
 import Auth from '../Auth/Auth';
 import Signup from '../Signup/Signup';
-
-import { useAppSelector } from '@/hooks/useTypesRedux';
+import { updateAuthPopup, updateSignupPopup } from '@/store/actions';
+import { useAppSelector, useAppDispatch } from '@/hooks/useTypesRedux';
 import LogoutModal from './components/LogoutModal/LogoutModal';
 
 
 
 const Header:FC<headerTypes> = () => {
-    const [authModal, setAuthModal] = useState(false)
-    const [signupModal, setSignupModal] = useState(false)
+
     const [logoutModal, setLogoutModal] = useState(false)
 
-    const {token, userData} = useAppSelector(s => s)
+    const dispatch = useAppDispatch()
+    const {
+        token, 
+        userData,
+        authPopup,
+        signupPopup
+    } = useAppSelector(s => s)
 
     const {access} = token;
 
-    const openAuth = () => setAuthModal(true)
-    const closeAuth = () => setAuthModal(false)
+    const openAuth = () => dispatch(updateAuthPopup(true))
+    const closeAuth = () => dispatch(updateAuthPopup(false))
 
-    const openSignup = () => setSignupModal(true)
-    const closeSignup = () => setSignupModal(false)
+    const openSignup = () => dispatch(updateSignupPopup(true))
+    const closeSignup = () => dispatch(updateSignupPopup(false))
 
     const openLogoutModal = () => setLogoutModal(true)
     const closeLogoutModal = () => setLogoutModal(false)
@@ -39,11 +44,11 @@ const Header:FC<headerTypes> = () => {
     return (
         <div className={styles.wrapper}>
             <Auth 
-                open={authModal}
+                open={authPopup}
                 onCancel={closeAuth}
                 toggleModal={openSignup}/>
             <Signup 
-                open={signupModal}
+                open={signupPopup}
                 onCancel={closeSignup}
                 toggleModal={openAuth}/>
             <LogoutModal

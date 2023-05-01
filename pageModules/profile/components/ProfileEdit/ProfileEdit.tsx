@@ -15,13 +15,17 @@ const service = new ApiService()
 
 const ProfileEdit:FC<IUser> = ({
     username,
-    email
+    email,
+    about,
+    site
 }) => {
     const dispatch = useAppDispatch()
     const {token: {access}} = useAppSelector(s => s)
     const [load, setLoad] = useState(false)
     const [localUsername, setLocalUsername] = useState('')
     const [localEmail, setLocalEmail] = useState('')
+    const [localAbout, setLocalAbout] = useState('')
+    const [localSite, setLocalSite] = useState('')
     
 
     useEffect(() => {
@@ -31,7 +35,13 @@ const ProfileEdit:FC<IUser> = ({
         if(email) {
             setLocalEmail(email)
         }
-    }, [username, email])
+        if(about) {
+            setLocalAbout(about)
+        }
+        if(site) {
+            setLocalSite(site)
+        }
+    }, [username, email, about, site])
 
 
     const onSubmit = () => {
@@ -39,7 +49,10 @@ const ProfileEdit:FC<IUser> = ({
             setLoad(true)
             service.editSelf({
                 username: localUsername,
-                email: localEmail
+                email: localEmail,
+                about: localAbout,
+                site: localSite,
+                image: ''
             }, access).then(res => {
                 if(res?.id) {
                     dispatch(updateUserData(res))
@@ -73,11 +86,15 @@ const ProfileEdit:FC<IUser> = ({
                 </Col>
                 <Col span={24}>
                     <Input
+                        value={localSite}
+                        onChange={(e:React.ChangeEvent<HTMLInputElement>) => setLocalSite(e.target.value)}
                         placeholder='Your site'
                         />
                 </Col>
                 <Col span={24}>
                     <Text
+                        value={localAbout}
+                        onChange={(e:React.ChangeEvent<HTMLTextAreaElement>) => setLocalAbout(e.target.value)}
                         style={{height: 200}}
                         placeholder='About'
                         />

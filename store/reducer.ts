@@ -19,8 +19,13 @@ export interface IGlobalState {
     userData?: {
         username?: string,
         id?: number,
-        email?: string
-    } | null
+        email?: string,
+        about?: string,
+        image?: string,
+        site?: string
+    } | null,
+    authPopup: boolean,
+    signupPopup: boolean
 }
 
 
@@ -33,7 +38,9 @@ const globalState: IGlobalState = {
     },
     placeholderColor: colors[_.random(colors.length)],
     loading: false,
-    userData: null
+    userData: null,
+    authPopup: false,
+    signupPopup: false
 
 }
 
@@ -53,6 +60,16 @@ const reducer = (state = globalState, action: any) => {
             return {
                 ...state,
                 userData: action.data
+            }
+        case 'UPDATE_AUTH_POPUP':
+            return {
+                ...state,
+                authPopup: action.value
+            }
+        case 'UPDATE_SIGNUP_POPUP':
+            return {
+                ...state,
+                signupPopup: action.value
             }
         default:
             return state;

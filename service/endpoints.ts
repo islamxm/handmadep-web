@@ -32,5 +32,12 @@ export const endpoints = {
     //авторизация через соцсети
     cardsList: `${PATH}cards/`,
     //GET - получиение списка товаров
+    productSave: (id: string | number) => `${PATH}cards/${id}/favorite/`,
+    //POST
+    // DELETE
+    productLike: (id: string | number) => `${PATH}cards/${id}/likes/`,
+    //POST
+    //DELETE
+
 
 }
