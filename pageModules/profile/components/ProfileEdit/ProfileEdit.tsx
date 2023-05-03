@@ -58,7 +58,11 @@ const ProfileEdit:FC<IUser> = ({
                     dispatch(updateUserData(res))
                     notify('Success', 'SUCCESS')
                 } else {
-                    notify('Error', 'ERROR')
+                    if(typeof res === 'object') {
+                        for(let key in res) {
+                            notify(res[key]?.join(), 'ERROR')
+                        }
+                    }
                 }
             }).finally(() => {
                 setLoad(false)
@@ -93,6 +97,7 @@ const ProfileEdit:FC<IUser> = ({
                 </Col>
                 <Col span={24}>
                     <Text
+                        maxLength={300}
                         value={localAbout}
                         onChange={(e:React.ChangeEvent<HTMLTextAreaElement>) => setLocalAbout(e.target.value)}
                         style={{height: 200}}

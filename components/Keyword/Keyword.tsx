@@ -5,14 +5,14 @@ import Link from 'next/link';
 
 const Keyword:FC<{
     label?: string,
-    id?: string
+    id?: number
 }> = ({
     label,
     id
 }) => {
 
     return (
-        <Link className={styles.wrapper} href={'/'}>
+        <Link className={styles.wrapper} href={`/search/${id}`}>
             {label}
         </Link>
     )

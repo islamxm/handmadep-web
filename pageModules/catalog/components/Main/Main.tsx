@@ -3,13 +3,16 @@ import Slider from '../Slider/Slider';
 import Body from '../Body/Body';
 import {Row, Col} from 'antd';
 import { IProduct } from '@/models/IProduct';
-import {FC} from 'react';
+import {FC, useEffect} from 'react';
 
 
 const Main:FC<IProduct> = (props) => {
 
     const {cover_url} = props;
 
+    useEffect(() => {
+        console.log(props)
+    }, [props])
 
     return (
         <div className={styles.wrapper}>

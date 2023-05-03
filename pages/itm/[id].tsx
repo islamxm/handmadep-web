@@ -30,14 +30,6 @@ const ProductPage = ({data}: {data: IProduct}) => {
     const {token} = useAppSelector(s => s)
     
 
-    const updateData = () => {
-        if(token) {
-            // 
-        }
-    }
-
-    useEffect(() => console.log(data), [data])
-
     return (
         <ContentLayout>
             <Row gutter={[40,40]}>

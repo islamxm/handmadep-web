@@ -49,6 +49,8 @@ const ProductItem = ({
         title,
         views,
         isLast,
+        is_favorited,
+        is_liked,
         newLimit,
     } = data
     const router = useRouter()
@@ -65,6 +67,10 @@ const ProductItem = ({
     const {token} = useAppSelector(s => s)
     const {access} = token
 
+    useEffect(() => {
+        console.log(data)
+    }, [data])
+
     const openAuth = () => dispatch(updateAuthPopup(true))
 
     useEffect(() => {
@@ -77,12 +83,9 @@ const ProductItem = ({
     }, [])
 
     useEffect(() => {
-        console.log(data?.is_favorited)
-        if(data) {
-            setPinned(data?.is_favorited ? true : false)
-        }
-     
-    }, [data])
+        setPinned(is_favorited ? true : false)
+        setLiked(is_liked ? true : false)
+    }, [is_favorited, is_liked])
 
     const bind = useDoubleTap((event) => {
         onLike && onLike()

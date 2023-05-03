@@ -1,5 +1,5 @@
 import styles from './Text.module.scss';
-import {FC, useState, useRef} from 'react';
+import {FC, useState, useRef, useEffect} from 'react';
 import { textTypes } from './types';
 
 const Text:FC<textTypes> = (props) => {
@@ -7,6 +7,10 @@ const Text:FC<textTypes> = (props) => {
     const textRef = useRef<HTMLTextAreaElement>(null);
 
     const {value, placeholder, error} = props || {}
+
+    useEffect(() => {
+        !value ? setFocused(false) : setFocused(true)
+    }, [value])
     
     const onBlur = () => {
         !value ? setFocused(false) : setFocused(true)

@@ -13,13 +13,14 @@ export interface IProduct {
         shop_cover_url: string,
         shop_url: string
     },
-    tags?: number[],
+    tags?: {id: number, keyword: string}[],
     title?: string,
     views?: number 
     active?: boolean
 
     // ** свойства текущего состояния (нужно уточнить)
     is_favorited?: boolean,
+    is_liked?: boolean,
     last_updated?: any,
 }
 

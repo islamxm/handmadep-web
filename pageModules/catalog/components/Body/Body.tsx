@@ -9,6 +9,11 @@ import {BsHeart, BsHeartFill, BsShareFill, BsFlagFill} from 'react-icons/bs';
 import parse from 'html-react-parser';
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
+import { useAppSelector, useAppDispatch } from '@/hooks/useTypesRedux';
+import { updateAuthPopup, updateSignupPopup } from '@/store/actions';
+import ApiService from '@/service/apiService';
+
+const service = new ApiService()
 
 const Body:FC<IProduct> = ({
     cover_url,
@@ -23,14 +28,23 @@ const Body:FC<IProduct> = ({
     active,
 
     is_favorited,
-    last_updated
+    last_updated,
+    is_liked
 }) => { 
+    const dispatch = useAppDispatch()
+    const {token: {access}} = useAppSelector(s => s)
     const router = useRouter()
-    const [fav, setFav] = useState(false)
+    const [liked, setLiked] = useState(false)
+    const [pinned, setPinned] = useState(false)
+    const [likedLoad, setLikeLoad] = useState(false)
+    const [pinLoad, setPinLoad] = useState(false)
+
+    const openAuth = () => dispatch(updateAuthPopup(true))
 
     useEffect(() => {
-        setFav(is_favorited ? true : false)
-    }, [is_favorited])
+        setPinned(is_favorited ? true : false)
+        setLiked(is_liked ? true : false)
+    }, [is_favorited, is_liked])
 
 
     const onShare = () => {
@@ -41,16 +55,93 @@ const Body:FC<IProduct> = ({
         })
     }
 
+
+    const onLike = () => {
+        if(access && id) {
+            if(!liked) {
+                // setLikeLayer(true)
+                setLikeLoad(true)
+                service.productLike(id, access).then(res => {
+                    if(res?.status === 201 || res?.status === 204) {
+                        // setLikeLayer(true)
+                        setLiked(true)
+                    } else {
+                        // setLikeLayer(false)
+                        setLiked(false)
+                    }
+                }).finally(() => setLikeLoad(false))
+            } else {
+                setLikeLoad(true)
+                service.productUnlike(id, access).then(res => {
+                    if(res?.status === 201 || res?.status === 204) {
+                        // setLikeLayer(false)
+                        setLiked(false)
+                    } else {
+                        // setLikeLayer(true)
+                        setLiked(true)
+                    }
+                }).finally(() => setLikeLoad(false))
+                // setLikeLayer(false)
+            }
+            // setLiked(s => !s)
+        } else {
+            openAuth()
+        }
+    }   
+
+    const onSave = () => {
+        if(access && id) {
+            if(!pinned) {
+                setPinLoad(true)
+                service.productSave(id, access).then(res => {
+                    console.log(res)
+                    if(res?.status === 201 || res?.status === 204) {
+                        setPinned(true)
+                    } else {
+                        setPinned(false)
+                    }
+                }).finally(() => setPinLoad(false))
+            } else {
+                setPinLoad(true)
+                service.productUnsave(id, access).then(res => {
+                    console.log(res)
+                    if(res?.status === 201 || res?.status === 204) {
+                        setPinned(false)
+                    } else {
+                        setPinned(true)
+                    }
+                }).finally(() => setPinLoad(false))
+            }
+        } else {
+            openAuth()
+        }
+    }
+
+
     return (
         <div className={`${styles.wrapper} panel`}>
             <div className={styles.body}>
                 <div className={styles.action}>
                     <div className={styles.item}>
-                        <Button text='Save' variant={'brown'}/>
+                        {
+                            pinned ? (
+                                <Button
+                                    onClick={onSave} 
+                                    text='Saved' 
+                                    variant={'blue'}/> 
+                            ) : (
+                                <Button
+                                    onClick={onSave} 
+                                    text='Save' 
+                                    variant={'brown'}/>
+                            )
+                        }
+                        
                     </div>
                     <div className={styles.item}>
                         <Button
-                            icon={fav ? <BsHeartFill color='var(--brown)' size={25}/>  : <BsHeart size={25}/>}
+                            onClick={onLike}
+                            icon={liked ? <BsHeartFill color='var(--brown)' size={25}/>  : <BsHeart size={25}/>}
                             round
                             variant={'white'}
                             />
@@ -90,9 +181,10 @@ const Body:FC<IProduct> = ({
                             <div className={styles.keywords}>
                                 {
                                     tags?.map((item,index) => (
-                                        <div className={styles.keywords_item} key={index}>
+                                        <div className={styles.keywords_item} key={item.id}>
                                             <Keyword
-                                                label={item.toString()}
+                                                label={item.keyword}
+                                                id={item.id}
                                                 />
                                         </div>
                                     ))
