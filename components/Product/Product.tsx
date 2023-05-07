@@ -67,9 +67,6 @@ const ProductItem = ({
     const {token} = useAppSelector(s => s)
     const {access} = token
 
-    useEffect(() => {
-        console.log(data)
-    }, [data])
 
     const openAuth = () => dispatch(updateAuthPopup(true))
 

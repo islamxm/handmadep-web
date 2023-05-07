@@ -146,11 +146,11 @@ class ApiService {
 
 
     // ** Получить товары
-    getCardsList = async (page: number) => {
+    getCardsList = async (page: number, token?: IToken) => {
         try {
             let res = await fetch(endpoints.cardsList + `?p=${page}`, {
                 method: 'GET',
-                headers
+                headers: token ? {'Authorization': `JWT ${token}`} : {}
             })
             return await res?.json()
         } catch(err) {

@@ -8,23 +8,26 @@ import styles from '@/pageModules/home/home.module.scss';
 import { PulseLoader } from "react-spinners";
 import { IProduct } from "@/models/IProduct";
 import * as _ from 'lodash';
+import { useAppSelector } from "@/hooks/useTypesRedux";
 const service = new ApiService()
 
 
 
-// export const getServerSideProps = async () => {
-//     const res = await service.getCardsList(1)
-//     const data = await res?.results
+export const getServerSideProps = async () => {
+    
+    const res = await service.getCardsList(1)
+    const data = await res?.results
 
-//     return {
-//         props: {
-//           list: data
-//         }
-//     }
-// }
+    return {
+        props: {
+          list: data
+        }
+    }
+}
 
 
 const HomePage = ({list}: {list: any[]}) => { 
+  const {token: {access}} = useAppSelector(s => s)
   const [scrollY, setScrollY] = useState(0)
   const [height, setHeight] = useState(0)
   const box = useRef<HTMLDivElement | null>(null)
@@ -35,7 +38,14 @@ const HomePage = ({list}: {list: any[]}) => {
 
   const ref = useRef<HTMLDivElement | null>(null)
   
-  
+  useEffect(() => {
+    if(access) {
+      setCurrentPage(1)
+      service.getCardsList(1, access).then(res => {
+        setLocalList(res?.results)
+      })
+    }
+  }, [access])
 
 
   // ** пополнение локального списка и определение высоты контейнера
@@ -49,6 +59,13 @@ const HomePage = ({list}: {list: any[]}) => {
     }
   }, [list, box])
 
+  useEffect(() => {
+    if(localList) {
+      if(box?.current) {
+        setHeight(box?.current?.scrollHeight)
+      }
+    }
+  }, [box, localList])
 
   // ** перехват последнего элемента списка для догрузки
   useEffect(() => {
@@ -69,16 +86,29 @@ const HomePage = ({list}: {list: any[]}) => {
   // ** обновление списка
   const updateList = useCallback(() => {
     if(currentPage > 1) {
-      service.getCardsList(currentPage).then(res => {
-        if(res?.results?.length > 0) {
-          setLocalList(s => [...s, ...res?.results])
-        }
-        if(res?.results?.length < 20) {
-          setLoad(false)
-        }
-      })
+      if(access) {
+        service.getCardsList(currentPage, access).then(res => {
+          if(res?.results?.length > 0) {
+            setLocalList(s => [...s, ...res?.results])
+          }
+          if(res?.results?.length < 20) {
+            setLoad(false)
+          }
+        })
+      } else {
+        service.getCardsList(currentPage).then(res => {
+          if(res?.results?.length > 0) {
+            setLocalList(s => [...s, ...res?.results])
+          }
+          if(res?.results?.length < 20) {
+            setLoad(false)
+          }
+        })
+      }
+      
     }
-  }, [currentPage])
+    
+  }, [currentPage, access])
 
 
   // ** обновление списка
