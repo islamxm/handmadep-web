@@ -12,16 +12,16 @@ const service = new ApiService()
 
 
 
-// export const getServerSideProps = async () => {
-//     const res = await service.getCardsList(1)
-//     const data = await res?.results
+export const getServerSideProps = async () => {
+    const res = await service.getCardsList(1)
+    const data = await res
 
-//     return {
-//         props: {
-//           list: data
-//         }
-//     }
-// }
+    return {
+        props: {
+          list: data
+        }
+    }
+}
 
 
 const HomePage = ({list}: {list: any[]}) => { 
@@ -53,14 +53,12 @@ const HomePage = ({list}: {list: any[]}) => {
   // ** перехват последнего элемента списка для догрузки
   useEffect(() => {
       if(!ref.current) return;
-
       const observer = new IntersectionObserver(([entry]) => {
           if(entry?.isIntersecting) {
               setCurrentPage(s => s + 1)
               observer?.unobserve(entry?.target)
           }
       })
-
       observer.observe(ref.current)
   }, [localList])
 
@@ -70,10 +68,10 @@ const HomePage = ({list}: {list: any[]}) => {
   const updateList = useCallback(() => {
     if(currentPage > 1) {
       service.getCardsList(currentPage).then(res => {
-        if(res?.results?.length > 0) {
-          setLocalList(s => [...s, ...res?.results])
+        if(res?.length > 0) {
+          setLocalList(s => [...s, ...res])
         }
-        if(res?.results?.length < 20) {
+        if(res?.length < 20) {
           setLoad(false)
         }
       })
@@ -91,8 +89,10 @@ const HomePage = ({list}: {list: any[]}) => {
   return (
     <div ref={box} className={styles.wrapper}>
       <ContentLayout>
-        <List setCurrentPage={setCurrentPage} list={localList}/>
-        <div ref={ref} className={styles.load}>
+        <List 
+          setCurrentPage={setCurrentPage} 
+          list={localList}/>
+          <div ref={ref} className={styles.load}>
             <PulseLoader color="var(--text)"/>
           </div>
       </ContentLayout>
