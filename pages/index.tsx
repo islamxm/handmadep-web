@@ -14,20 +14,14 @@ const service = new ApiService()
 
 
 export const getServerSideProps = async () => {
-<<<<<<< HEAD
-    const res = await service.getCardsList(1)
-    const data = await res
-=======
-    
-    const res = await service.getCardsList(1)
-    const data = await res?.results
->>>>>>> faec670ec68fc27ed8266f4683bf7df1fcaef187
 
-    return {
-        props: {
-          list: data
-        }
-    }
+  const res = await service.getCardsList(1)
+  const data = await res?.results
+  return {
+      props: {
+        list: data
+      }
+  }
 }
 
 
@@ -89,20 +83,11 @@ const HomePage = ({list}: {list: any[]}) => {
   // ** обновление списка
   const updateList = useCallback(() => {
     if(currentPage > 1) {
-<<<<<<< HEAD
-      service.getCardsList(currentPage).then(res => {
-        if(res?.length > 0) {
-          setLocalList(s => [...s, ...res])
-        }
-        if(res?.length < 20) {
-          setLoad(false)
-        }
-      })
-=======
+
       if(access) {
         service.getCardsList(currentPage, access).then(res => {
           if(res?.results?.length > 0) {
-            setLocalList(s => [...s, ...res?.results])
+            setLocalList(s => [...s, ...res?.results?.map((i:any) => ({...i, height: _.random(150,350)}))])
           }
           if(res?.results?.length < 20) {
             setLoad(false)
@@ -111,15 +96,14 @@ const HomePage = ({list}: {list: any[]}) => {
       } else {
         service.getCardsList(currentPage).then(res => {
           if(res?.results?.length > 0) {
-            setLocalList(s => [...s, ...res?.results])
+            setLocalList(s => [...s, ...res?.results.map((i:any) => ({...i, height: _.random(150,350)}))])
           }
           if(res?.results?.length < 20) {
             setLoad(false)
           }
         })
       }
-      
->>>>>>> faec670ec68fc27ed8266f4683bf7df1fcaef187
+
     }
     
   }, [currentPage, access])

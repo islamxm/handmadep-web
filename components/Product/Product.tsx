@@ -31,6 +31,7 @@ const service = new ApiService()
 
 
 interface ITest extends IProduct {
+    height?: number
     isLast?: boolean,
     newLimit?: (...args: any[]) => any,
 } 
@@ -258,7 +259,7 @@ const ProductItem = ({
                         )
                     }
                 </AnimatePresence>
-                <div className={styles.image} style={{backgroundColor: bg, height: randomHeight}}>
+                <div className={styles.image} style={{backgroundColor: bg, height: data?.height}}>
                             <Image
                                 className={styles.image_el}
                                 // placeholder={'blur'}
