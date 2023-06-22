@@ -26,6 +26,8 @@ import Router from 'next/router';
 import { useRouter } from 'next/router';
 import { updateAuthPopup, updateSignupPopup } from '@/store/actions';
 import ApiService from '@/service/apiService';
+import LOCAL_STORAGE from '@/helpers/localStorage';
+
 
 const service = new ApiService()
 
@@ -55,7 +57,7 @@ const ProductItem = ({
         newLimit,
     } = data
     const router = useRouter()
-    const [randomHeight, setRandomHeight] = useState(150)
+    // const [randomHeight, setRandomHeight] = useState(150)
     const cardRef = useRef<HTMLDivElement | null>(null)
     const [liked, setLiked] = useState(false)
     const [pinned, setPinned] = useState(false)
@@ -71,9 +73,9 @@ const ProductItem = ({
 
     const openAuth = () => dispatch(updateAuthPopup(true))
 
-    useEffect(() => {
-        setRandomHeight(_.random(150,350))
-    }, [])
+    // useEffect(() => {
+    //     setRandomHeight(_.random(150,350))
+    // }, [])
 
     
     useEffect(() => {

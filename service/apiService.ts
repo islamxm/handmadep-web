@@ -239,6 +239,23 @@ class ApiService {
             console.log(err)
         }
     }
+
+
+    search = async (query_string: string) => {
+        try {
+            let res = await fetch(endpoints.search, {
+                method: 'POST',
+                headers: {
+                    ...headers,
+                },
+                body:JSON.stringify({query_string})
+            })
+
+            return await res?.json()
+        } catch(err) {
+            console.log(err)
+        }
+    }
 }
 
 

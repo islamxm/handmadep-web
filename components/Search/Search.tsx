@@ -1,12 +1,12 @@
 import styles from './Search.module.scss';
 import {BiSearch} from 'react-icons/bi'
 import {CgClose} from 'react-icons/cg';
-import { useState, FC } from 'react';
+import { useState, FC, useEffect } from 'react';
 import { searchItemType, searchTypes } from './types';
 import Button from '../Button/Button';
 import { Dropdown } from 'antd';
 import Result from './components/Result/Result';
-
+import ApiService from '@/service/apiService';
 const listMock:searchItemType[] = [
     {
         name: 'result 1'
@@ -19,6 +19,8 @@ const listMock:searchItemType[] = [
     }
 ]
 
+const service = new ApiService()
+
 
 
 
@@ -29,6 +31,14 @@ const Search:FC<searchTypes> = ({
     const [focused, setFocused] = useState(false)
     const [value, setValue] = useState('')
 
+
+    useEffect(() => {
+        if(value !== '') {
+            service.search(value).then(res => {
+                console.log(res)
+            })
+        }
+    }, [value])
 
 
     return (

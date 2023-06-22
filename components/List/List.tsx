@@ -5,6 +5,7 @@ import {IProduct} from '@/models/IProduct';
 import Product from '../Product/Product';
 import Image, { StaticImageData } from 'next/image';
 import pl from '@/public/assets/handmade-watermark.png';
+import { nanoid } from 'nanoid';
 // import Masonry, { ResponsiveMasonry } from 'react-responsive-masonry';
 
 // import {
@@ -62,6 +63,10 @@ const List:FC<{
         }
     }
 
+    useEffect(() => {
+        setLocalList(list)
+    }, [list])
+
     // useEffect(() => {
     //     // console.log(localList)
     //     if(list?.length > 0) {
@@ -100,10 +105,10 @@ const List:FC<{
                 rowGutter={20}
                 columnGutter={20}
                 columnWidth={itemWidth}
-                items={list}
-                itemKey={(item, index) => {
-                    return item.id
-                }} 
+                items={localList}
+                // itemKey={(item, index) => {
+                //     return item?
+                // }} 
                 overscanBy={5}
                 // className='sss'
                 render={Product}/>

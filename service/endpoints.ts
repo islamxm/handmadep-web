@@ -40,4 +40,7 @@ export const endpoints = {
     //DELETE
 
 
+
+    search: `${PATH}cards/search`
+
 }
