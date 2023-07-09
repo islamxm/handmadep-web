@@ -41,6 +41,6 @@ export const endpoints = {
 
 
 
-    search: `${PATH}cards/search`
+    search: `${PATH}cards/search/`
 
 }

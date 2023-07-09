@@ -7,6 +7,8 @@ import Button from '../Button/Button';
 import { Dropdown } from 'antd';
 import Result from './components/Result/Result';
 import ApiService from '@/service/apiService';
+import { useAppSelector } from '@/hooks/useTypesRedux';
+import { useDebounce } from 'usehooks-ts';
 const listMock:searchItemType[] = [
     {
         name: 'result 1'
@@ -30,15 +32,20 @@ const Search:FC<searchTypes> = ({
 }) => {
     const [focused, setFocused] = useState(false)
     const [value, setValue] = useState('')
+    const {token} = useAppSelector(s => s)
+    const debValue = useDebounce(value, 500)
 
 
     useEffect(() => {
-        if(value !== '') {
-            service.search(value).then(res => {
+        if(debValue !== '') {
+            service.search(debValue).then(res => {
                 console.log(res)
             })
         }
-    }, [value])
+    }, [debValue])
+
+
+
 
 
     return (
