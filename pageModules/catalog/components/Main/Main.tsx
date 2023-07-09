@@ -13,7 +13,7 @@ const Main:FC<IProduct> = (props) => {
     
     return (
         <div className={styles.wrapper}>
-            <Row gutter={[20,20]}>
+            <Row gutter={[10,10]}>
                 <Col md={12} span={24}>
                     <Slider
                         images={cover_url ? [cover_url] : []}

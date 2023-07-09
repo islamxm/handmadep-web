@@ -24,7 +24,7 @@
             }
 
             .descr {
-
+                word-wrap: break-word;
             }
 
             .keywords {
@@ -58,9 +58,9 @@
         .body {
 
             .action {
-                .item.save {
-                    display: none;
-                }
+                // .item.save {
+                //     display: none;
+                // }
             }
 
             .main {
@@ -81,9 +81,9 @@
                         }
                     }
 
-                    .button.button_save {
-                        display: block;
-                    }
+                    // .button.button_save {
+                    //     display: block;
+                    // }
                 }
             }
         }
