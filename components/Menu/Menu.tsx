@@ -59,7 +59,7 @@ const Menu = () => {
                 </li>
                 <li className={styles.item}>
                     {
-                        token ? (
+                        token?.access ? (
                             <Avatar
                                 label={userData?.username}
                                 size={45}

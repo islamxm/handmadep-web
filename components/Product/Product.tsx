@@ -96,6 +96,7 @@ const ProductItem = ({
         } 
       });
 
+      useEffect(() => console.log(token), [token])
       
 
     useEffect(() => {
@@ -127,38 +128,39 @@ const ProductItem = ({
     
 
     const onLike = () => {
-        // if(access && id) {
-        //     if(!liked) {
-        //         // setLikeLayer(true)
-        //         service.productLike(id, access).then(res => {
-        //             console.log(res)
-        //             if(res?.status === 201 || res?.status === 204) {
-        //                 setLikeLayer(true)
-        //                 setLiked(true)
-        //             } else {
-        //                 setLikeLayer(false)
-        //                 setLiked(false)
-        //             }
-        //         })
-        //     } else {
-        //         service.productUnlike(id, access).then(res => {
-        //             if(res?.status === 201 || res?.status === 204) {
-        //                 setLikeLayer(false)
-        //                 setLiked(false)
-        //             } else {
-        //                 setLikeLayer(true)
-        //                 setLiked(true)
-        //             }
-        //         })
-        //         // setLikeLayer(false)
-        //     }
-        //     // setLiked(s => !s)
-        // } else {
-        //     openAuth()
-        // }
+        if(access && id) {
+            if(!liked) {
+                // setLikeLayer(true)
+                service.productLike(id, access).then(res => {
+                    console.log(res)
+                    if(res?.status === 201 || res?.status === 204) {
+                        setLikeLayer(true)
+                        setLiked(true)
+                    } else {
+                        setLikeLayer(false)
+                        setLiked(false)
+                    }
+                })
+            } else {
+                service.productUnlike(id, access).then(res => {
+                    console.log(res)
+                    if(res?.status === 201 || res?.status === 204) {
+                        setLikeLayer(false)
+                        setLiked(false)
+                    } else {
+                        setLikeLayer(true)
+                        setLiked(true)
+                    }
+                })
+                // setLikeLayer(false)
+            }
+            // setLiked(s => !s)
+        } else {
+            openAuth()
+        }
 
-        setLikeLayer(s => !s)
-        setLiked(s => !s)
+        // setLikeLayer(s => !s)
+        // setLiked(s => !s)
     }   
 
     const onSave = () => {
