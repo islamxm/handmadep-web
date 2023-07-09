@@ -122,7 +122,7 @@ const Body:FC<IProduct> = ({
         <div className={`${styles.wrapper} panel`}>
             <div className={styles.body}>
                 <div className={styles.action}>
-                    <div className={styles.item}>
+                    <div className={`${styles.item} ${styles.save}`}>
                         {
                             pinned ? (
                                 <Button
@@ -204,6 +204,21 @@ const Body:FC<IProduct> = ({
                                         blank
                                         text='Link'
                                         />
+                                </div>
+                                <div className={`${styles.button} ${styles.button_save}`}>
+                                    {
+                                        pinned ? (
+                                            <Button
+                                                onClick={onSave} 
+                                                text='Saved' 
+                                                variant={'blue'}/> 
+                                        ) : (
+                                            <Button
+                                                onClick={onSave} 
+                                                text='Save' 
+                                                variant={'brown'}/>
+                                        )
+                                    }
                                 </div>
                             </div>
                         </Col>

@@ -10,13 +10,14 @@ const Avatar:FC<avatarTypes> = ({
     image,
     isActive,
     style,
-    label
+    label,
+    onClick
 }) => {
     const {placeholderColor} = useAppSelector(s => s)
 
 
     return (
-        <div style={{...style, width: size, height: size}} className={`${styles.wrapper} ${isActive ? styles.active : ''}`}>
+        <div onClick={onClick} style={{...style, width: size, height: size}} className={`${styles.wrapper} ${isActive ? styles.active : ''}`}>
             <div className={styles.image}>
                 <div className={styles.bg} style={{backgroundColor: placeholderColor}}></div>
                 {

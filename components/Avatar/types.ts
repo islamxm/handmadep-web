@@ -6,5 +6,6 @@ export type avatarTypes = {
     size?: number | string,
     isActive?: boolean,
     style?: CSSProperties,
-    label?: string
+    label?: string,
+    onClick?: (...args: any[]) => any
 }

@@ -22,7 +22,9 @@ export interface IGlobalState {
         email?: string,
         about?: string,
         image?: string,
-        site?: string
+        site?: string,
+        avatar_url?: string,
+        avatar_image?: any
     } | null,
     authPopup: boolean,
     signupPopup: boolean

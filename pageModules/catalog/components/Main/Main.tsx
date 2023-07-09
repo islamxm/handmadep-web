@@ -10,19 +10,16 @@ const Main:FC<IProduct> = (props) => {
 
     const {cover_url} = props;
 
-    useEffect(() => {
-        console.log(props)
-    }, [props])
-
+    
     return (
         <div className={styles.wrapper}>
             <Row gutter={[20,20]}>
-                <Col span={12}>
+                <Col md={12} span={24}>
                     <Slider
                         images={cover_url ? [cover_url] : []}
                         />
                 </Col>
-                <Col span={12}>
+                <Col md={12} span={24}>
                     <Body {...props}/>
                 </Col>
             </Row>

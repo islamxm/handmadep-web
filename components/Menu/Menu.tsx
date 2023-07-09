@@ -4,8 +4,24 @@ import {AiFillHome, AiOutlineSearch, AiOutlinePlus} from 'react-icons/ai';
 import {BsBellFill} from 'react-icons/bs';
 import {ImEnter} from 'react-icons/im';
 import Avatar from '../Avatar/Avatar';
+import { useAppDispatch, useAppSelector } from '@/hooks/useTypesRedux';
+import { updateAuthPopup } from '@/store/actions';
+import {useEffect} from 'react';
+import Router from 'next/router';
+
 
 const Menu = () => {
+    const {token, userData} = useAppSelector(s => s)
+    const dispatch = useAppDispatch()
+
+    const openAuth = () => dispatch(updateAuthPopup(true))
+    const closeAuth = () => dispatch(updateAuthPopup(false))
+
+    useEffect(() => {
+        console.log(userData)
+    }, [userData])
+    
+
 
     return (
         <div className={styles.wrapper}>
@@ -42,11 +58,24 @@ const Menu = () => {
                         />
                 </li>
                 <li className={styles.item}>
-                    <Button
-                        round
-                        variant={'transparent'}
-                        icon={<ImEnter size={25}/>}
-                        />
+                    {
+                        token ? (
+                            <Avatar
+                                label={userData?.username}
+                                size={45}
+                                image={userData?.avatar_url}
+                                onClick={() => Router.push('/profile')}
+                                />
+                        ) : (
+                            <Button
+                                round
+                                onClick={openAuth}
+                                variant={'transparent'}
+                                icon={<ImEnter size={25}/>}
+                                />
+                        )
+                    }
+
                 </li>
             </ul>
         </div>
