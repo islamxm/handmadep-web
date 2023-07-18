@@ -78,9 +78,9 @@ const ProductItem = ({
     // }, [])
 
     
-    useEffect(() => {
-        setBg(colors[_.random(colors?.length - 1)])
-    }, [])
+    // useEffect(() => {
+    //     setBg(colors[_.random(colors?.length - 1)])
+    // }, [])
 
     useEffect(() => {
         setPinned(is_favorited ? true : false)
@@ -96,7 +96,6 @@ const ProductItem = ({
         } 
       });
 
-      useEffect(() => console.log(token), [token])
       
 
     useEffect(() => {
@@ -196,15 +195,8 @@ const ProductItem = ({
             className={`${styles.wrapper} ${loaded ? styles.loaded : ''}`}
             ref={cardRef}
             >
-            <div className={styles.id}>{id}</div>
-
+{/* 
             <motion.div 
-                // initial={{height: '100%'}}
-                // animate={{height: 0}}
-                // transition={{
-                //     duration: 1.5,
-                //     ease: 'easeInOut'
-                // }}
                 initial='hidden'
                 whileInView={'visible'}
                 variants={{
@@ -218,8 +210,8 @@ const ProductItem = ({
                     },
                 }}
                 viewport={{once: true}}
-                className={styles.layer}></motion.div>
-            <div className={styles.opts}>
+                className={styles.layer}></motion.div> */}
+            {/* <div className={styles.opts}>
                 <div className={styles.item}>
                     <Button
                         round
@@ -246,9 +238,9 @@ const ProductItem = ({
                         icon={pinned ? <BsBookmarkFill size={25}/> : <BsBookmark size={25}/>}
                         />
                 </div>
-            </div>
+            </div> */}
             <div className={styles.body} {...bind}>
-                <AnimatePresence>
+                {/* <AnimatePresence>
                     {
                         likeLayer && (
                             <motion.div 
@@ -262,7 +254,7 @@ const ProductItem = ({
                             </motion.div>
                         )
                     }
-                </AnimatePresence>
+                </AnimatePresence> */}
                 <div className={styles.image} style={{backgroundColor: bg, height: data?.height}}>
                             <Image
                                 className={styles.image_el}

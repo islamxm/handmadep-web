@@ -103,9 +103,7 @@ const HomePage = ({list}: {list: any[]}) => {
           }
         })
       }
-
     }
-    
   }, [currentPage, access])
 
 
@@ -113,7 +111,6 @@ const HomePage = ({list}: {list: any[]}) => {
   useEffect(() => {
     updateList()
   }, [currentPage])
-
 
 
   return (
@@ -127,7 +124,6 @@ const HomePage = ({list}: {list: any[]}) => {
           </div>
       </ContentLayout>
     </div>
-    
   )
 }
 

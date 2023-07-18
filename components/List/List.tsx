@@ -87,7 +87,10 @@ const List:FC<{
                     items: localList,
                     overscanBy: 5,
                     resizeObserver,
-                    render: Product
+                    render: Product,
+                    itemKey(data, index) {
+                        return data?.id
+                    },
                 })
             }
             {/* <Masonry
