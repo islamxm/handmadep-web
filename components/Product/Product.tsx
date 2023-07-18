@@ -189,7 +189,7 @@ const ProductItem = ({
         }
     }
 
-
+    
 
     return (
         <motion.div 
