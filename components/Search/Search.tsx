@@ -64,15 +64,15 @@ const Search:FC<searchTypes> = ({
 
     const goToKeywordPage = (e: React.KeyboardEvent<HTMLInputElement>) => {
         if(e.which === 13 && e.key === 'Enter') {
-            if(debValue?.length >= 3) {
-                Router.push(`/search/${debValue}`)
+            if(value?.length >= 3) {
+                Router.push(`/search/${value}`)
             }
         }
     }
 
     const goToKeywordPageClick = () => {
-        if(debValue?.length >= 3) {
-            Router.push(`/search/${debValue}`)
+        if(value?.length >= 3) {
+            Router.push(`/search/${value}`)
         }
     }
 

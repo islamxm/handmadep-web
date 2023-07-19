@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import ApiService from "@/service/apiService";
 import PageTitle from "@/components/PageTitle/PageTitle";
 import { useAppSelector } from "@/hooks/useTypesRedux";
+import * as _ from 'lodash';
 
 const service = new ApiService()
 
@@ -17,7 +18,7 @@ const KeywordPage = () => {
     useEffect(() => {
         if(query?.keyword && typeof query?.keyword === 'string') {
             service.search(query?.keyword).then(res => {
-                setList(res)
+                setList(res?.map((i: any) => ({...i, height: _.random(150,350)})))
             })
         } else {
             setList([])
