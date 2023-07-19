@@ -5,6 +5,9 @@
     transition: all .3s ease;
     cursor: pointer;
     padding: 10px;
+    overflow: hidden;
+    max-width: 100%;
+
 
     &:hover {
         background-color: var(--bisq);

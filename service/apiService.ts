@@ -247,6 +247,7 @@ class ApiService {
                 method: 'POST',
                 headers: {
                     ...headers,
+                    // 'Authorization': `JWT ${token}`
                 },
                 body:JSON.stringify({query_string})
             })

@@ -12,7 +12,7 @@ const Keyword:FC<{
 }) => {
 
     return (
-        <Link className={styles.wrapper} href={`/search/${id}`}>
+        <Link className={styles.wrapper} href={`/search/${label}`}>
             {label}
         </Link>
     )

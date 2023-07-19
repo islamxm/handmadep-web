@@ -6,15 +6,20 @@ import Card from '../Card/Card';
 import {Row, Col} from 'antd';
 
 
-const Result:FC<resultType> = ({
+const Result:FC<{items: any[], width: number}> = ({
     items,
+    width
 }) => {
 
+    if(items?.length === 0) {
+        return null
+    } 
+    
     return (
-        <div className={styles.wrapper}>
+        <div style={{width: width}} className={styles.wrapper}>
             <div className={styles.main}>
                 {
-                    items?.map((item,index) => (
+                    items?.length > 0 && items?.map((item: any,index: number) => (
                         <Item {...item} key={index}/>
                     ))
                 }
