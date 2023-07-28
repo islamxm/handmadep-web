@@ -5,6 +5,7 @@ import {IProduct} from '@/models/IProduct';
 import Image from 'next/image';
 import { useAppSelector, useAppDispatch } from '@/hooks/useTypesRedux';
 import {motion, AnimatePresence} from 'framer-motion';
+import { useLongPress } from 'use-long-press';
 import {
     BsFillHeartFill,
     BsFillPinAngleFill,
@@ -124,6 +125,10 @@ const ProductItem = ({
             })   
         }
     }
+
+    const openProductModal = useLongPress(() => {
+        console.log('long press')
+    })
     
 
     const onLike = () => {
@@ -194,6 +199,7 @@ const ProductItem = ({
         <motion.div 
             className={`${styles.wrapper} ${loaded ? styles.loaded : ''}`}
             ref={cardRef}
+            {...openProductModal}
             >
 {/* 
             <motion.div 

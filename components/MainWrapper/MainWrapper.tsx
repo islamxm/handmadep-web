@@ -3,7 +3,7 @@ import { useEffect } from "react";
 import ApiService from "@/service/apiService";
 import { updateUserData } from "@/store/actions";
 import { Cookies } from "typescript-cookie";
-
+import ProductModal from "@/popups/ProductModal/ProductModal";
 
 const service = new ApiService()
 const MainWrapper = ({
@@ -35,6 +35,11 @@ const MainWrapper = ({
 
     return (
         <>
+
+            <ProductModal
+                open
+                />
+
             {children}
         </>
     )

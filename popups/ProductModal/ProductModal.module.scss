@@ -1,0 +1,31 @@
+.wrapper {
+
+    .top {
+        display: flex;
+        align-items: center;
+        justify-content: flex-start;
+
+    }
+
+    .image {
+        min-height: 200px;
+        border-radius: 10px;
+        background-color: bisque;
+    }
+
+    .name {
+        font-size: 20px;
+        font-weight: 500;
+        overflow: hidden;
+    }
+
+    .action {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+
+        .item {
+
+        }
+    }
+}

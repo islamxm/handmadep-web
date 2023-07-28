@@ -13,16 +13,17 @@ const service = new ApiService()
 
 
 
-export const getServerSideProps = async () => {
+// export const getServerSideProps = async () => {
 
-  const res = await service.getCardsList(1)
-  const data = await res?.results
-  return {
-      props: {
-        list: data
-      }
-  }
-}
+//   const res = await service.getCardsList(1)
+//   const data = await res?.results
+  
+//   return {
+//       props: {
+//         list: data
+//       }
+//   }
+// }
 
 
 const HomePage = ({list}: {list: any[]}) => { 
@@ -41,6 +42,7 @@ const HomePage = ({list}: {list: any[]}) => {
     if(access) {
       setCurrentPage(1)
       service.getCardsList(1, access).then(res => {
+        console.log(res)
         setLocalList(res?.results)
       })
     }

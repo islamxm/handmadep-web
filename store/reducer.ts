@@ -27,7 +27,8 @@ export interface IGlobalState {
         avatar_image?: any
     } | null,
     authPopup: boolean,
-    signupPopup: boolean
+    signupPopup: boolean,
+    currentProduct: any
 }
 
 
@@ -42,7 +43,8 @@ const globalState: IGlobalState = {
     loading: false,
     userData: null,
     authPopup: false,
-    signupPopup: false
+    signupPopup: false,
+    currentProduct: null
 
 }
 
@@ -72,6 +74,11 @@ const reducer = (state = globalState, action: any) => {
             return {
                 ...state,
                 signupPopup: action.value
+            }
+        case 'UPDATE_CURRENT_PRODUCT':
+            return {
+                ...state,
+                currentProduct: action.value
             }
         default:
             return state;

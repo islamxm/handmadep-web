@@ -3,3 +3,4 @@ export const updateLoading = (loading: boolean) => ({type: 'UPDATE_LOADING', loa
 export const updateUserData = (data: any) => ({type: 'UPDATE_USER_DATA', data})
 export const updateAuthPopup = (value: boolean) => ({type: 'UPDATE_AUTH_POPUP', value})
 export const updateSignupPopup = (value: boolean) => ({type: 'UPDATE_SIGNUP_POPUP', value})
+export const updateCurrentProduct = (value: any) => ({type: 'UPDATE_CURRENT_PRODUCT', value})
