@@ -25,7 +25,7 @@ import { useInView } from 'react-intersection-observer';
 import * as _ from 'lodash';
 import Router from 'next/router';
 import { useRouter } from 'next/router';
-import { updateAuthPopup, updateSignupPopup } from '@/store/actions';
+import { updateAuthPopup, updateCurrentProduct, updateSignupPopup } from '@/store/actions';
 import ApiService from '@/service/apiService';
 import LOCAL_STORAGE from '@/helpers/localStorage';
 
@@ -128,6 +128,7 @@ const ProductItem = ({
 
     const openProductModal = useLongPress(() => {
         console.log('long press')
+        dispatch(updateCurrentProduct(data))
     })
     
 
