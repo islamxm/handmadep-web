@@ -93,7 +93,7 @@ const ProductItem = ({
 
       }, 350, {
         onSingleTap: () => {
-            // Router.push(`/itm/${id}`)
+            Router.push(`/itm/${id}`)
         } 
       });
 

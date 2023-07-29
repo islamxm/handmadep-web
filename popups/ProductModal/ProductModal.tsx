@@ -5,6 +5,7 @@ import Avatar from '@/components/Avatar/Avatar';
 import UserBadge from '@/components/UserBadge/UserBadge';
 import Image from 'next/image';
 import { useAppSelector, useAppDispatch } from '@/hooks/useTypesRedux';
+
 import {
     BsFillHeartFill,
     BsFillPinAngleFill,
@@ -132,15 +133,20 @@ const ProductModal:FC<I & ModalFuncProps> = (props) => {
                 </Col>
                 <Col span={24}>
                     <div className={styles.image}>
-                        <Image
-                            src={cover_url}
-                            loader={(p) => {
-                                return p?.src ? p?.src : ''
-                            }} 
-                            width={200}
-                            height={200}
-                            alt=''
-                            />
+                        {
+                            cover_url && (
+                                <Image
+                                    src={cover_url}
+                                    loader={(p) => {
+                                        return p?.src ? p?.src : ''
+                                    }} 
+                                    width={200}
+                                    height={200}
+                                    alt=''
+                                    />
+                            )
+                        }
+                        
                     </div>
                 </Col>
                 <Col span={24}>
