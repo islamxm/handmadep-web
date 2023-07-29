@@ -93,7 +93,7 @@ const ProductItem = ({
 
       }, 350, {
         onSingleTap: () => {
-            Router.push(`/itm/${id}`)
+            // Router.push(`/itm/${id}`)
         } 
       });
 
@@ -200,7 +200,7 @@ const ProductItem = ({
         <motion.div 
             className={`${styles.wrapper} ${loaded ? styles.loaded : ''}`}
             ref={cardRef}
-            {...openProductModal}
+            {...openProductModal()}
             >
 {/* 
             <motion.div 

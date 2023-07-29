@@ -12,7 +12,7 @@ const MainWrapper = ({
     children?: React.ReactNode
 }) => {
     const dispatch = useAppDispatch();
-    const {token: {access}} = useAppSelector(s => s)
+    const {token: {access}, currentProduct} = useAppSelector(s => s)
 
     useEffect(() => {
         if(access) {
@@ -37,7 +37,7 @@ const MainWrapper = ({
         <>
 
             <ProductModal
-                open
+                open={currentProduct}
                 />
 
             {children}

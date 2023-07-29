@@ -11,6 +11,13 @@
         min-height: 200px;
         border-radius: 10px;
         background-color: bisque;
+
+        img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            display: flex;
+        }
     }
 
     .name {
@@ -22,10 +29,12 @@
     .action {
         display: flex;
         align-items: center;
-        justify-content: space-between;
-
+        justify-content: flex-end;
+        margin-left: -5px;
+        margin-right: -5px;
+        
         .item {
-
+            margin: 0 5px;
         }
     }
 }

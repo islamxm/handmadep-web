@@ -32,10 +32,16 @@ const Header:FC<headerTypes> = () => {
 
     const {access} = token;
 
-    const openAuth = () => dispatch(updateAuthPopup(true))
+    const openAuth = () => {
+        dispatch(updateAuthPopup(true))
+        dispatch(updateSignupPopup(false))
+    }
     const closeAuth = () => dispatch(updateAuthPopup(false))
 
-    const openSignup = () => dispatch(updateSignupPopup(true))
+    const openSignup = () => {
+        dispatch(updateSignupPopup(true))
+        dispatch(updateAuthPopup(false))
+    }
     const closeSignup = () => dispatch(updateSignupPopup(false))
 
     const openLogoutModal = () => setLogoutModal(true)

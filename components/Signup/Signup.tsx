@@ -54,7 +54,8 @@ const Signup:FC<IAuthModal> = (props) => {
             re_password: repeatPassword,
             username
         }).then(res => {
-            if(res?.status === 200) {
+            console.log(res)
+            if(res?.status === 200 || res?.status === 201) {
                 notify('Success', 'SUCCESS')
                 toggleModal()
             } else {
