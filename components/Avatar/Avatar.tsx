@@ -19,7 +19,7 @@ const Avatar:FC<avatarTypes> = ({
     return (
         <div onClick={onClick} style={{...style, width: size, height: size}} className={`${styles.wrapper} ${isActive ? styles.active : ''}`}>
             <div className={styles.image}>
-                <div className={styles.bg} style={{backgroundColor: placeholderColor}}></div>
+                <div className={styles.bg} style={{backgroundColor: placeholderColor || 'var(--brown)'}}></div>
                 {
                     image ? (
                         <Image 

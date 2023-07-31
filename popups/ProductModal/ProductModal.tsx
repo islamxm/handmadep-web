@@ -66,7 +66,7 @@ const ProductModal:FC<I & ModalFuncProps> = (props) => {
 
 
     const getData = () => {
-        if(id && access) {
+        if(id) {
             service.getProduct(id).then(res => {
                 console.log(res)
                 setData(res)

@@ -38,15 +38,15 @@ const HomePage = ({list}: {list: any[]}) => {
 
   const ref = useRef<HTMLDivElement | null>(null)
   
-  useEffect(() => {
-    if(access) {
-      setCurrentPage(1)
-      service.getCardsList(1, access).then(res => {
-        console.log(res)
-        setLocalList(res?.results)
-      })
-    }
-  }, [access])
+  // useEffect(() => {
+  //   if(access) {
+  //     setCurrentPage(1)
+  //     service.getCardsList(1, access).then(res => {
+  //       console.log(res)
+  //       setLocalList(res?.results)
+  //     })
+  //   }
+  // }, [access])
 
 
   // ** пополнение локального списка и определение высоты контейнера
