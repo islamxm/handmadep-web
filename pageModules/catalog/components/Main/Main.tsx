@@ -8,7 +8,7 @@ import {FC, useEffect} from 'react';
 
 const Main:FC<IProduct> = (props) => {
 
-    const {cover_url} = props;
+    const {cover_url, title} = props;
 
     
     return (
@@ -16,6 +16,7 @@ const Main:FC<IProduct> = (props) => {
             <Row gutter={[10,10]}>
                 <Col md={12} span={24}>
                     <Slider
+                        title={title}
                         images={cover_url ? [cover_url] : []}
                         />
                 </Col>

@@ -12,9 +12,11 @@ const testImgs = [img1, img2];
 
 
 const Slider:FC<{
-    images?: string[]
+    images?: string[],
+    title?: string
 }> = ({
-    images
+    images,
+    title
 }) => {
 
 
@@ -45,7 +47,8 @@ const Slider:FC<{
                                         unoptimized 
                                         width={350}
                                         height={350}
-                                        alt=''/>
+                                        alt={title ?? ''}
+                                        />
                                     </a>
                                 </FancyboxWrapper>
                                 

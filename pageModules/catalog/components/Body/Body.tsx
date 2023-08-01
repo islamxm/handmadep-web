@@ -215,6 +215,7 @@ const Body:FC<IProduct> = ({
                                     <Button
                                         link={shop?.shop_url}
                                         blank
+                                        
                                         text={width > 768 ? 'Link' : undefined}
                                         round={width <= 768}
                                         icon={width <= 768 && <BiLinkExternal/>}

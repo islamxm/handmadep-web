@@ -12,6 +12,7 @@ import { IProduct } from "@/models/IProduct";
 import { useAppSelector } from "@/hooks/useTypesRedux";
 import { useRouter } from "next/router";
 import * as _ from 'lodash'
+import Head from "next/head";
 const service = new ApiService()
 
 
@@ -31,7 +32,7 @@ export const getServerSideProps:GetServerSideProps<{data: IProduct}> = async (co
 
 const ProductPage = ({data}: {data: IProduct}) => {
     const {token: {access}} = useAppSelector(s => s)
-    const {query} = useRouter()
+    const {query, asPath} = useRouter()
     const [localData, setLocalData] = useState<any>()
     
     const [smList, setSmList] = useState<any[]>([])
@@ -42,29 +43,36 @@ const ProductPage = ({data}: {data: IProduct}) => {
                 if(res?.id) setLocalData(res)
                 console.log('GET PRODUCT EFFECT')
             })
-
-            
         }
         if(query && query?.id && typeof query?.id === 'string') {
             service.getSimilarProducts(query?.id).then(res => {
-                
                 setSmList(s => [...s, ...res?.results?.map((i:any) => ({...i, height: _.random(150,350)}))])
             })
         }
     }, [query, access])
 
 
-
-
     useEffect(() => {
         if(data) setLocalData(data)
     }, [data])
 
+    
 
+    return (    
 
-
-    return (
         <ContentLayout>
+            <Head>
+                <title>{localData?.title}</title>
+                <meta name="description" content={localData?.description}></meta>
+                <meta property="og:description" content={localData?.description}></meta>
+                <meta property="og:title" content={localData?.description}></meta>
+                <meta property="og:url" content={process?.browser && window ? window?.location?.href : ''}></meta>
+                <link rel="canonical" href={process?.browser && window ? window?.location?.href : ''} />
+                <meta name="keywords" content={localData?.tags?.map((i:any) => i?.keyword)?.join(',')}/>
+                <meta property="og:type" content="product"/>
+                <meta property="og:image" content={localData?.cover_url}/>
+                <meta property="og:image:alt" content={localData?.title}/>
+            </Head>
             <Row gutter={[40,40]}>
                 <Col span={24}>
                     <Main {...localData}/>

@@ -163,7 +163,7 @@ const Button:FC<buttonTypes> = ({
         <>
             {
                 link && !blank ? (
-                    <Link href={link} style={style} className={`${styles.button} ${switchVariant(variant)} ${load ? styles.load : ''} ${round ? styles.round : ''} ${disabled ? styles.disabled : ''}`}>
+                    <Link rel={'nofollow'} href={link} style={style} className={`${styles.button} ${switchVariant(variant)} ${load ? styles.load : ''} ${round ? styles.round : ''} ${disabled ? styles.disabled : ''}`}>
                         <div className={styles.load}><LoadingOutlined size={35} color={color}/></div>   
                         {
                             before ? (
