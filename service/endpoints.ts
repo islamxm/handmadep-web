@@ -41,6 +41,10 @@ export const endpoints = {
 
 
 
+    getSimilarProducts: `${PATH}cards/get_similar_cards`,
+
+
+
     search: `${PATH}cards/search/`
 
 }

@@ -70,14 +70,20 @@
                 }
 
                 .ex {
-                    flex-wrap: wrap;
+                    // flex-wrap: wrap;
+                    align-items: center;
+                    justify-content: flex-start;
+
+                    .author {
+                        width: 100%;
+                    }
 
                     .button {
-                        width: 100%;
-                        margin-top: 20px;
+                        // width: 100%;
+                        margin-left: 10px;
 
                         a, button {
-                            width: 100%;
+                            // width: 100%;
                         }
                     }
 

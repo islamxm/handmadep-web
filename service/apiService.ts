@@ -1,4 +1,4 @@
-import { endpoints } from "./endpoints";
+import { PATH, endpoints } from "./endpoints";
 import axios from "axios";
 import checkAuth from "./checkAuth";
 import { IToken } from "@/store/reducer";
@@ -161,16 +161,32 @@ class ApiService {
 
 
     // ** Получить конкретный товар
-    getProduct = async (id?: string | string[]) => {
-        try {
-            let res = await fetch(endpoints.cardsList + id, {
-                method: 'GET',
-                headers
-            })
-            return await res?.json()
-        } catch(err) {
-            console.log(err)
+    getProduct = async (id?: string | string[], token?: IToken) => {
+        if(token) {
+            try {
+                let res = await fetch(endpoints.cardsList + id, {
+                    method: 'GET',
+                    headers: {
+                        ...headers,
+                        'Authorization': `JWT ${token}`
+                    }
+                })
+                return await res?.json()
+            } catch(err) {
+                console.log(err)
+            }
+        } else {
+            try {
+                let res = await fetch(endpoints.cardsList + id, {
+                    method: 'GET',
+                    headers
+                })
+                return await res?.json()
+            } catch(err) {
+                console.log(err)
+            }
         }
+       
     }
 
 
@@ -252,6 +268,20 @@ class ApiService {
                 body:JSON.stringify({query_string})
             })
 
+            return await res?.json()
+        } catch(err) {
+            console.log(err)
+        }
+    }
+
+    getSimilarProducts = async (id: number | string) => {
+        try {
+            let res = await fetch(`${PATH}cards/${id}/get_similar_cards/`, {
+                method: "POST",
+                headers: {
+                    ...headers
+                },
+            })
             return await res?.json()
         } catch(err) {
             console.log(err)

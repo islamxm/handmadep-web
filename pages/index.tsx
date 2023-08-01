@@ -13,17 +13,17 @@ const service = new ApiService()
 
 
 
-// export const getServerSideProps = async () => {
+export const getServerSideProps = async () => {
 
-//   const res = await service.getCardsList(1)
-//   const data = await res?.results
+  const res = await service.getCardsList(1)
+  const data = await res?.results
   
-//   return {
-//       props: {
-//         list: data
-//       }
-//   }
-// }
+  return {
+      props: {
+        list: data
+      }
+  }
+}
 
 
 const HomePage = ({list}: {list: any[]}) => { 

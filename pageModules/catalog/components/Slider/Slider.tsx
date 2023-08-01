@@ -7,7 +7,7 @@ import Image from 'next/image';
 import placeholder from '@/public/assets/handmade-watermark.png';
 import img1 from '@/public/assets/img1.jpeg'
 import img2 from '@/public/assets/img2.jpg'
-
+import FancyboxWrapper from '@/components/FancyboxWrapper/FancyboxWrapper';
 const testImgs = [img1, img2];
 
 
@@ -36,14 +36,19 @@ const Slider:FC<{
                     images && images.length > 0 ? (
                         images?.map((item, index) => (
                             <SwiperSlide className={styles.slide} key={index}>
-                                <Image 
-                                    //placeholder={'blur'} 
-                                    src={item}
-                                    loader={p => p?.src && typeof p?.src === 'string' ? p.src : ''}
-                                    unoptimized 
-                                    width={350}
-                                    height={350}
-                                    alt=''/>
+                                <FancyboxWrapper>
+                                    <a data-fancybox="gallery" href={item} className={styles.item}>
+                                        <Image 
+                                        //placeholder={'blur'} 
+                                        src={item}
+                                        loader={p => p?.src && typeof p?.src === 'string' ? p.src : ''}
+                                        unoptimized 
+                                        width={350}
+                                        height={350}
+                                        alt=''/>
+                                    </a>
+                                </FancyboxWrapper>
+                                
                             </SwiperSlide>
                         ))
                     ) : (

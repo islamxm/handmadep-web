@@ -12,6 +12,9 @@ import { useRouter } from 'next/router';
 import { useAppSelector, useAppDispatch } from '@/hooks/useTypesRedux';
 import { updateAuthPopup, updateSignupPopup } from '@/store/actions';
 import ApiService from '@/service/apiService';
+import FancyboxWrapper from '@/components/FancyboxWrapper/FancyboxWrapper';
+import { useWindowSize } from 'usehooks-ts';
+import {BiLinkExternal} from 'react-icons/bi'
 
 const service = new ApiService()
 
@@ -34,6 +37,7 @@ const Body:FC<IProduct> = ({
     const dispatch = useAppDispatch()
     const {token: {access}} = useAppSelector(s => s)
     const router = useRouter()
+    const {width} = useWindowSize()
     const [liked, setLiked] = useState(false)
     const [pinned, setPinned] = useState(false)
     const [likedLoad, setLikeLoad] = useState(false)
@@ -48,11 +52,20 @@ const Body:FC<IProduct> = ({
 
 
     const onShare = () => {
-        process?.browser && navigator?.share({
+
+        if(process?.browser && navigator?.share && navigator?.canShare({
             url: window?.location?.href,
             text: title,
             title: title,
-        })
+        })) {
+            navigator?.share({
+                url: window?.location?.href,
+                text: title,
+                title: title,
+            })
+        } else {
+            console.log("CAN'T SHARE")
+        }
     }
 
 
@@ -202,7 +215,9 @@ const Body:FC<IProduct> = ({
                                     <Button
                                         link={shop?.shop_url}
                                         blank
-                                        text='Link'
+                                        text={width > 768 ? 'Link' : undefined}
+                                        round={width <= 768}
+                                        icon={width <= 768 && <BiLinkExternal/>}
                                         />
                                 </div>
                                 <div className={`${styles.button} ${styles.button_save}`}>

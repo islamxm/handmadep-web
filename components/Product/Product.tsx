@@ -235,7 +235,7 @@ const ProductItem = ({
                         icon={<BsShareFill/>}
                         />
                 </div>
-            </div>
+            </div> */}
             <div className={styles.action}>
                 <div className={styles.item}>
                     <Button
@@ -245,9 +245,9 @@ const ProductItem = ({
                         icon={pinned ? <BsBookmarkFill size={25}/> : <BsBookmark size={25}/>}
                         />
                 </div>
-            </div> */}
+            </div>
             <div className={styles.body} {...bind}>
-                {/* <AnimatePresence>
+                <AnimatePresence>
                     {
                         likeLayer && (
                             <motion.div 
@@ -261,7 +261,7 @@ const ProductItem = ({
                             </motion.div>
                         )
                     }
-                </AnimatePresence> */}
+                </AnimatePresence>
                 <div className={styles.image} style={{backgroundColor: bg, height: data?.height}}>
                             <Image
                                 className={styles.image_el}
@@ -280,7 +280,6 @@ const ProductItem = ({
                                 src={cover_url ? cover_url : placeholder} 
                                 alt=''/>
                 </div>
-                
                 <div className={styles.label}>{title}</div>
             </div>
         </motion.div>
