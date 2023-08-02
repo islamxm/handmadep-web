@@ -6,15 +6,30 @@
     .slider {
 
         .slide {
-            height: 500px;
+            height: 500px;  
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            
+            // div {
+            //     width: 100%;
+            //     height: 100%;
+            // }
 
-            img {
-                width: 100%;
-                height: 100%;
-                object-fit: contain;
-                display: flex;
+
+            .item {
+                
+                img {
+                    width: 100%;
+                    height: 100%;
+                    object-fit: contain;
+                    display: flex;
+                }
             }
+            
         }
+
+        
     }
 
 }
