@@ -199,6 +199,7 @@ const ProductItem = ({
     return (
         <motion.div 
             className={`${styles.wrapper} ${loaded ? styles.loaded : ''}`}
+            // className={`${styles.wrapper} ${styles.loaded}`}
             ref={cardRef}
             {...openProductModal()}
             >
