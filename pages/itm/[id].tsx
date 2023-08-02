@@ -45,8 +45,14 @@ const ProductPage = ({data}: {data: IProduct}) => {
             })
         }
         if(query && query?.id && typeof query?.id === 'string') {
+            service.getProduct(query?.id).then(res => {
+                console.log(res)
+            })
+        }
+        if(query && query?.id && typeof query?.id === 'string') {
             service.getSimilarProducts(query?.id).then(res => {
-                setSmList(s => [...s, ...res?.results?.map((i:any) => ({...i, height: _.random(150,350)}))])
+                console.log(res)
+                // setSmList(s => [...s, ...res?.results?.map((i:any) => ({...i, height: _.random(150,350)}))])
             })
         }
     }, [query, access])

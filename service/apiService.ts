@@ -276,11 +276,27 @@ class ApiService {
 
     getSimilarProducts = async (id: number | string) => {
         try {
-            let res = await fetch(`${PATH}cards/${id}/get_similar_cards/`, {
+            let res = await fetch(`${PATH}cards/get_similar_cards/${id}`, {
                 method: "POST",
                 headers: {
                     ...headers
                 },
+            })
+            return await res?.json()
+        } catch(err) {
+            console.log(err)
+        }
+    }
+
+    onReport = async (token: any, body: {report_reason: string, card: string}) => {
+        try {
+            let res = await fetch(endpoints.onReport, {
+                method: "POST",
+                headers: {
+                    ...headers,
+                    'Authorization': `JWT ${token}`
+                },
+                body: JSON.stringify(body)
             })
             return await res?.json()
         } catch(err) {

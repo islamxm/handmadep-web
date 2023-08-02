@@ -15,6 +15,7 @@ import ApiService from '@/service/apiService';
 import FancyboxWrapper from '@/components/FancyboxWrapper/FancyboxWrapper';
 import { useWindowSize } from 'usehooks-ts';
 import {BiLinkExternal} from 'react-icons/bi'
+import ReportModal from '@/popups/ReportModal/ReportModal';
 
 const service = new ApiService()
 
@@ -36,6 +37,7 @@ const Body:FC<IProduct> = ({
 }) => { 
     const dispatch = useAppDispatch()
     const {token: {access}} = useAppSelector(s => s)
+    const [reportModal, setReportModal] = useState(false)
     const router = useRouter()
     const {width} = useWindowSize()
     const [liked, setLiked] = useState(false)
@@ -133,6 +135,12 @@ const Body:FC<IProduct> = ({
 
     return (
         <div className={`${styles.wrapper} panel`}>
+            <ReportModal
+                open={reportModal}
+                onCancel={() => setReportModal(false)}
+                product={id}
+                />
+
             <div className={styles.body}>
                 <div className={styles.action}>
                     <div className={`${styles.item} ${styles.save}`}>
@@ -170,6 +178,7 @@ const Body:FC<IProduct> = ({
                     <div className={styles.item}>
                         <Button
                             icon={<BsFlagFill size={25}/>}
+                            onClick={() => setReportModal(true)}
                             round
                             variant='white'
                             />
