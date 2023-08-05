@@ -69,8 +69,8 @@ const ProductPage = ({data}: {data: IProduct}) => {
         <ContentLayout>
             <Head>
                 <title>{localData?.title}</title>
-                <meta name="description" content={localData?.description ? localData?.description?.slice(0, 200) : localData?.title}></meta>
-                <meta property="og:description" content={localData?.description ? localData?.description?.slice(0, 200) : localData?.title}></meta>
+                <meta name="description" content={localData?.description ? `${localData?.description?.slice(0, 200)}...` : localData?.title}></meta>
+                <meta property="og:description" content={localData?.description ? `${localData?.description?.slice(0, 200)}...` : localData?.title}></meta>
                 <meta property="og:title" content={localData?.title}></meta>
                 <meta property="og:url" content={process?.browser && window ? window?.location?.href : ''}></meta>
                 <link rel="canonical" href={process?.browser && window ? window?.location?.href : ''} />
