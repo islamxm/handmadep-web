@@ -46,12 +46,12 @@ const ProductPage = ({data}: {data: IProduct}) => {
         }
         if(query && query?.id && typeof query?.id === 'string') {
             service.getProduct(query?.id).then(res => {
-                console.log(res)
+                // console.log(res)
             })
         }
         if(query && query?.id && typeof query?.id === 'string') {
             service.getSimilarProducts(query?.id).then(res => {
-                console.log(res)
+                // console.log(res)
                 setSmList(s => [...s, ...res?.results?.map((i:any) => ({...i, height: _.random(150,350)}))])
             })
         }
@@ -69,9 +69,9 @@ const ProductPage = ({data}: {data: IProduct}) => {
         <ContentLayout>
             <Head>
                 <title>{localData?.title}</title>
-                <meta name="description" content={localData?.description}></meta>
-                <meta property="og:description" content={localData?.description}></meta>
-                <meta property="og:title" content={localData?.description}></meta>
+                <meta name="description" content={localData?.description ? localData?.description?.slice(0, 200) : localData?.title}></meta>
+                <meta property="og:description" content={localData?.description ? localData?.description?.slice(0, 200) : localData?.title}></meta>
+                <meta property="og:title" content={localData?.title}></meta>
                 <meta property="og:url" content={process?.browser && window ? window?.location?.href : ''}></meta>
                 <link rel="canonical" href={process?.browser && window ? window?.location?.href : ''} />
                 <meta name="keywords" content={localData?.tags?.map((i:any) => i?.keyword)?.join(',')}/>
