@@ -274,9 +274,9 @@ class ApiService {
         }
     }
 
-    getSimilarProducts = async (id: number | string) => {
+    getSimilarProducts = async (id: number | string, {page,per_page = 20}: {page: number, per_page?: number}) => {
         try {
-            let res = await fetch(`${PATH}cards/get_similar_cards/${id}`, {
+            let res = await fetch(`${PATH}cards/get_similar_cards/${id}?page=${page}&per_page=${per_page}`, {
                 method: "POST",
                 headers: {
                     ...headers
