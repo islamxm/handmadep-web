@@ -52,9 +52,9 @@ const ProductPage = ({data}: {data: IProduct}) => {
             })
         }
         if(query && query?.id && typeof query?.id === 'string' && smPage) {
+            console.log(query?.id)
             service.getSimilarProducts(query?.id, {page: smPage}).then(res => {
-                console.log(res)
-                setSmList(s => [...s, ...res?.results?.map((i:any) => ({...i, height: _.random(150,350)}))])
+                setSmList(res?.results?.map((i:any) => ({...i, height: _.random(150,350)})))
             })
         }
     }, [query, access, smPage])

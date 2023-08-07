@@ -257,15 +257,14 @@ class ApiService {
     }
 
 
-    search = async (query_string: string) => {
+    search = async (query_string: any, page: number) => {
         try {
-            let res = await fetch(endpoints.search, {
-                method: 'POST',
+            let res = await fetch(endpoints.search + `?query_string=${query_string}&p=${page}`, {
+                method: 'GET',
                 headers: {
                     ...headers,
                     // 'Authorization': `JWT ${token}`
                 },
-                body:JSON.stringify({query_string})
             })
 
             return await res?.json()

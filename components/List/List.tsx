@@ -77,7 +77,7 @@ const List:FC<{
 
     return (
         <div className={styles.wrapper}>
-            {/* {
+            {
                 useMasonry({
                     positioner,
                     scrollTop,
@@ -92,14 +92,14 @@ const List:FC<{
                     //     return data?.id
                     // },
                 })
-            } */}
-            <Masonry
+            }
+            {/* <Masonry
                 rowGutter={20}
                 columnGutter={20}
                 columnWidth={itemWidth}
                 items={localList}
                 overscanBy={5}
-                render={Product}/>
+                render={Product}/> */}
         </div>
     )
 }
