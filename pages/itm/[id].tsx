@@ -74,8 +74,8 @@ const ProductPage = ({data}: {data: IProduct}) => {
                 <meta name="description" content={data?.description ? `${data?.description?.slice(0, 200)}...` : data?.title}></meta>
                 <meta property="og:description" content={data?.description ? `${data?.description?.slice(0, 200)}...` : data?.title}></meta>
                 <meta property="og:title" content={data?.title}></meta>
-                <meta property="og:url" content={process?.browser && window ? window?.location?.href : ''}></meta>
-                <link rel="canonical" href={process?.browser && window ? window?.location?.href : ''} />
+                <meta property="og:url" content={`https://handmadep.netlify.app/itm/${data?.id}`}></meta>
+                <link rel="canonical" href={`https://handmadep.netlify.app/itm/${data?.id}`} />
                 <meta name="keywords" content={data?.tags?.map((i:any) => i?.keyword)?.join(',')}/>
                 <meta property="og:type" content="product"/>
                 <meta property="og:image" content={data?.cover_url}/>

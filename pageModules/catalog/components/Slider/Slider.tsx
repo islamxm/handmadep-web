@@ -47,7 +47,7 @@ const Slider:FC<{
                                         unoptimized 
                                         width={350}
                                         height={350}
-                                        alt={title ?? ''}
+                                        alt={title ? title : ''}
                                         />
                                     </a>
                                 </FancyboxWrapper>
