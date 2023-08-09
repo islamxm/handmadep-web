@@ -37,22 +37,35 @@ const Search:FC<searchTypes> = ({
     const {token} = useAppSelector(s => s)
     const debValue = useDebounce(value, 500)
     const [dropdownWidth, setDropdownWidth] = useState(0)
+    const [page, setPage] = useState(1)
     
 
     const [list, setList] = useState<any[]>([])
 
 
-    useEffect(() => {
-        if(debValue !== '') {
-            service.search(debValue).then(res => {
-                console.log(res)
-                setList(res)
+    const getData = () => {
+        if(debValue !== '' && page) {
+            service.search(debValue, page).then(res => {
+                if(page === 1) {
+                    setList(res)
+                } else {
+                    setList(s => [...s, ...res])
+                }
             })
+        }
+    }
+
+    useEffect(() => {
+        getData()
+    }, [page])
+
+    useEffect(() => {
+        if(page === 1) {
+            getData()
         } else {
-            setList([])
+            setPage(1)
         }
     }, [debValue])
-
 
 
 
@@ -82,7 +95,7 @@ const Search:FC<searchTypes> = ({
         <Dropdown
             // open={focused || list?.length > 0}
             trigger={['click']}
-            overlay={<Result width={dropdownWidth} items={list}/>}
+            overlay={<Result setPage={setPage} width={dropdownWidth} items={list}/>}
             >
                 <div ref={ref} className={`${styles.wrapper} ${focused ? styles.focused : ''}`}>
                     <div onClick={goToKeywordPageClick} className={styles.icon}>
