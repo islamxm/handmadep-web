@@ -7,10 +7,12 @@ import {Row, Col} from 'antd';
 import { useInView } from 'react-intersection-observer';
 
 
-const Result:FC<{items: any[], width: number, setPage?: (...args: any[]) => any}> = ({
+
+const Result:FC<{items: any[], width: number, setPage?: (...args: any[]) => any, onClose?: (...args: any[]) => any}> = ({
     items,
     width,
-    setPage
+    setPage,
+    onClose
 }) => {
     const {inView, ref} = useInView()
 
@@ -20,7 +22,7 @@ const Result:FC<{items: any[], width: number, setPage?: (...args: any[]) => any}
         setPage && setPage((s: number) => s + 1)
     }, [inView, setPage])
     
-    
+
 
     if(items?.length === 0) {
         return null

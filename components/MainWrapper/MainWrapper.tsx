@@ -1,9 +1,10 @@
 import { useAppSelector, useAppDispatch } from "@/hooks/useTypesRedux";
 import { useEffect } from "react";
 import ApiService from "@/service/apiService";
-import { updateUserData } from "@/store/actions";
+import { updateUserData, closeSearch } from "@/store/actions";
 import { Cookies } from "typescript-cookie";
 import ProductModal from "@/popups/ProductModal/ProductModal";
+import { useRouter } from "next/router";
 
 const service = new ApiService()
 const MainWrapper = ({
@@ -13,6 +14,7 @@ const MainWrapper = ({
 }) => {
     const dispatch = useAppDispatch();
     const {token: {access}, currentProduct} = useAppSelector(s => s)
+
 
     useEffect(() => {
         if(access) {

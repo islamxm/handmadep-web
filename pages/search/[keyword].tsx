@@ -83,7 +83,6 @@ const KeywordPage = ({list}: {list: any[]}) => {
   }, [localList])
 
 
-
   // ** обновление списка
   const updateList = useCallback(() => {
     if(currentPage > 1) {

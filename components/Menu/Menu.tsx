@@ -5,21 +5,19 @@ import {BsBellFill} from 'react-icons/bs';
 import {ImEnter} from 'react-icons/im';
 import Avatar from '../Avatar/Avatar';
 import { useAppDispatch, useAppSelector } from '@/hooks/useTypesRedux';
-import { updateAuthPopup } from '@/store/actions';
+import { updateAuthPopup, openSearch, closeSearch } from '@/store/actions';
 import {useEffect} from 'react';
 import Router from 'next/router';
 
 
 const Menu = () => {
-    const {token, userData} = useAppSelector(s => s)
+    const {token, userData, searchPopup} = useAppSelector(s => s)
     const dispatch = useAppDispatch()
 
     const openAuth = () => dispatch(updateAuthPopup(true))
     const closeAuth = () => dispatch(updateAuthPopup(false))
 
-    useEffect(() => {
-        console.log(userData)
-    }, [userData])
+    
     
 
 
@@ -36,7 +34,9 @@ const Menu = () => {
                 </li>
                 <li className={styles.item}>
                     <Button
-                        link='/'
+                        onClick={() => {
+                            searchPopup ? dispatch(closeSearch()) : dispatch(openSearch())
+                        }}
                         round
                         variant={'transparent'}
                         icon={<AiOutlineSearch size={25}/>}

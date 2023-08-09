@@ -27,7 +27,8 @@ const Header:FC<headerTypes> = () => {
         token, 
         userData,
         authPopup,
-        signupPopup
+        signupPopup,
+        searchPopup
     } = useAppSelector(s => s)
 
     const {access} = token;
@@ -48,7 +49,7 @@ const Header:FC<headerTypes> = () => {
     const closeLogoutModal = () => setLogoutModal(false)
 
     return (
-        <div className={styles.wrapper}>
+        <div className={`${styles.wrapper} ${searchPopup ? styles.open : ''}`}>
             <Auth 
                 open={authPopup}
                 onCancel={closeAuth}

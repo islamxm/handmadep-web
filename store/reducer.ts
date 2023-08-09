@@ -28,7 +28,8 @@ export interface IGlobalState {
     } | null,
     authPopup: boolean,
     signupPopup: boolean,
-    currentProduct: any
+    currentProduct: any,
+    searchPopup: boolean
 }
 
 
@@ -44,7 +45,8 @@ const globalState: IGlobalState = {
     userData: null,
     authPopup: false,
     signupPopup: false,
-    currentProduct: null
+    currentProduct: null,
+    searchPopup: false
 
 }
 
@@ -79,6 +81,16 @@ const reducer = (state = globalState, action: any) => {
             return {
                 ...state,
                 currentProduct: action.value
+            }
+        case 'OPEN_SEARCH':
+            return {
+                ...state,
+                searchPopup: true
+            }
+        case 'CLOSE_SEARCH':
+            return {
+                ...state,
+                searchPopup: false
             }
         default:
             return state;

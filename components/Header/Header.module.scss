@@ -50,7 +50,33 @@
 }
 
 @media (max-width: 1000px) {
+
     .wrapper {
-        display: none;
+        background-color: unset;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        transition: all .3s ease;
+        transform: translateY(-100%);
+        z-index: 1000; 
+
+
+        .in {
+            .part {
+                margin: 0;
+            }
+            .logo {
+                display: none;
+            }
+            .action {
+                display: none;
+            }
+        }
+
+    }
+
+    .wrapper.open {
+        transform: translateY(0);  
     }
 }
