@@ -6,11 +6,7 @@ import { useAppSelector } from "@/hooks/useTypesRedux";
 import { useEffect } from "react";
 
 const ProfilePage = () => {
-    const {userData} = useAppSelector(s => s)
-
-    useEffect(() => {
-        console.log(userData)
-    }, [userData])
+    const {userData} = useAppSelector(s => s.main)
 
 
     return (
