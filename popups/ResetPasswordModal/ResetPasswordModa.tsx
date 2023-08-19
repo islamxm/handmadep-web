@@ -4,6 +4,7 @@ import styles from './ResetPasswordModal.module.scss'
 import Input from '@/components/Input/Input';
 import Button from '@/components/Button/Button';
 import { useResetPasswordMutation } from '@/store/slices/apiSlice';
+import notify from '@/helpers/notify';
 
 const ResetPasswordModal:FC<ModalFuncProps> = (props) => {
     const {onCancel} = props
@@ -27,10 +28,10 @@ const ResetPasswordModal:FC<ModalFuncProps> = (props) => {
 
 
     useEffect(() => {
-        setLoad(resetPasswordResponseResult?.isLoading)
-        setError(resetPasswordResponseResult?.isError)
-        if(resetPasswordResponseResult?.isSuccess && resetPasswordResponseResult?.data) {
-            console.log(resetPasswordResponseResult?.data)
+        setLoad(resetPasswordResponseResult.isLoading)
+        setError(resetPasswordResponseResult.isError)
+        if(resetPasswordResponseResult.isSuccess) {
+            notify('Check e-mail to reset your password', 'SUCCESS')
         }
     }, [resetPasswordResponseResult])
 

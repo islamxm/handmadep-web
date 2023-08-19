@@ -6,8 +6,10 @@ import ApiService from '@/service/apiService';
 import Button from '@/components/Button/Button';
 import { useAppSelector } from '@/hooks/useTypesRedux';
 import notify from '@/helpers/notify';
+import {useReportProductMutation} from '@/store/slices/apiSlice';
+import ReportReasons from '@/models/ReportReasons';
 
-const service = new ApiService()
+
 const list = [
     {value: 'SPAM', label: 'Spam'},
     {value: 'NUDITY', label: 'Nudity'},
@@ -24,31 +26,35 @@ const ReportModal:FC<ModalFuncProps & I> = (props) => {
     const {
         onCancel,
         product
-
     } = props
     const {token: {access}} = useAppSelector(s => s.main)
-    const [selected, setSelected] = useState<string>()
+    const [selected, setSelected] = useState<ReportReasons | undefined>()
     const [load, setLoad] = useState(false)
-
-    useEffect(() => console.log(product), [product])
+    const [reportProductResponse, reportProductResponseResult] = useReportProductMutation()
 
     const onClose = () => {
         setSelected(undefined)
         onCancel && onCancel()
     }
-
-    const onReport = () => {
+    
+    const onSubmit = () => {
         if(access && product && selected) {
-            service.onReport(access, {report_reason: selected, card: product}).then(res => {
-                if(res) {
-                    onClose()
-                }
-            }).finally(() => {
-                setLoad(false)
-            })
+            reportProductResponse({token: access, body: {report_reason: selected, card: product}})
         }
         if(!access) notify('You are not authorized', 'ERROR')
     }
+
+    useEffect(() => {
+        setLoad(reportProductResponseResult.isLoading)
+        if(reportProductResponseResult.isSuccess) {
+            notify('Report sended', 'SUCCESS')
+            onClose()
+        } 
+        if(reportProductResponseResult.isError) {
+            notify('An error has occurred', 'ERROR')
+        }
+    }, [reportProductResponseResult])
+
 
     return (
         <Modal
@@ -82,7 +88,7 @@ const ReportModal:FC<ModalFuncProps & I> = (props) => {
                         text='Send'
                         load={load}
                         disabled={!selected}
-                        onClick={onReport}
+                        onClick={onSubmit}
                         />
                     </div>
                 </div>

@@ -3,7 +3,7 @@ import { BASE_DOMAIN, endpoints } from '@/service/endpoints';
 import { AuthBody } from '@/models/AuthBody';
 import {headers} from '@/service/apiService';
 import { IToken } from '../reducer';
-
+import ReportReasons from '@/models/ReportReasons';
 
 const setHeaderWithToken = (token: any) => ({...headers,'Authorization': `JWT ${token}`})
 
@@ -69,6 +69,21 @@ const apiSlice = createApi({
                 url: endpoints.getSimilarProducts + `/${card_pk}?p=${page}&per_page=${per_page}`,
                 headers
             })
+        }),
+
+        reportProduct: builder.mutation({
+            query: ({token, body}: { 
+                token: any,
+                body: {
+                    report_reason: ReportReasons,
+                card: string | number
+                }   
+            }) => ({
+                url: endpoints.onReport,
+                method: "POST",
+                headers: setHeaderWithToken(token),
+                body:JSON.stringify(body),
+            })
         })
     }),
 })
@@ -83,5 +98,6 @@ export const {
     useResetPasswordMutation,
     useGetUserDataQuery, 
     useGetSimilarProdsQuery,
+    useReportProductMutation
     } = apiSlice
 
