@@ -18,7 +18,7 @@ const ProfileCard:FC<IUser> = ({
     about,
     email
 }) => {
-    const {placeholderColor} = useAppSelector(s => s)
+    const {placeholderColor} = useAppSelector(s => s.main)
 
 
 

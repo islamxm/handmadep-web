@@ -36,6 +36,9 @@ const mainSlice = createSlice({
         },
         main_updateResetPassPopup: (state, action) => {
             state.resetPassPopup = action.payload
+        },
+        main_updateUserData: (state, action) => {
+            state.userData = action.payload
         }
     }
 })
@@ -52,5 +55,6 @@ export const {
     main_closeSearch,
     main_openSearch,
     main_updateCurrentProduct,
-    main_updateResetPassPopup
+    main_updateResetPassPopup,
+    main_updateUserData
 } = actions

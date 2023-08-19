@@ -84,7 +84,7 @@ const apiSlice = createApi({
                 headers: setHeaderWithToken(token),
                 body:JSON.stringify(body),
             })
-        })
+        }),
     }),
 })
 

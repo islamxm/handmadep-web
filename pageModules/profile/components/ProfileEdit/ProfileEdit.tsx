@@ -8,8 +8,9 @@ import {useState, useEffect} from 'react';
 import { useAppSelector, useAppDispatch } from '@/hooks/useTypesRedux';
 import ApiService from '@/service/apiService';
 import Button from '@/components/Button/Button';
-import { updateUserData } from '@/store/actions';
+import { main_updateUserData } from '@/store/slices/mainSlice';
 import notify from '@/helpers/notify';
+import { useGetUserDataQuery } from '@/store/slices/apiSlice';
 
 const service = new ApiService()
 
@@ -20,13 +21,13 @@ const ProfileEdit:FC<IUser> = ({
     site
 }) => {
     const dispatch = useAppDispatch()
-    const {token: {access}} = useAppSelector(s => s)
+    const {token: {access}} = useAppSelector(s => s.main)
     const [load, setLoad] = useState(false)
     const [localUsername, setLocalUsername] = useState('')
     const [localEmail, setLocalEmail] = useState('')
     const [localAbout, setLocalAbout] = useState('')
     const [localSite, setLocalSite] = useState('')
-    
+    // const {refetch} = useGetUserDataQuery('')
 
     useEffect(() => {
         if(username) {
@@ -43,7 +44,6 @@ const ProfileEdit:FC<IUser> = ({
         }
     }, [username, email, about, site])
 
-
     const onSubmit = () => {
         if(localEmail && localUsername && access) {
             setLoad(true)
@@ -55,7 +55,7 @@ const ProfileEdit:FC<IUser> = ({
                 image: ''
             }, access).then(res => {
                 if(res?.id) {
-                    dispatch(updateUserData(res))
+                    dispatch(main_updateUserData(res))
                     notify('Success', 'SUCCESS')
                 } else {
                     if(typeof res === 'object') {
@@ -69,7 +69,7 @@ const ProfileEdit:FC<IUser> = ({
             })
         }
     }
-
+    
 
     return (
         <div className={`${styles.wrapper} panel`}>
