@@ -8,7 +8,7 @@ import { PulseLoader } from 'react-spinners';
 const PageLayout:FC<{children?: React.ReactNode}> = ({
     children
 }) => {
-    const {loading} = useAppSelector(s => s)
+    const {loading} = useAppSelector(s => s.main)
 
     return (
         <div className={styles.wrapper}>
