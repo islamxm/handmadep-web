@@ -29,7 +29,7 @@ interface I extends ModalFuncProps {
 const Auth:FC<I> = (props) => {
     const {onCancel, toggleModal} = props
     const [authResponse, authResponseResult] = useAuthMutation()
-    const {data,isLoading, refetch} = useAuthGoogleQuery('')
+    const {isLoading, refetch} = useAuthGoogleQuery('')
     
     const {resetPassPopup} = useAppSelector(s => s.main)
     const dispatch = useAppDispatch()
@@ -37,14 +37,13 @@ const Auth:FC<I> = (props) => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     
-    const [save, setSave] = useState(false)
 
     const onClose = () => {
         if(onCancel) {
-            setSave(false)
             setEmail('')
             setPassword('')
             onCancel()
+            authResponseResult.isError = false
         }
     }
 
@@ -53,6 +52,7 @@ const Auth:FC<I> = (props) => {
     }
 
     useEffect(() => {
+        dispatch(main_updateLoading(isLoading))
         if(authResponseResult?.data && authResponseResult?.isSuccess) {
             const {tokens} = authResponseResult?.data
             notify('Welcome!', 'SUCCESS')
@@ -61,13 +61,12 @@ const Auth:FC<I> = (props) => {
                 access: tokens?.access,
                 refresh: tokens?.refresh
             }))
-        } else deauthorizeFunc()
+        } 
+        if(authResponseResult?.isError) {
+            deauthorizeFunc()
+            notify('Wrong credentials', 'ERROR')
+        }
     }, [authResponseResult])
-
-
-    useEffect(() => {
-        dispatch(main_updateLoading(isLoading))
-    }, [isLoading])
 
 
     const authGoogle = async () => {
@@ -95,6 +94,7 @@ const Auth:FC<I> = (props) => {
                 <Row gutter={[10,10]}>
                     <Col span={24}>
                         <Input
+                            error={authResponseResult.isError}
                             placeholder='E-mail'
                             value={email}
                             onChange={(e: React.ChangeEvent<HTMLInputElement>) => setEmail(e.target.value)}
@@ -102,19 +102,20 @@ const Auth:FC<I> = (props) => {
                     </Col>
                     <Col span={24}>
                         <Input
+                            error={authResponseResult.isError}
                             placeholder='Password'
                             value={password}
                             onChange={(e: React.ChangeEvent<HTMLInputElement>) => setPassword(e.target.value)}
                             type={'password'}
                             />
                     </Col>
-                    <Col span={24}>
+                    {/* <Col span={24}>
                         <Checkbox 
                             checked={save}
                             text='Save me'
                             onChange={(e: React.ChangeEvent<HTMLInputElement>) => setSave(e.target.checked)}
                             id='save-me'/>
-                    </Col>
+                    </Col> */}
                     <Col span={24} style={{justifyContent: 'center', display: 'flex'}}>
                         <Button
                             text={'Log in'}

@@ -29,7 +29,6 @@ const ReportModal:FC<ModalFuncProps & I> = (props) => {
     } = props
     const {token: {access}} = useAppSelector(s => s.main)
     const [selected, setSelected] = useState<ReportReasons | undefined>()
-    const [load, setLoad] = useState(false)
     const [reportProductResponse, reportProductResponseResult] = useReportProductMutation()
 
     const onClose = () => {
@@ -45,7 +44,6 @@ const ReportModal:FC<ModalFuncProps & I> = (props) => {
     }
 
     useEffect(() => {
-        setLoad(reportProductResponseResult.isLoading)
         if(reportProductResponseResult.isSuccess) {
             notify('Report sended', 'SUCCESS')
             onClose()
@@ -86,7 +84,7 @@ const ReportModal:FC<ModalFuncProps & I> = (props) => {
                     <div className={styles.item}>
                     <Button 
                         text='Send'
-                        load={load}
+                        load={reportProductResponseResult.isLoading}
                         disabled={!selected}
                         onClick={onSubmit}
                         />
