@@ -28,12 +28,13 @@ export interface IGlobalState {
     } | null,
     authPopup: boolean,
     signupPopup: boolean,
+    resetPassPopup: boolean,
+    searchPopup: boolean,
     currentProduct: any,
-    searchPopup: boolean
 }
 
 
-const globalState: IGlobalState = {
+export const globalState: IGlobalState = {
     token: {
         access: 
         (process?.browser && Cookies?.get('handmadep-web-access-token')) || (SESSION_STORAGE && SESSION_STORAGE.getItem('handmadep-web-access-token')) ? Cookies?.get('handmadep-web-access-token') || SESSION_STORAGE && SESSION_STORAGE.getItem('handmadep-web-access-token') : null,
@@ -45,56 +46,8 @@ const globalState: IGlobalState = {
     userData: null,
     authPopup: false,
     signupPopup: false,
+    resetPassPopup: false,
+    searchPopup: false,
     currentProduct: null,
-    searchPopup: false
-
 }
 
-const reducer = (state = globalState, action: any) => {
-    switch(action.type) {
-        case 'UPDATE_TOKEN':
-            return {
-                ...state,
-                token: action.token
-            }
-        case 'UPDATE_LOADING':
-            return {
-                ...state,
-                loading: action.loading
-            }
-        case 'UPDATE_USER_DATA':
-            return {
-                ...state,
-                userData: action.data
-            }
-        case 'UPDATE_AUTH_POPUP':
-            return {
-                ...state,
-                authPopup: action.value
-            }
-        case 'UPDATE_SIGNUP_POPUP':
-            return {
-                ...state,
-                signupPopup: action.value
-            }
-        case 'UPDATE_CURRENT_PRODUCT':
-            return {
-                ...state,
-                currentProduct: action.value
-            }
-        case 'OPEN_SEARCH':
-            return {
-                ...state,
-                searchPopup: true
-            }
-        case 'CLOSE_SEARCH':
-            return {
-                ...state,
-                searchPopup: false
-            }
-        default:
-            return state;
-    }
-}
-
-export default reducer;

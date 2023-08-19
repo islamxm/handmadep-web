@@ -1,8 +1,16 @@
-import { createStore } from "redux";
-import reducer from "./reducer";
+import { configureStore, getDefaultMiddleware } from "@reduxjs/toolkit";
+import mainSlice from './slices/mainSlice'
+import apiSlice from './slices/apiSlice';
 
+const store = configureStore({
+    reducer: {
+        main: mainSlice, 
+        [apiSlice.reducerPath]: apiSlice.reducer
+    },
+    middleware: getDefaultMiddleware => getDefaultMiddleware().concat(apiSlice.middleware),
+    devTools: process?.env?.NODE_ENV !== 'production'
+})
 
-const store = createStore(reducer);
 export default store;
 
 export type RootState = ReturnType<typeof store.getState>

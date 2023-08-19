@@ -5,17 +5,17 @@ import {BsBellFill} from 'react-icons/bs';
 import {ImEnter} from 'react-icons/im';
 import Avatar from '../Avatar/Avatar';
 import { useAppDispatch, useAppSelector } from '@/hooks/useTypesRedux';
-import { updateAuthPopup, openSearch, closeSearch } from '@/store/actions';
 import {useEffect} from 'react';
 import Router from 'next/router';
+import { main_closeSearch, main_openSearch, main_updateAuthPopup } from '@/store/slices/mainSlice';
 
 
 const Menu = () => {
-    const {token, userData, searchPopup} = useAppSelector(s => s)
+    const {token, userData, searchPopup} = useAppSelector(s => s.main)
     const dispatch = useAppDispatch()
 
-    const openAuth = () => dispatch(updateAuthPopup(true))
-    const closeAuth = () => dispatch(updateAuthPopup(false))
+    const openAuth = () => dispatch(main_updateAuthPopup(true))
+    const closeAuth = () => dispatch(main_updateAuthPopup(false))
 
     
     
@@ -35,7 +35,7 @@ const Menu = () => {
                 <li className={styles.item}>
                     <Button
                         onClick={() => {
-                            searchPopup ? dispatch(closeSearch()) : dispatch(openSearch())
+                            searchPopup ? dispatch(main_closeSearch()) : dispatch(main_openSearch())
                         }}
                         round
                         variant={'transparent'}

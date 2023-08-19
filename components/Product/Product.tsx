@@ -25,7 +25,7 @@ import { useInView } from 'react-intersection-observer';
 import * as _ from 'lodash';
 import Router from 'next/router';
 import { useRouter } from 'next/router';
-import { updateAuthPopup, updateCurrentProduct, updateSignupPopup } from '@/store/actions';
+import { main_updateAuthPopup, main_updateCurrentProduct } from '@/store/slices/mainSlice';
 import ApiService from '@/service/apiService';
 import LOCAL_STORAGE from '@/helpers/localStorage';
 
@@ -68,11 +68,11 @@ const ProductItem = ({
     const [loaded, setLoaded] = useState(false)
 
     const dispatch = useAppDispatch()
-    const {token} = useAppSelector(s => s)
+    const {token} = useAppSelector(s => s.main)
     const {access} = token
 
 
-    const openAuth = () => dispatch(updateAuthPopup(true))
+    const openAuth = () => dispatch(main_updateAuthPopup(true))
 
     // useEffect(() => {
     //     setRandomHeight(_.random(150,350))
@@ -127,8 +127,7 @@ const ProductItem = ({
     }
 
     const openProductModal = useLongPress(() => {
-        console.log('long press')
-        dispatch(updateCurrentProduct(data))
+        dispatch(main_updateCurrentProduct(data))
     })
     
 
@@ -137,7 +136,6 @@ const ProductItem = ({
             if(!liked) {
                 // setLikeLayer(true)
                 service.productLike(id, access).then(res => {
-                    console.log(res)
                     if(res?.status === 201 || res?.status === 204) {
                         setLikeLayer(true)
                         setLiked(true)
@@ -148,7 +146,6 @@ const ProductItem = ({
                 })
             } else {
                 service.productUnlike(id, access).then(res => {
-                    console.log(res)
                     if(res?.status === 201 || res?.status === 204) {
                         setLikeLayer(false)
                         setLiked(false)
@@ -172,7 +169,6 @@ const ProductItem = ({
         if(access && id) {
             if(!pinned) {
                 service.productSave(id, access).then(res => {
-                    console.log(res)
                     if(res?.status === 201 || res?.status === 204) {
                         setPinned(true)
                     } else {
@@ -181,7 +177,6 @@ const ProductItem = ({
                 })
             } else {
                 service.productUnsave(id, access).then(res => {
-                    console.log(res)
                     if(res?.status === 201 || res?.status === 204) {
                         setPinned(false)
                     } else {
@@ -198,11 +193,12 @@ const ProductItem = ({
 
     return (
         <motion.div 
-            className={`${styles.wrapper} ${loaded ? styles.loaded : ''}`}
+            className={`${styles.wrapper} ${loaded ? styles.loaded : styles.loading}`}
             // className={`${styles.wrapper} ${styles.loaded}`}
             ref={cardRef}
             {...openProductModal()}
             >
+            <div className={styles.loading_el}></div>
 {/* 
             <motion.div 
                 initial='hidden'

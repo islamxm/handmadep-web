@@ -13,7 +13,7 @@ import { endpoints } from '@/service/endpoints';
 import notify from '@/helpers/notify';
 import Checkbox from '../Checkbox/Checkbox';
 import { useAppDispatch } from '@/hooks/useTypesRedux';
-import { updateToken, updateLoading } from '@/store/actions';
+import { main_updateLoading } from '@/store/slices/mainSlice';
 import { Cookies } from 'typescript-cookie';
 
 const service = new ApiService();
@@ -84,10 +84,10 @@ const Signup:FC<IAuthModal> = (props) => {
 
 
     const authGoogle = async () => {
-        dispatch(updateLoading(true))
+        dispatch(main_updateLoading(true))
         const res = await fetch('https://handmadep.com/api/auth/o/google-oauth2/?redirect_uri=https://handmadep.com/google');
         const r =  await res?.json().finally(() => {
-            dispatch(updateLoading(false))
+            dispatch(main_updateLoading(false))
             onClose()
         })
         if(r?.authorization_url) {
@@ -96,10 +96,10 @@ const Signup:FC<IAuthModal> = (props) => {
     }
 
     const authFacebook = async () => {
-        dispatch(updateLoading(true))
+        dispatch(main_updateLoading(true))
         const res = await fetch('https://handmadep.com/api/auth/o/facebook/?redirect_uri=https://handmadep.com/facebook');
         const r = await res?.json().finally(() => {
-            dispatch(updateLoading(false))
+            dispatch(main_updateLoading(false))
             onClose()
         })
         if(r?.authorization_url) {

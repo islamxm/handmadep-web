@@ -27,14 +27,14 @@ const columnWidth = 200;
 
 const List:FC<{
     list: any[] 
-    setCurrentPage: (...args: any[]) => any
+    setPage: (...args: any[]) => any
 }> = ({
     list = [], 
-    setCurrentPage
+    setPage
 }) => {
 
     const [itemWidth, setItemWidth] = useState(0)
-    const [localList, setLocalList] = useState<any[]>([])
+    // const [localList, setLocalList] = useState<any[]>([])
     
     const containerRef = useRef<any>(null);
     const [windowWidth, height] = useWindowSize();
@@ -45,7 +45,7 @@ const List:FC<{
     const { scrollTop, isScrolling } = useScroller(offset);
     const positioner = usePositioner(
         { width, columnGutter: 8, columnWidth: itemWidth},
-        [localList.length]
+        [list.length]
     );
     const resizeObserver = useResizeObserver(positioner);
 
@@ -58,9 +58,9 @@ const List:FC<{
         }
     }
 
-    useEffect(() => {
-        setLocalList(list)
-    }, [list])
+    // useEffect(() => {
+    //     setLocalList(list)
+    // }, [list])
 
  
 
@@ -77,29 +77,33 @@ const List:FC<{
 
     return (
         <div className={styles.wrapper}>
-            {
+            {/* {
                 useMasonry({
                     positioner,
                     scrollTop,
                     isScrolling,
                     height,
                     containerRef,
-                    items: localList,
+                    items: list,
                     overscanBy: 5,
                     resizeObserver,
                     render: Product,
-                    // itemKey(data, index) {
-                    //     return data?.id
-                    // },
+                    itemKey(data, index) {
+                        return data?.id
+                    },
                 })
-            }
-            {/* <Masonry
+            } */}
+            <Masonry
                 rowGutter={20}
                 columnGutter={20}
                 columnWidth={itemWidth}
-                items={localList}
+                items={list}
                 overscanBy={5}
-                render={Product}/> */}
+                render={Product}
+                // key={'home'}
+                // itemKey={data => data?.id}
+                // resizeObserver={resizeObserver}
+                />
         </div>
     )
 }

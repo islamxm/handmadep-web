@@ -26,7 +26,7 @@ const ReportModal:FC<ModalFuncProps & I> = (props) => {
         product
 
     } = props
-    const {token: {access}} = useAppSelector(s => s)
+    const {token: {access}} = useAppSelector(s => s.main)
     const [selected, setSelected] = useState<string>()
     const [load, setLoad] = useState(false)
 
@@ -40,7 +40,6 @@ const ReportModal:FC<ModalFuncProps & I> = (props) => {
     const onReport = () => {
         if(access && product && selected) {
             service.onReport(access, {report_reason: selected, card: product}).then(res => {
-                console.log(res)
                 if(res) {
                     onClose()
                 }

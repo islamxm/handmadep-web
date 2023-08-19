@@ -10,20 +10,9 @@ import ApiService from '@/service/apiService';
 import { useAppSelector, useAppDispatch } from '@/hooks/useTypesRedux';
 import { useDebounce } from 'usehooks-ts';
 import Router, { useRouter } from 'next/router';
-import { closeSearch } from '@/store/actions';
+import { main_closeSearch } from '@/store/slices/mainSlice';
 import {useWindowSize} from 'usehooks-ts';
 
-const listMock:searchItemType[] = [
-    {
-        name: 'result 1'
-    },
-    {
-        name: 'result 2'
-    },
-    {
-        name: 'result 3'
-    }
-]
 
 const service = new ApiService()
 
@@ -39,7 +28,7 @@ const Search:FC<any> = ({
     const dispatch = useAppDispatch()
     const [focused, setFocused] = useState(false)
     const [value, setValue] = useState('')
-    const {token} = useAppSelector(s => s)
+    
     const router = useRouter()
     const debValue = useDebounce(value, 500)
     const [dropdownWidth, setDropdownWidth] = useState(0)
@@ -80,7 +69,7 @@ const Search:FC<any> = ({
 
     useEffect(() => {
         setFocused(false)
-        dispatch(closeSearch())
+        dispatch(main_closeSearch())
     }, [router])
 
     useEffect(() => {
@@ -135,7 +124,7 @@ const Search:FC<any> = ({
                             onKeyDown={goToKeywordPage}
                             onBlur={() => {
                                 setFocused(false)
-                                dispatch(closeSearch())
+                                dispatch(main_closeSearch())
                             }}
                             onFocus={() => setFocused(true)} 
                             onChange={e => setValue(e.target.value)}

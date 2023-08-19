@@ -17,9 +17,10 @@ import {
     BsHeartFill,
     BsBookmarkFill
 } from 'react-icons/bs';
-import { updateCurrentProduct } from '@/store/actions';
+
 import Button from '@/components/Button/Button';
 import ApiService from '@/service/apiService';
+import { main_updateCurrentProduct } from '@/store/slices/mainSlice';
 interface I {
 
 }
@@ -28,7 +29,7 @@ const service = new ApiService()
 
 const ProductModal:FC<I & ModalFuncProps> = (props) => {
     const {onCancel, open} = props
-    const {currentProduct, token: {access}} = useAppSelector(s => s)
+    const {currentProduct, token: {access}} = useAppSelector(s => s.main)
     const dispatch = useAppDispatch()
     const [liked, setLiked] = useState<boolean>(false)
     const [fav, setFav] = useState<boolean>(false)
@@ -57,7 +58,7 @@ const ProductModal:FC<I & ModalFuncProps> = (props) => {
     } = data || {}
 
     const onClose = () => {
-        dispatch(updateCurrentProduct(null))
+        dispatch(main_updateCurrentProduct(null))
         setData(null)
         setLiked(false)
         setFav(false)

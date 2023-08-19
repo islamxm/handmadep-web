@@ -12,16 +12,17 @@ import {GoSignIn} from 'react-icons/go';
 import ProfileMenu from './components/ProfileMenu/ProfileMenu';
 import Auth from '../Auth/Auth';
 import Signup from '../Signup/Signup';
-import { updateAuthPopup, updateSignupPopup } from '@/store/actions';
 import { useAppSelector, useAppDispatch } from '@/hooks/useTypesRedux';
 import LogoutModal from './components/LogoutModal/LogoutModal';
+import { main_updateAuthPopup, main_updateSignupPopup } from '@/store/slices/mainSlice';
+import Router, { useRouter } from 'next/router';
 
 
 
 const Header:FC<headerTypes> = () => {
 
     const [logoutModal, setLogoutModal] = useState(false)
-
+    const {pathname} = useRouter()
     const dispatch = useAppDispatch()
     const {
         token, 
@@ -29,21 +30,21 @@ const Header:FC<headerTypes> = () => {
         authPopup,
         signupPopup,
         searchPopup
-    } = useAppSelector(s => s)
+    } = useAppSelector(s => s.main)
 
     const {access} = token;
 
     const openAuth = () => {
-        dispatch(updateAuthPopup(true))
-        dispatch(updateSignupPopup(false))
+        dispatch(main_updateAuthPopup(true))
+        dispatch(main_updateSignupPopup(false))
     }
-    const closeAuth = () => dispatch(updateAuthPopup(false))
+    const closeAuth = () => dispatch(main_updateAuthPopup(false))
 
     const openSignup = () => {
-        dispatch(updateSignupPopup(true))
-        dispatch(updateAuthPopup(false))
+        dispatch(main_updateSignupPopup(true))
+        dispatch(main_updateAuthPopup(false))
     }
-    const closeSignup = () => dispatch(updateSignupPopup(false))
+    const closeSignup = () => dispatch(main_updateSignupPopup(false))
 
     const openLogoutModal = () => setLogoutModal(true)
     const closeLogoutModal = () => setLogoutModal(false)
@@ -71,7 +72,12 @@ const Header:FC<headerTypes> = () => {
                         <div className={styles.item}>
                             <Button
                                 text='Home'
-                                link='/'
+                                // link='/'
+                                onClick={() => {
+                                    if(pathname !== '/') {
+                                        Router.push('/')
+                                    }
+                                }}
                                 />
                         </div>
                         <div className={styles.item}>

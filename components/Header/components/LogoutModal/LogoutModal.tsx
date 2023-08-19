@@ -4,11 +4,10 @@ import {FC, useState} from 'react';
 import Button from '@/components/Button/Button';
 import { useAppSelector, useAppDispatch } from '@/hooks/useTypesRedux';
 import { Cookies } from 'typescript-cookie';
-import ApiService from '@/service/apiService';
-import { updateToken, updateUserData, updateLoading } from '@/store/actions';
 import notify from '@/helpers/notify';
 import Router  from 'next/router';
-const service = new ApiService();
+import { cookiesStorageKeys } from '@/helpers/storageKeys';
+import { main_deleteToken, main_updateLoading } from '@/store/slices/mainSlice';
 
 
 const LogoutModal:FC<ModalFuncProps> = (props) => {
@@ -23,19 +22,18 @@ const LogoutModal:FC<ModalFuncProps> = (props) => {
     const logout = () => {
         Router.replace('/')
         setLoad(true)
-        dispatch(updateLoading(true))
-        Cookies.remove('handmadep-web-access-token')
-        Cookies.remove('handmadep-web-refresh-token')
+        dispatch(main_updateLoading(true))
+        Cookies.remove(cookiesStorageKeys.TOKEN_ACCESS)
+        Cookies.remove(cookiesStorageKeys.TOKEN_REFRESH)
         if(process?.browser) {
-            sessionStorage.removeItem('handmadep-web-access-token')
-            sessionStorage.removeItem('handmadep-web-refresh-token')
+            sessionStorage.removeItem(cookiesStorageKeys.TOKEN_ACCESS)
+            sessionStorage.removeItem(cookiesStorageKeys.TOKEN_REFRESH)
         }
-        dispatch(updateToken({access: null, refresh: null}))
-        dispatch(updateUserData(null))
+        dispatch(main_deleteToken())
         setLoad(false)
         notify('Logged out', 'SUCCESS')
         onClose()
-        dispatch(updateLoading(false))
+        dispatch(main_updateLoading(false))
     }
 
     return (

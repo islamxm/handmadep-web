@@ -3,7 +3,7 @@ import axios from "axios";
 import checkAuth from "./checkAuth";
 import { IToken } from "@/store/reducer";
 
-const headers = {
+export const headers = {
     'Content-type': 'application/json',
     'Accept': 'application/json',
 }
@@ -146,7 +146,7 @@ class ApiService {
 
 
     // ** Получить товары
-    getCardsList = async (page: number, token?: IToken) => {
+    getCardsList = async (page: any, token?: IToken) => {
         try {
             let res = await fetch(endpoints.cardsList + `?p=${page}`, {
                 method: 'GET',
@@ -273,9 +273,9 @@ class ApiService {
         }
     }
 
-    getSimilarProducts = async (id: number | string, {page,per_page = 20}: {page: number, per_page?: number}) => {
+    getSimilarProducts = async ({page, card_pk ,per_page = 20}: {page: number, card_pk: number | string, per_page?: number}) => {
         try {
-            let res = await fetch(`${PATH}cards/get_similar_cards/${id}?page=${page}&per_page=${per_page}`, {
+            let res = await fetch(`${PATH}cards/get_similar_cards/${card_pk}?p=${page}&per_page=${per_page}`, {
                 method: "POST",
                 headers: {
                     ...headers
@@ -303,6 +303,5 @@ class ApiService {
         }
     }
 }
-
 
 export default ApiService;

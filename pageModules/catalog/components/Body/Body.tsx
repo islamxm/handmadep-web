@@ -10,7 +10,7 @@ import parse from 'html-react-parser';
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
 import { useAppSelector, useAppDispatch } from '@/hooks/useTypesRedux';
-import { updateAuthPopup, updateSignupPopup } from '@/store/actions';
+import { main_updateAuthPopup } from '@/store/slices/mainSlice';
 import ApiService from '@/service/apiService';
 import FancyboxWrapper from '@/components/FancyboxWrapper/FancyboxWrapper';
 import { useWindowSize } from 'usehooks-ts';
@@ -36,7 +36,7 @@ const Body:FC<IProduct> = ({
     is_liked
 }) => { 
     const dispatch = useAppDispatch()
-    const {token: {access}} = useAppSelector(s => s)
+    const {token: {access}} = useAppSelector(s => s.main)
     const [reportModal, setReportModal] = useState(false)
     const router = useRouter()
     const {width} = useWindowSize()
@@ -45,7 +45,7 @@ const Body:FC<IProduct> = ({
     const [likedLoad, setLikeLoad] = useState(false)
     const [pinLoad, setPinLoad] = useState(false)
 
-    const openAuth = () => dispatch(updateAuthPopup(true))
+    const openAuth = () => dispatch(main_updateAuthPopup(true))
 
     useEffect(() => {
         setPinned(is_favorited ? true : false)
@@ -109,7 +109,6 @@ const Body:FC<IProduct> = ({
             if(!pinned) {
                 setPinLoad(true)
                 service.productSave(id, access).then(res => {
-                    console.log(res)
                     if(res?.status === 201 || res?.status === 204) {
                         setPinned(true)
                     } else {
@@ -119,7 +118,6 @@ const Body:FC<IProduct> = ({
             } else {
                 setPinLoad(true)
                 service.productUnsave(id, access).then(res => {
-                    console.log(res)
                     if(res?.status === 201 || res?.status === 204) {
                         setPinned(false)
                     } else {

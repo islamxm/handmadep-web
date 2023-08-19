@@ -11,6 +11,8 @@ export const endpoints = {
     // ** Основные эндпоинты
 
     auth: `${PATH}users/`,
+    authO: `${PATH}auth/o/`,
+    resetPassword: `${PATH}users/reset_password/`,
     //POST - создать пользователя
     //GET - получить список всех пользователей (только для админа)
     me: `${PATH}users/me/`,

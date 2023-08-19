@@ -2,9 +2,8 @@ import styles from './Avatar.module.scss';
 import {FC} from 'react';
 import { avatarTypes } from './types';
 import Image from 'next/image';
-import placeholder from '@/public/assets/avatar-placeholder.png';
 import { useAppSelector } from '@/hooks/useTypesRedux';
-import {useEffect} from 'react';
+
 const Avatar:FC<avatarTypes> = ({
     size = 40,
     image,
@@ -13,7 +12,7 @@ const Avatar:FC<avatarTypes> = ({
     label,
     onClick
 }) => {
-    const {placeholderColor} = useAppSelector(s => s)
+    const {placeholderColor} = useAppSelector(s => s.main)
 
 
     return (
