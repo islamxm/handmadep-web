@@ -19,6 +19,7 @@ import { main_updateLoading, main_updateResetPassPopup, main_updateToken } from 
 import { cookiesStorageKeys } from '@/helpers/storageKeys';
 
 import ResetPasswordModal from '@/popups/ResetPasswordModal/ResetPasswordModa';
+import { authorizeFunc, deauthorizeFunc } from '@/helpers/authorizeUtils';
 
 
 interface I extends ModalFuncProps {
@@ -55,19 +56,13 @@ const Auth:FC<I> = (props) => {
         if(authResponseResult?.data && authResponseResult?.isSuccess) {
             const {tokens} = authResponseResult?.data
             notify('Welcome!', 'SUCCESS')
+            authorizeFunc(tokens)
             dispatch(main_updateToken({
                 access: tokens?.access,
                 refresh: tokens?.refresh
             }))
-            if(save) {
-                Cookies.set(cookiesStorageKeys.TOKEN_ACCESS, tokens?.access, {expires: 100})
-                Cookies.set(cookiesStorageKeys.TOKEN_REFRESH, tokens?.refresh, {expires: 100})
-            } else {
-                Cookies.remove(cookiesStorageKeys.TOKEN_ACCESS)
-                Cookies.remove(cookiesStorageKeys.TOKEN_REFRESH)
-            }
-        }
-    }, [authResponseResult, save])
+        } else deauthorizeFunc()
+    }, [authResponseResult])
 
 
     useEffect(() => {

@@ -7,7 +7,7 @@ import ProductModal from "@/popups/ProductModal/ProductModal";
 import { useRouter } from "next/router";
 import { useAuthGoogleTokenMutation, useGetUserDataQuery } from "@/store/slices/apiSlice";
 import { main_updateLoading } from "@/store/slices/mainSlice";
-import authorizeFunc from "@/helpers/authorizeFunc";
+import {authorizeFunc} from "@/helpers/authorizeUtils";
 
 const MainWrapper = ({
     children
