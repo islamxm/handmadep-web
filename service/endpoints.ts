@@ -32,7 +32,7 @@ export const endpoints = {
     //проверка актуальности токена
     authExternal: (provider: any) => `${PATH}/o/${provider}/`,
     //авторизация через соцсети
-    cardsList: `${PATH}cards/`,
+    cardsList: `${PATH}cards`,
     //GET - получиение списка товаров
     productSave: (id: string | number) => `${PATH}cards/${id}/favorite/`,
     //POST

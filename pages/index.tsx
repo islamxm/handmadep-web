@@ -5,149 +5,109 @@ import { useEffect, useState } from 'react';
 import styles from '@/pageModules/home/home.module.scss';
 import * as _ from 'lodash';
 import { useAppSelector } from "@/hooks/useTypesRedux";
-import { useInView } from "react-intersection-observer"
 import { GetServerSideProps } from "next";
 import { LoadPrev, LoadNext } from "@/components/loadMoreCtrl/loadMoreCtrl";
-import { Cookies } from "typescript-cookie";
-import Router from "next/router";
 
 const service = new ApiService()
 
-
-
 export const getServerSideProps: GetServerSideProps = async (context) => {
-    const { query: { page } } = context
+	const { query: { page } } = context
 
-    const res = await service.getCardsList(page ?? 1)
-    const data = await res?.results?.map((i:any) => ({...i, height: _.random(200,350)}))
+	const res = await service.getCardsList(page ?? 1)
+	const data = await res?.results?.map((i: any) => ({ ...i, height: _.random(200, 350) }))
 
-    return {
-        props: {
-            list: data,
-            initPage: page ?? 1
-        }
-    }
+	return {
+		props: {
+			list: data,
+			initPage: 1
+		}
+	}
 }
 
 
 const HomePage = ({ list, initPage }: { list: any[], initPage: number | any }) => {
-    const { token: { access } } = useAppSelector(s => s.main)
+	const { token: { access } } = useAppSelector(s => s.main)
+	const [page, setPage] = useState(1)
 
-    const [prevPage, setPrevPage] = useState(0)
-    const [page, setPage] = useState(1)
-    const [total, setTotal] = useState(0)
-    const [localList, setLocalList] = useState<any[]>([])
+	const [prevPage, setPrevPage] = useState(0)
+	const [localList, setLocalList] = useState<any[]>([])
 
+	// контроль возможности загрузки СЛЕДУЮЩЕЙ страницы (пока без логики)
+	const [canLoadNext, setCanLoadNext] = useState(true)
 
-    // контроль возможности загрузки СЛЕДУЮЩЕЙ страницы (пока без логики)
-    const [canLoadNext, setCanLoadNext] = useState(true)
-
-
-    useEffect(() => {
-        setLocalList(list)
-    }, [list])
-
-    useEffect(() => setPage(initPage ?? 1), [initPage])
-
-    const getData = (page: any, type: 'init' | 'update', dir?: 'prev' | 'next') => {
-        if(page) {
-            if(access) {
-                service.getCardsList(page, access).then(res => {
-                    if(page === 1) {
-                        setLocalList(res?.results?.map((i:any) => ({...i, height: _.random(200,350)})))
-                    } else {
-                        switch(dir) {
-                            case 'next':
-                                setLocalList(s => [...s, ...res?.results?.map((i:any) => ({...i, height: _.random(200,350)}))])
-                                break;
-                            case 'prev':
-                                setLocalList(s => [...res?.results?.map((i:any) => ({...i, height: _.random(200,350)})), ...s])
-                                break;
-                            default:
-                                setLocalList(res?.results?.map((i:any) => ({...i, height: _.random(200,350)})))
-                                break;
-                        }
-                    }
-                })
-            } else {
-                service.getCardsList(page).then(res => {
-                    if(page === 1) {
-                        setLocalList(res?.results?.map((i:any) => ({...i, height: _.random(200,350)})))
-                    } else {
-                        setLocalList(s => [...s, ...res?.results?.map((i:any) => ({...i, height: _.random(200,350)}))])
-                    }
-                })
-            }
-        }    
-    }
-
-    // useEffect(() => {
-    //     if(access) {
-    //         page === 1 && getData(1, 'init')
-    //     } else setPage(1)
-    // }, [access, page])
-    
+	useEffect(() => {
+		setLocalList(list)
+	}, [list])
 
 
-    // // ** обновление списка
-    // const updateList = useCallback(() => {
-    //     if (currentPage > 1) {
+	const getData = (
+		page: any, 
+		type: 'init' | 'update', 
+		dir?: 'prev' | 'next') => {
+		if (page) {
+			if (access) {
+				service.getCardsList(page).then(res => {
+					if (page === 1) {
+						setLocalList(res?.results?.map((i: any) => ({ ...i, height: _.random(200, 350) })))
+					} else {
+						switch (dir) {
+							case 'next':
+								break;
+							case 'prev':
+								setLocalList(s => [...res?.results?.map((i: any) => ({ ...i, height: _.random(200, 350) })), ...s])
+								break;
+							default:
+								setLocalList(res?.results?.map((i: any) => ({ ...i, height: _.random(200, 350) })))
+								break;
+						}
+					}
+				})
+			} else {
+				service.getCardsList(page).then(res => {
+					if (page === 1) {
+						setLocalList(res?.results?.map((i: any) => ({ ...i, height: _.random(200, 350) })))
+					} else {
+						setLocalList(s => [...s, ...res?.results?.map((i: any) => ({ ...i, height: _.random(200, 350) }))])
+					}
+				})
+			}
+		}
+	}
 
-    //         if (access) {
-    //             service.getCardsList(currentPage, access).then(res => {
-    //                 if (res?.results?.length > 0) {
-    //                     setLocalList(s => [...s, ...res?.results?.map((i: any) => ({ ...i, height: _.random(150, 350) }))])
-    //                 }
-    //                 if (res?.results?.length < 20) {
-    //                     setLoad(false)
-    //                 }
-    //             })
-    //         } else {
-    //             service.getCardsList(currentPage).then(res => {
-    //                 if (res?.results?.length > 0) {
-    //                     setLocalList(s => [...s, ...res?.results.map((i: any) => ({ ...i, height: _.random(150, 350) }))])
-    //                 }
-    //                 if (res?.results?.length < 20) {
-    //                     setLoad(false)
-    //                 }
-    //             })
-    //         }
-    //     }
-    // }, [currentPage, access])
+	/** при появлении TOKEN для того чтобы сделать новый запрос проверяем если мы находимся на 1 странице то делаем запрос на получение данных, а если нет то просто сетим страницу 1 */
+	useEffect(() => {
+		if (access) {
+			if (page === 1) {
+				console.log('PAGE 1')
+				getData(1, 'init')
+			} else {
+				setPage(1)
+			}
+		}
+	}, [access])
 
+	useEffect(() => {
+		if (page > 1) {
+			if (page > prevPage) {
+				getData(page, 'update', 'next')
+			}
+			if (page < prevPage) {
+				getData(page, 'update', 'prev')
+			}
+		}
+	}, [page, prevPage])
 
-    useEffect(() => {
-        if(page && access) {
-            getData(page, 'init')
-        }
-    }, [page,access])
-
-  
-
-
-    useEffect(() => {
-        if(page > 1) {
-            if(page > prevPage) {
-                getData(page, 'update', 'next')
-            } 
-            if(page < prevPage) {
-                getData(page, 'update', 'prev')
-            }
-        }
-    }, [page, prevPage])
-    
-
-    return (
-        <div className={styles.wrapper}>
-            <ContentLayout>
-                {initPage > 1 && <LoadPrev setPage={setPage} page={page}/>}
-                <List
-                    setPage={setPage}
-                    list={localList} />
-                {(localList?.length > 0 && canLoadNext) && <LoadNext setPage={setPage} page={page}/>}
-            </ContentLayout>
-        </div>
-    )
+	return (
+		<div className={styles.wrapper}>
+			<ContentLayout>
+				{initPage > 1 && <LoadPrev setPage={setPage} page={page} />}
+				<List
+					setPage={setPage}
+					list={localList} />
+				{(localList?.length > 0 && canLoadNext) && <LoadNext setPage={setPage} page={page} />}
+			</ContentLayout>
+		</div>
+	)
 }
 
 export default HomePage;

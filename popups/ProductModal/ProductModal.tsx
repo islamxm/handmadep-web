@@ -5,6 +5,7 @@ import Avatar from '@/components/Avatar/Avatar';
 import UserBadge from '@/components/UserBadge/UserBadge';
 import Image from 'next/image';
 import { useAppSelector, useAppDispatch } from '@/hooks/useTypesRedux';
+import { useGetProductQuery } from '@/store/slices/apiSlice';
 
 import {
     BsFillHeartFill,
@@ -30,14 +31,15 @@ const service = new ApiService()
 const ProductModal:FC<I & ModalFuncProps> = (props) => {
     const {onCancel, open} = props
     const {currentProduct, token: {access}} = useAppSelector(s => s.main)
+    const {
+        id,
+    } = currentProduct || {}
     const dispatch = useAppDispatch()
     const [liked, setLiked] = useState<boolean>(false)
     const [fav, setFav] = useState<boolean>(false)
     const [data, setData] = useState<any>(null)
 
-    const {
-        id,
-    } = currentProduct || {}
+    
 
     const {
         active,
@@ -59,12 +61,11 @@ const ProductModal:FC<I & ModalFuncProps> = (props) => {
 
     const onClose = () => {
         dispatch(main_updateCurrentProduct(null))
-        setData(null)
         setLiked(false)
         setFav(false)
+        setData(null)
         onCancel && onCancel()
     }
-
 
     const getData = () => {
         if(id) {
@@ -74,6 +75,14 @@ const ProductModal:FC<I & ModalFuncProps> = (props) => {
             })
         }
     }
+
+    useEffect(() => {
+        if(id && open) {
+            getData()
+        } else {
+            setData(null)
+        }
+    }, [id, open])
 
     const onLike = () => {
         if(access && id) {
@@ -93,19 +102,10 @@ const ProductModal:FC<I & ModalFuncProps> = (props) => {
              
         }
     }
+
     const onShare = () => {}
     const onFav = () => {}
     const onOpen = () => {}
-
-    useEffect(() => {
-        if(id && open) {
-            getData()
-        } else {
-            setData(null)
-        }
-    }, [id, open])
-
-    
 
     useEffect(() => {
         if(data) {
@@ -113,7 +113,6 @@ const ProductModal:FC<I & ModalFuncProps> = (props) => {
             setFav(is_favorited)
         }
     }, [is_liked, is_favorited, data])
-
 
     return (
         <Modal

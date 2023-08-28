@@ -147,24 +147,9 @@ class ApiService {
 
     // ** Получить товары
     getCardsList = async (page: any, token?: IToken) => {
-        try {
-            let res = await fetch(endpoints.cardsList + `?p=${page}`, {
-                method: 'GET',
-                headers: token ? {'Authorization': `JWT ${token}`} : {}
-            })
-            return await res?.json()
-        } catch(err) {
-            console.log(err)
-        }
-    } 
-
-
-
-    // ** Получить конкретный товар
-    getProduct = async (id?: string | string[], token?: IToken) => {
         if(token) {
             try {
-                let res = await fetch(endpoints.cardsList + id, {
+                let res = await fetch(endpoints.cardsList + `?p=${page}`, {
                     method: 'GET',
                     headers: {
                         ...headers,
@@ -177,7 +162,38 @@ class ApiService {
             }
         } else {
             try {
-                let res = await fetch(endpoints.cardsList + id, {
+                let res = await fetch(endpoints.cardsList + `?p=${page}`, {
+                    method: 'GET',
+                    headers
+                })
+                return await res?.json()
+            } catch(err) {
+                console.log(err)
+            }
+        }
+        
+    } 
+
+
+
+    // ** Получить конкретный товар
+    getProduct = async (id?: string | string[], token?: IToken) => {
+        if(token) {
+            try {
+                let res = await fetch(endpoints.cardsList + `/${id}`, {
+                    method: 'GET',
+                    headers: {
+                        ...headers,
+                        'Authorization': `JWT ${token}`
+                    }
+                })
+                return await res?.json()
+            } catch(err) {
+                console.log(err)
+            }
+        } else {
+            try {
+                let res = await fetch(endpoints.cardsList + `/${id}`, {
                     method: 'GET',
                     headers
                 })

@@ -39,6 +39,9 @@ const mainSlice = createSlice({
         },
         main_updateUserData: (state, action) => {
             state.userData = action.payload
+        },
+        main_updateCachedCards: (state, action) => {
+            state.cachedCards = action.payload
         }
     }
 })

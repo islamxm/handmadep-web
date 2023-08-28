@@ -20,7 +20,7 @@ import { cookiesStorageKeys } from '@/helpers/storageKeys';
 
 import ResetPasswordModal from '@/popups/ResetPasswordModal/ResetPasswordModa';
 import { authorizeFunc, deauthorizeFunc } from '@/helpers/authorizeUtils';
-
+import apiSlice from '@/store/slices/apiSlice';
 
 interface I extends ModalFuncProps {
     toggleModal: (...args: any[]) => any
@@ -29,7 +29,7 @@ interface I extends ModalFuncProps {
 const Auth:FC<I> = (props) => {
     const {onCancel, toggleModal} = props
     const [authResponse, authResponseResult] = useAuthMutation()
-    const {isLoading, refetch} = useAuthGoogleQuery('')
+    // const {isLoading, refetch} = useAuthGoogleQuery('')
     
     const {resetPassPopup} = useAppSelector(s => s.main)
     const dispatch = useAppDispatch()
@@ -52,9 +52,10 @@ const Auth:FC<I> = (props) => {
     }
 
     useEffect(() => {
-        dispatch(main_updateLoading(isLoading))
+        dispatch(main_updateLoading(authResponseResult.isLoading))
         if(authResponseResult?.data && authResponseResult?.isSuccess) {
-            const {tokens} = authResponseResult?.data
+            const tokens = authResponseResult?.data
+            
             notify('Welcome!', 'SUCCESS')
             authorizeFunc(tokens)
             dispatch(main_updateToken({
@@ -68,19 +69,19 @@ const Auth:FC<I> = (props) => {
         }
     }, [authResponseResult])
 
-
     const authGoogle = async () => {
-        const {data, isLoading, isSuccess} = await refetch()
+        const res = await dispatch(apiSlice.endpoints.authGoogle.initiate(''))
+        const {data, isSuccess, isLoading} = res
         dispatch(main_updateLoading(isLoading))
         if(data?.authorization_url && isSuccess) window.location.replace(data?.authorization_url)
     }
-
 
     return (
         <Modal
             {...props}
             onCancel={onClose}
             width={500}
+            centered
             className={`${styles.wrapper} modal`}
             >
             <ResetPasswordModal 

@@ -77,7 +77,7 @@ const List:FC<{
 
     return (
         <div className={styles.wrapper}>
-            {/* {
+            {
                 useMasonry({
                     positioner,
                     scrollTop,
@@ -88,12 +88,12 @@ const List:FC<{
                     overscanBy: 5,
                     resizeObserver,
                     render: Product,
-                    itemKey(data, index) {
-                        return data?.id
-                    },
+                    // itemKey(data, index) {
+                    //     return data?.id
+                    // },
                 })
-            } */}
-            <Masonry
+            }
+            {/* <Masonry
                 rowGutter={20}
                 columnGutter={20}
                 columnWidth={itemWidth}
@@ -103,7 +103,7 @@ const List:FC<{
                 // key={'home'}
                 // itemKey={data => data?.id}
                 // resizeObserver={resizeObserver}
-                />
+                /> */}
         </div>
     )
 }

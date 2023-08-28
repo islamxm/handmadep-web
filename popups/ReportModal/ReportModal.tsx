@@ -57,7 +57,8 @@ const ReportModal:FC<ModalFuncProps & I> = (props) => {
     return (
         <Modal
             {...props}
-            onCancel={onClose}       
+            onCancel={onClose}  
+            centered     
             className={`${styles.wrapper} modal`}
             >
             <Row gutter={[10,10]} style={{paddingTop: 30}}>
