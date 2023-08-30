@@ -42,7 +42,7 @@ const ProfileCard:FC<IUser> = ({
                 if(res && typeof res === 'string') {
                     service.editSelf({avatar_image: res}, access).then(data => {
                         if(data?.id) {
-                            dispatch(main_updateUserData(res))
+                            dispatch(main_updateUserData(data))
                             notify('Success', 'SUCCESS')
                         } else {
                             notify('An error occurred', 'ERROR')
@@ -52,6 +52,20 @@ const ProfileCard:FC<IUser> = ({
                     setIsLoading(false)
                 }
             }
+        }
+    }
+
+    const onDeleteImage = () => {
+        if(access) {
+            setIsLoading(true)
+            service.editSelf({avatar_image: null}, access).then(res => {
+                if(res?.id) {
+                    dispatch(main_updateUserData(res))
+                    notify('Success', 'SUCCESS')
+                } else {
+                    notify('An error occurred', 'ERROR')
+                }
+            }).finally(() => setIsLoading(false))
         }
     }
 
@@ -85,11 +99,18 @@ const ProfileCard:FC<IUser> = ({
                         </label>
                     </div>
                     {
-                        avatar ? (
+                        avatar_image && (
                             <div className={styles.item}>
-                                <Button round icon={<BsTrashFill size={30} color='#fff'/>} variant='brown'/>
+                                <Button 
+                                    onClick={onDeleteImage}
+                                    style={{
+                                        width: 60, 
+                                        height: 60
+                                    }} 
+                                    round  
+                                    icon={<BsTrashFill size={25} color='#fff'/>} variant='brown'/>
                             </div>
-                        ) : null
+                        )
                     }
                 </div>
             </div>   

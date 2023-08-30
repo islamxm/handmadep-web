@@ -60,7 +60,7 @@ class ApiService {
         username?: string,
         email?: string,
         about?: string,
-        avatar_image?: string,
+        avatar_image?: string | null,
         site?: string
     }, token: IToken) => {
         try {
