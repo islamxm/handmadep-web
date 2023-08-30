@@ -34,7 +34,7 @@ const MainWrapper = ({
 			getUserData(access).then(res => {
 				const {data, isSuccess} = res
 				if(isSuccess && data) {
-					dispatch(main_updateUserData(res))
+					dispatch(main_updateUserData(data))
 				}
 			})
 		}

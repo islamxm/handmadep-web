@@ -55,13 +55,13 @@ const Auth:FC<I> = (props) => {
         dispatch(main_updateLoading(authResponseResult.isLoading))
         if(authResponseResult?.data && authResponseResult?.isSuccess) {
             const tokens = authResponseResult?.data
-            
             notify('Welcome!', 'SUCCESS')
             authorizeFunc(tokens)
             dispatch(main_updateToken({
                 access: tokens?.access,
                 refresh: tokens?.refresh
             }))
+            window.location.reload()
         } 
         if(authResponseResult?.isError) {
             deauthorizeFunc()

@@ -4,6 +4,7 @@ import { avatarTypes } from './types';
 import Image from 'next/image';
 import { useAppSelector } from '@/hooks/useTypesRedux';
 
+
 const Avatar:FC<avatarTypes> = ({
     size = 40,
     image,
@@ -25,7 +26,12 @@ const Avatar:FC<avatarTypes> = ({
                             className={styles.image_el} 
                             src={image} 
                             alt="" 
-                            placeholder={'blur'}/>
+                            width={(size && typeof size === 'number') ? size : 40}
+                            height={(size && typeof size === 'number') ? size : 40}
+                            loader={(p) => {
+                                return p?.src && typeof p?.src === 'string' ? p?.src : '' 
+                            }}
+                            />
                     ) : <div 
                             style={{
                                 fontSize: typeof size === 'number' ? size - 20 : `calc(${size} - 20px)`,

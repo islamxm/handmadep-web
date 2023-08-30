@@ -46,7 +46,7 @@ export const globalState: IGlobalState = {
         refresh: 
         (process?.browser && Cookies?.get('handmadep-web-refresh-token')) || (SESSION_STORAGE && SESSION_STORAGE.getItem('handmadep-web-refresh-token')) ? Cookies?.get('handmadep-web-refresh-token') || SESSION_STORAGE && SESSION_STORAGE.getItem('handmadep-web-refresh-token') : null,
     },
-    placeholderColor: colors[_.random(colors.length)],
+    placeholderColor: colors[_.random(0, colors.length - 1)],
     loading: false,
     userData: null,
     authPopup: false,

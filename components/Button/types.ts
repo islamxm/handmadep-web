@@ -15,7 +15,7 @@ export type buttonTypes = {
     badge?: number
     onClick?: (...args: any[]) => any
     link?: string,
-    blank?: boolean
+    blank?: boolean,
 } 
 
 export type buttonVariants = 'default' | 'danger' | 'success' | 'black' | 'brown' | 'white' | 'blue' | 'transparent' | 'gray'

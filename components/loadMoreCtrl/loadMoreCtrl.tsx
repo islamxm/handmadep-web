@@ -27,21 +27,24 @@ export const LoadPrev:FC<ILoadMore> = ({
 export const LoadNext:FC<ILoadMore> = ({
     setPage,
     setPrevPage,
-    page
+    page,
+    canLoadNext
 }) => {
     const {ref, inView} = useInView({
         rootMargin: '0px 0px 50% 0px'
     })
 
     useEffect(() => {
-        inView && setPage(s => {
-            setPrevPage && setPrevPage(s)
-            return s + 1
-        })
+        if(inView && canLoadNext) {
+            ((s:any) => {
+                setPrevPage && setPrevPage(s)
+                return s + 1
+            })
+        }
     }, [inView, setPage])
 
     return (
-        <div ref={ref}/>
+        <div ref={ref}>load more</div>
     )
 }
 

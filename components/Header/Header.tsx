@@ -1,6 +1,6 @@
 import styles from './Header.module.scss';
 import { headerTypes } from './types';
-import {FC, useState} from 'react';
+import {FC, useEffect, useState} from 'react';
 import Container from '../Container/Container';
 import Button from '../Button/Button';
 import {BsFillChatDotsFill, BsPlusLg, BsBellFill} from 'react-icons/bs';
@@ -49,6 +49,7 @@ const Header:FC<headerTypes> = () => {
     const openLogoutModal = () => setLogoutModal(true)
     const closeLogoutModal = () => setLogoutModal(false)
 
+
     return (
         <div className={`${styles.wrapper} ${searchPopup ? styles.open : ''}`}>
             <Auth 
@@ -65,14 +66,11 @@ const Header:FC<headerTypes> = () => {
                 />
             <Container>
                 <div className={styles.in}>
-                    <div className={`${styles.part} ${styles.logo}`}>
-                        
-                    </div>
+                    <div className={`${styles.part} ${styles.logo}`}></div>
                     <div className={`${styles.part} ${styles.action}`}>
                         <div className={styles.item}>
                             <Button
                                 text='Home'
-                                // link='/'
                                 onClick={() => {
                                     if(pathname !== '/') {
                                         Router.push('/')
@@ -97,7 +95,6 @@ const Header:FC<headerTypes> = () => {
                             <Button
                                 variant={'transparent'}
                                 round
-                                // badge={100}
                                 icon={<BsBellFill size={25} color="#fff"/>}
                                 />
                         </div>
@@ -114,7 +111,7 @@ const Header:FC<headerTypes> = () => {
                                             isActive
                                             size={40}
                                             label={userData?.username}
-                                            // image={avatarImg}
+                                            image={userData?.avatar_image}
                                             />
                                             </div>
                                     </Dropdown>

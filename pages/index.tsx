@@ -24,7 +24,6 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 	}
 }
 
-
 const HomePage = ({ list, initPage }: { list: any[], initPage: number | any }) => {
 	const { token: { access } } = useAppSelector(s => s.main)
 	const [page, setPage] = useState(1)
@@ -40,18 +39,23 @@ const HomePage = ({ list, initPage }: { list: any[], initPage: number | any }) =
 	}, [list])
 
 
+	
+
 	const getData = (
 		page: any, 
 		type: 'init' | 'update', 
 		dir?: 'prev' | 'next') => {
 		if (page) {
+			setCanLoadNext(false)
 			if (access) {
+				console.log('UPDATE LIST')
 				service.getCardsList(page).then(res => {
 					if (page === 1) {
 						setLocalList(res?.results?.map((i: any) => ({ ...i, height: _.random(200, 350) })))
 					} else {
 						switch (dir) {
 							case 'next':
+								setLocalList(s => [...s, ...res?.results?.map((i: any) => ({ ...i, height: _.random(200, 350) }))])
 								break;
 							case 'prev':
 								setLocalList(s => [...res?.results?.map((i: any) => ({ ...i, height: _.random(200, 350) })), ...s])
@@ -61,15 +65,16 @@ const HomePage = ({ list, initPage }: { list: any[], initPage: number | any }) =
 								break;
 						}
 					}
-				})
+				}).finally(() => setCanLoadNext(true))
 			} else {
+				
 				service.getCardsList(page).then(res => {
 					if (page === 1) {
 						setLocalList(res?.results?.map((i: any) => ({ ...i, height: _.random(200, 350) })))
 					} else {
 						setLocalList(s => [...s, ...res?.results?.map((i: any) => ({ ...i, height: _.random(200, 350) }))])
 					}
-				})
+				}).finally(() => setCanLoadNext(true))
 			}
 		}
 	}
@@ -78,7 +83,6 @@ const HomePage = ({ list, initPage }: { list: any[], initPage: number | any }) =
 	useEffect(() => {
 		if (access) {
 			if (page === 1) {
-				console.log('PAGE 1')
 				getData(1, 'init')
 			} else {
 				setPage(1)
@@ -100,11 +104,11 @@ const HomePage = ({ list, initPage }: { list: any[], initPage: number | any }) =
 	return (
 		<div className={styles.wrapper}>
 			<ContentLayout>
-				{initPage > 1 && <LoadPrev setPage={setPage} page={page} />}
+				{/* {initPage > 1 && <LoadPrev setPage={setPage} page={page} />} */}
 				<List
 					setPage={setPage}
 					list={localList} />
-				{(localList?.length > 0 && canLoadNext) && <LoadNext setPage={setPage} page={page} />}
+				{(localList?.length > 0 && canLoadNext) && <LoadNext canLoadNext={canLoadNext} setPage={setPage} page={page} />}
 			</ContentLayout>
 		</div>
 	)
