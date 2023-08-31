@@ -9,9 +9,10 @@ import {useEffect, useState} from 'react';
 import Router from 'next/router';
 import Drop from './components/Drop/Drop';
 import { main_closeSearch, main_openSearch, main_updateAuthPopup } from '@/store/slices/mainSlice';
-
+import useRouter from 'next/router';
 
 const Menu = () => {
+    const router = useRouter()
     const {token, userData, searchPopup} = useAppSelector(s => s.main)
     const dispatch = useAppDispatch()
     const [dropOpen, setDropOpen] = useState(false)
@@ -21,7 +22,7 @@ const Menu = () => {
 
     useEffect(() => {
         setDropOpen(false)
-    }, [Router.pathname]);
+    }, [router?.location]);
     
 
 
