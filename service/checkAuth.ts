@@ -1,5 +1,5 @@
 import { Cookies } from "typescript-cookie";
-
+import Router from 'next/router';
 
 const checkAuth = (res: Response, noparse?: boolean) => {
 
@@ -9,7 +9,8 @@ const checkAuth = (res: Response, noparse?: boolean) => {
         if(process?.browser) {
             sessionStorage.removeItem('handmadep-web-access-token')
             sessionStorage.removeItem('handmadep-web-refresh-token')
-            window.location.replace('/')
+            // window.location.replace('/')
+            Router.replace('/')
         }
     } else {
         if(noparse) {
