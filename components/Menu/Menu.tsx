@@ -5,24 +5,30 @@ import {BsBellFill} from 'react-icons/bs';
 import {ImEnter} from 'react-icons/im';
 import Avatar from '../Avatar/Avatar';
 import { useAppDispatch, useAppSelector } from '@/hooks/useTypesRedux';
-import {useEffect} from 'react';
+import {useEffect, useState} from 'react';
 import Router from 'next/router';
+import Drop from './components/Drop/Drop';
 import { main_closeSearch, main_openSearch, main_updateAuthPopup } from '@/store/slices/mainSlice';
 
 
 const Menu = () => {
     const {token, userData, searchPopup} = useAppSelector(s => s.main)
     const dispatch = useAppDispatch()
-
+    const [dropOpen, setDropOpen] = useState(false)
     const openAuth = () => dispatch(main_updateAuthPopup(true))
     const closeAuth = () => dispatch(main_updateAuthPopup(false))
 
-    
+
+    useEffect(() => {
+        setDropOpen(false)
+    }, [Router.pathname]);
     
 
 
     return (
         <div className={styles.wrapper}>
+            <Drop onClose={() => setDropOpen(false)} isOpen={dropOpen}/>
+
             <ul className={styles.list}>
                 <li className={styles.item}>
                     <Button
@@ -61,10 +67,14 @@ const Menu = () => {
                     {
                         token?.access ? (
                             <Avatar
+                                style={dropOpen ? {position: 'relative', zIndex: 100} : {}}
+                                // style={{position: 'relative', zIndex: 100}}
                                 label={userData?.username}
                                 size={45}
-                                image={userData?.avatar_url}
-                                onClick={() => Router.push('/profile')}
+                                isActive={dropOpen}
+                                image={userData?.avatar_image}
+                                // onClick={() => Router.push('/profile')}
+                                onClick={() => setDropOpen(s => !s)}
                                 />
                         ) : (
                             <Button

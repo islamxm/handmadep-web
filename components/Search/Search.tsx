@@ -107,9 +107,16 @@ const Search: FC<any> = () => {
   }, [router])
 
 
+  const onResetandClear = () => {
+    setValue('')
+    setPage(1)
+    setList([])
+  }
+
   return (
     <OutsideClickHandler onOutsideClick={() => {
       setDropdownOpen(false)
+      onResetandClear()
       dispatch(main_closeSearch())
     }}>
     <Dropdown
@@ -146,7 +153,7 @@ const Search: FC<any> = () => {
               <Button
                 style={{width: 40, height: 40}}
                 onClick={() => {
-                  setValue('')
+                  onResetandClear()
                   setDropdownOpen(false)
                   dispatch(main_closeSearch())
                 }}
