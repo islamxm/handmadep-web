@@ -2,16 +2,18 @@ import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import { BASE_DOMAIN, endpoints } from '@/service/endpoints';
 import { AuthBody } from '@/models/AuthBody';
 import { headers } from '@/service/apiService';
-import { IToken } from '../reducer';
+import checkAuth from "@/helpers/checkAuth";
 import ReportReasons from '@/models/ReportReasons';
 
 const setHeaderWithToken = (token: any) => {
 	if(token) {
 		return { ...headers, 'Authorization': `JWT ${token}` }
 	} else {
-		return { ...headers}
+		return headers
 	}
 }
+
+
 
 const apiSlice = createApi({
 	reducerPath: 'api',
@@ -64,7 +66,8 @@ const apiSlice = createApi({
 			query: (token) => ({
 				url: endpoints.me,
 				headers: setHeaderWithToken(token)
-			})
+			}),
+			transformErrorResponse: (res) => checkAuth(res.status)
 		}),
 
 		getCards: builder.query({
@@ -94,7 +97,8 @@ const apiSlice = createApi({
 			}) => ({
 				url: endpoints.cardsList + `/${id}`,
 				headers: setHeaderWithToken(token)
-			})
+			}),
+			transformErrorResponse: (res) => checkAuth(res.status)
 		}),
 
     getSimilarProds: builder.query({
@@ -108,8 +112,9 @@ const apiSlice = createApi({
 				per_page?: number
 			}) => ({
 				url: endpoints.getSimilarProducts + `/${card_pk}?p=${page}&per_page=${per_page}`,
-				headers
-			})
+				headers: setHeaderWithToken(null)
+			}),
+			transformErrorResponse: (res) => checkAuth(res.status)
 		}),
 
 		reportProduct: builder.mutation({
@@ -124,8 +129,18 @@ const apiSlice = createApi({
 				method: "POST",
 				headers: setHeaderWithToken(token),
 				body: JSON.stringify(body),
-			})
+			}),
+			transformErrorResponse: (res) => checkAuth(res.status)
 		}),
+
+		search: builder.query({
+			query: ({query_string, page}: {
+				query_string?:string,
+				page?: number
+			}) => ({
+				url: endpoints.search + `?query_string=${query_string}&p=${page}`,
+			}),
+		})
 	}),
 })
 
@@ -141,6 +156,7 @@ export const {
 	useGetSimilarProdsQuery,
 	useReportProductMutation,
 	useGetCardsQuery,
-	useGetProductQuery
+	useGetProductQuery,
+	useSearchQuery
 } = apiSlice
 
