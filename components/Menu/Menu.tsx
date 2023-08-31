@@ -6,10 +6,10 @@ import {ImEnter} from 'react-icons/im';
 import Avatar from '../Avatar/Avatar';
 import { useAppDispatch, useAppSelector } from '@/hooks/useTypesRedux';
 import {useEffect, useState} from 'react';
-import Router from 'next/router';
+import Router, {useRouter} from 'next/router';
 import Drop from './components/Drop/Drop';
 import { main_closeSearch, main_openSearch, main_updateAuthPopup } from '@/store/slices/mainSlice';
-import useRouter from 'next/router';
+
 
 const Menu = () => {
     const router = useRouter()
@@ -22,7 +22,7 @@ const Menu = () => {
 
     useEffect(() => {
         setDropOpen(false)
-    }, [router?.location]);
+    }, [router?.pathname]);
     
 
 
