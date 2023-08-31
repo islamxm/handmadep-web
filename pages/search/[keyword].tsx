@@ -36,8 +36,7 @@ const KeywordPage = ({list}: {list: any[]}) => {
         <div>
             <ContentLayout>
                 <PageTitle
-                    // title={query?.keyword}
-                    title={'Keyword'}
+                    title={query?.keyword}
                     />
                 {/* <List
                     list={list}
