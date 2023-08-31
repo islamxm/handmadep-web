@@ -52,7 +52,6 @@ const ProfileEdit:FC<IUser> = ({
                 email: localEmail,
                 about: localAbout,
                 site: localSite,
-                image: ''
             }, access).then(res => {
                 if(res?.id) {
                     dispatch(main_updateUserData(res))
