@@ -36,7 +36,7 @@
         opacity: 1;
         z-index: 5;
         transition: all .3s ease; 
-
+        border-radius: 20px;
         
         &:after {
             position: absolute;
@@ -47,6 +47,7 @@
             background-color: bisque;
             content: '';
             animation: sk-pr-loading 1s linear infinite;
+            border-radius: 20px;
         }
 
         @keyframes sk-pr-loading {

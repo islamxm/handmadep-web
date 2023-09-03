@@ -44,6 +44,8 @@ export const endpoints = {
 
 
     getSimilarProducts: `${PATH}cards/get_similar_cards`,
+    getFavs: `${PATH}favorites`,
+    getLikes: `${PATH}likes`,
 
 
 

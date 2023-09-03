@@ -1,9 +1,22 @@
-import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
+import { 
+	buildCreateApi,
+  coreModule,
+  reactHooksModule,
+	fetchBaseQuery
+} from '@reduxjs/toolkit/query/react';
 import { BASE_DOMAIN, endpoints } from '@/service/endpoints';
 import { AuthBody } from '@/models/AuthBody';
 import { headers } from '@/service/apiService';
 import checkAuth from "@/helpers/checkAuth";
 import ReportReasons from '@/models/ReportReasons';
+import { HYDRATE } from 'next-redux-wrapper';
+
+
+const createApi = buildCreateApi(
+	coreModule(),
+	reactHooksModule({ unstable__sideEffectsInRender: true })
+)
+
 
 const setHeaderWithToken = (token: any) => {
 	if(token) {
@@ -14,15 +27,14 @@ const setHeaderWithToken = (token: any) => {
 }
 
 
-
 const apiSlice = createApi({
 	reducerPath: 'api',
 	baseQuery: fetchBaseQuery({ baseUrl: BASE_DOMAIN }),
-	// extractRehydrationInfo(action, { reducerPath }) {
-  //   if (action.type === HYDRATE) {
-  //     return action.payload[reducerPath]
-  //   }
-  // },
+	extractRehydrationInfo(action, { reducerPath }) {
+    if (action.type === HYDRATE) {
+      return action.payload[reducerPath]
+    }
+  },
 	endpoints: builder => ({
 
 		auth: builder.mutation({
@@ -105,14 +117,16 @@ const apiSlice = createApi({
 			query: ({
 				page,
 				card_pk,
-				per_page = 20
+				per_page = 20,
+				token
 			}: {
 				page: number,
-				card_pk: string | string[] | undefined,
-				per_page?: number
+				card_pk: any,
+				per_page?: number,
+				token?: any
 			}) => ({
 				url: endpoints.getSimilarProducts + `/${card_pk}?p=${page}&per_page=${per_page}`,
-				headers: setHeaderWithToken(null)
+				headers: setHeaderWithToken(token)
 			}),
 			transformErrorResponse: (res) => checkAuth(res.status)
 		}),
@@ -134,12 +148,36 @@ const apiSlice = createApi({
 		}),
 
 		search: builder.query({
-			query: ({query_string, page}: {
-				query_string?:string,
-				page?: number
+			query: ({query_string, page, token}: {
+				query_string?:any,
+				page?: number,
+				token?: any
 			}) => ({
 				url: endpoints.search + `?query_string=${query_string}&p=${page}`,
+				headers: setHeaderWithToken(token)
 			}),
+		}),
+
+		getFavs: builder.query({
+			query: ({page,per_page = 10, token}: {
+				page: number,
+				per_page?: number ,
+				token:any
+			}) => ({
+				url: endpoints.getFavs + `?p=${page}`,
+				headers: setHeaderWithToken(token)
+			})
+		}),
+
+		getLikes: builder.query({
+			query: ({page, per_page = 10, token}: {
+				page: number,
+				per_page?: number,
+				token:any
+			}) => ({
+				url: endpoints.getLikes + `?p=${page}`,
+				headers: setHeaderWithToken(token)
+			})
 		})
 	}),
 })
@@ -157,6 +195,7 @@ export const {
 	useReportProductMutation,
 	useGetCardsQuery,
 	useGetProductQuery,
-	useSearchQuery
+	useSearchQuery,
+	useGetLikesQuery
 } = apiSlice
 

@@ -4,7 +4,7 @@ import {FC} from 'react';
 const PageTitle:FC<{title?: string | string[], style?: React.CSSProperties}> = ({title, style}) => {
 
     return (
-        <h2 style={style} className={styles.wrapper}>{title}</h2>
+        <h1 style={style} className={styles.wrapper}>{title}</h1>
     )
 }
 

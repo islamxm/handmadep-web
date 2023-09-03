@@ -30,6 +30,7 @@ const HomePage = ({ list, initPage }: { list: any[], initPage: number | any }) =
 
 	const [prevPage, setPrevPage] = useState(0)
 	const [localList, setLocalList] = useState<any[]>([])
+	const [isEnd, setIsEnd] = useState(false)
 
 	// контроль возможности загрузки СЛЕДУЮЩЕЙ страницы (пока без логики)
 	const [canLoadNext, setCanLoadNext] = useState(true)
@@ -50,6 +51,7 @@ const HomePage = ({ list, initPage }: { list: any[], initPage: number | any }) =
 			if (access) {
 				console.log('UPDATE LIST')
 				service.getCardsList(page).then(res => {
+					if(res?.results?.length === 0) setIsEnd(true)
 					if (page === 1) {
 						setLocalList(res?.results?.map((i: any) => ({ ...i, height: _.random(200, 350) })))
 					} else {
@@ -69,6 +71,7 @@ const HomePage = ({ list, initPage }: { list: any[], initPage: number | any }) =
 			} else {
 				
 				service.getCardsList(page).then(res => {
+					if(res?.results?.length === 0) setIsEnd(true)
 					if (page === 1) {
 						setLocalList(res?.results?.map((i: any) => ({ ...i, height: _.random(200, 350) })))
 					} else {
@@ -104,11 +107,17 @@ const HomePage = ({ list, initPage }: { list: any[], initPage: number | any }) =
 	return (
 		<div className={styles.wrapper}>
 			<ContentLayout>
-				{/* {initPage > 1 && <LoadPrev setPage={setPage} page={page} />} */}
 				<List
 					setPage={setPage}
 					list={localList} />
-				{(localList?.length > 0 && canLoadNext) && <LoadNext canLoadNext={canLoadNext} setPage={setPage} page={page} />}
+				{(localList?.length > 0 && canLoadNext && !isEnd) && (
+					<LoadNext 
+						canLoadNext={canLoadNext} 
+						setPage={setPage} 
+						page={page} 
+						setPrevPage={setPrevPage}
+						/>
+				)}
 			</ContentLayout>
 		</div>
 	)

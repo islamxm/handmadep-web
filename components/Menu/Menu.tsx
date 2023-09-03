@@ -9,6 +9,8 @@ import {useEffect, useState} from 'react';
 import Router, {useRouter} from 'next/router';
 import Drop from './components/Drop/Drop';
 import { main_closeSearch, main_openSearch, main_updateAuthPopup } from '@/store/slices/mainSlice';
+import NotificationsDrop from '../Header/components/NotificationsDrop/NotificationsDrop';
+import { Dropdown } from 'antd';
 
 
 const Menu = () => {
@@ -58,11 +60,20 @@ const Menu = () => {
                         />
                 </li>
                 <li className={styles.item}>
-                    <Button
-                        round
-                        variant={'transparent'}
-                        icon={<BsBellFill size={25}/>}
-                        />
+                    <Dropdown
+                        overlay={<NotificationsDrop/>}
+                        trigger={['click']}
+                        placement='top'
+                        >
+                        <div><Button
+                            badge={1}
+                            round
+                            variant={'transparent'}
+                            icon={<BsBellFill size={25}/>}
+                            /></div>
+                        
+                    </Dropdown>
+                    
                 </li>
                 <li className={styles.item}>
                     {

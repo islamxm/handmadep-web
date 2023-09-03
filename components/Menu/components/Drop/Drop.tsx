@@ -44,7 +44,7 @@ const Drop: FC<I> = ({isOpen, onClose}) => {
             icon={<AiFillHeart/>}
             round={true}
             style={{width:39,height:39}}
-            onClick={() => Router.push('/favs')}
+            onClick={() => Router.push('/likes')}
           />
         </div>
       </div>

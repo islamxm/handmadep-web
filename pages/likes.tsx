@@ -11,7 +11,7 @@ import * as _ from 'lodash';
 
 const FavsPage = () => {
     const {token: {access}} = useAppSelector(s => s.main)
-    const [getList] = apiSlice.endpoints.getFavs.useLazyQuery()
+    const [getList] = apiSlice.endpoints.getLikes.useLazyQuery()
     const [localList, setLocalList] = useState<any[]>([])
     const [page, setPage] = useState(1)
     const [prevPage, setPrevPage] = useState(0)
@@ -76,7 +76,7 @@ const FavsPage = () => {
         <div className={styles.wrapper}>
             <ContentLayout>
                 <PageTitle
-                    title={'Favorites'}
+                    title={'Likes'}
                     />
                 <List 
                   setPage={setPage}

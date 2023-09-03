@@ -1,0 +1,23 @@
+.wrapper {
+  padding: 10px;
+  border-radius: 10px;
+  background-color: red;
+  max-width: 300px;
+  width: 100%;
+  background-color: #fff;
+  box-shadow: 0 0 20px 5px rgba(#000, .3);
+
+  max-height: 200px;
+  overflow: hidden;
+  overflow-y: auto;
+}
+
+@media (max-width: 768px) {
+  .wrapper {
+    padding: 5px;
+
+    // .avatar {
+
+    // }
+  }
+}

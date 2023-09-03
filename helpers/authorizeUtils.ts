@@ -9,6 +9,7 @@ interface I {
 }
 
 export const deauthorizeFunc = () => {
+    console.log('DEAUTHORIZE')
     Cookies.remove(cookiesStorageKeys.TOKEN_ACCESS)
     Cookies.remove(cookiesStorageKeys.TOKEN_REFRESH)
 }

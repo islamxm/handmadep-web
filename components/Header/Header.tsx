@@ -16,11 +16,12 @@ import { useAppSelector, useAppDispatch } from '@/hooks/useTypesRedux';
 import LogoutModal from './components/LogoutModal/LogoutModal';
 import { main_updateAuthPopup, main_updateSignupPopup } from '@/store/slices/mainSlice';
 import Router, { useRouter } from 'next/router';
-
+import NotificationsDrop from './components/NotificationsDrop/NotificationsDrop';
+import { useWindowSize } from 'usehooks-ts';
 
 
 const Header:FC<headerTypes> = () => {
-
+    const {width} = useWindowSize()
     const [logoutModal, setLogoutModal] = useState(false)
     const {pathname} = useRouter()
     const dispatch = useAppDispatch()
@@ -91,13 +92,27 @@ const Header:FC<headerTypes> = () => {
                         <Search/>
                     </div>
                     <div className={`${styles.part} ${styles.action}`}>
-                        <div className={styles.item}>
-                            <Button
-                                variant={'transparent'}
-                                round
-                                icon={<BsBellFill size={25} color="#fff"/>}
-                                />
-                        </div>
+                        {
+                            access && (
+                                width <= 768 ? (
+                                    null
+                                ) : (
+                                    <Dropdown
+                                        overlay={<NotificationsDrop/>}
+                                        >
+                                        <div className={styles.item}>
+                                            <Button
+                                                badge={1}
+                                                variant={'transparent'}
+                                                round
+                                                icon={<BsBellFill size={25} color="#fff"/>}
+                                                />
+                                        </div>
+                                    </Dropdown>
+                                )
+                                
+                            )
+                        }
                         <div className={styles.item}>
                             {
                                 access ? (

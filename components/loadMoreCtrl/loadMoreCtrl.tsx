@@ -36,7 +36,7 @@ export const LoadNext:FC<ILoadMore> = ({
 
     useEffect(() => {
         if(inView && canLoadNext) {
-            ((s:any) => {
+            setPage((s:any) => {
                 setPrevPage && setPrevPage(s)
                 return s + 1
             })
