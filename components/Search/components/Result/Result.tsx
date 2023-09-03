@@ -5,22 +5,27 @@ import Item from '../Item/Item';
 import Card from '../Card/Card';
 import {Row, Col} from 'antd';
 import { useInView } from 'react-intersection-observer';
+import { LoadNext } from '@/components/loadMoreCtrl/loadMoreCtrl';
 
+const Result:FC<{
+    items: any[], 
+    width: number, 
+    setPage: (...args: any[]) => any, 
+    onClose?: (...args: any[]) => any,
 
-
-const Result:FC<{items: any[], width: number, setPage?: (...args: any[]) => any, onClose?: (...args: any[]) => any}> = ({
+    canLoadNext?: boolean,
+    isEnd?: boolean,
+    page:number
+}> = ({
     items,
     width,
     setPage,
-    onClose
+    onClose,
+
+    canLoadNext,
+    isEnd,
+    page
 }) => {
-    const {inView, ref} = useInView()
-
-
-
-    useEffect(() => {
-        setPage && setPage((s: number) => s + 1)
-    }, [inView, setPage])
     
 
 
@@ -39,7 +44,13 @@ const Result:FC<{items: any[], width: number, setPage?: (...args: any[]) => any,
                         <Item {...item} key={index}/>
                     ))
                 }
-                <div className={styles.load} ref={ref}></div>
+                {(canLoadNext && !isEnd && items?.length > 0) && (
+                    <LoadNext
+                        canLoadNext={canLoadNext}
+                        setPage={setPage}
+                        page={page}
+                        />
+                )}
             </div>
         </div>
     )

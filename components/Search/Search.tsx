@@ -15,6 +15,8 @@ import {useWindowSize} from 'usehooks-ts';
 import apiSlice, {useSearchQuery} from "@/store/slices/apiSlice";
 import OutsideClickHandler from 'react-outside-click-handler';
 import {LoadingOutlined} from '@ant-design/icons';
+import { LoadNext } from '../loadMoreCtrl/loadMoreCtrl';
+
 
 
 const service = new ApiService()
@@ -38,17 +40,18 @@ const Search: FC<any> = () => {
   const [dropdownOpen, setDropdownOpen] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
 
+  const [canLoadNext, setCanLoadNext] = useState(true)
+  const [isEnd, setIsEnd] = useState(false)
 
   const getData = () => {
     if (debValue !== '' && page) {
       setIsLoading(true)
-      service.search(debValue, page).then(res => {
-        if (res?.results?.length > 0) {
-          if (page === 1) {
-            setList(res?.results)
-          } else {
-            setList(s => [...s, ...res?.results])
-          }
+      search({query_string: debValue, page}).then(res => {
+        if(res?.data?.results?.length === 0) setIsEnd(true) 
+        if(page === 1) {
+          setList(res?.data?.results)
+        } else {
+          setList(s => [...s, ...res?.data?.results]) 
         }
       }).finally(() => setIsLoading(false))
     }
@@ -121,7 +124,15 @@ const Search: FC<any> = () => {
     }}>
     <Dropdown
       open={dropdownOpen}
-      overlay={<Result onClose={() => setDropdownOpen(false)} setPage={setPage} width={dropdownWidth} items={list}/>}
+      overlay={<Result 
+        onClose={() => setDropdownOpen(false)} 
+        setPage={setPage} 
+        width={dropdownWidth} 
+        items={list}
+        canLoadNext={canLoadNext}
+        isEnd={isEnd}
+        page={page}
+        />}
     >
       <div ref={ref} className={`${styles.wrapper} ${focused ? styles.focused : ''}`}>
         <div onClick={goToKeywordPageClick} className={styles.icon}>
