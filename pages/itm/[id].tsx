@@ -15,6 +15,8 @@ import * as _ from 'lodash'
 import Head from "next/head";
 import { LoadNext } from "@/components/loadMoreCtrl/loadMoreCtrl";
 import apiSlice, { useGetSimilarProdsQuery } from "@/store/slices/apiSlice";
+import { useAppDispatch } from "@/hooks/useTypesRedux";
+import { main_updateLoading } from "@/store/slices/mainSlice";
 
 const service = new ApiService()
 
@@ -30,13 +32,14 @@ export const getServerSideProps:GetServerSideProps<{productData: IProduct}> = as
         props: {
             productData,
             productId: id,
-            list: initList?.results
+            list: initList?.results?.map((i: any) => ({ ...i, height: _.random(200, 350) }))
         }
     }
 }
 
 
 const ProductPage = ({productData, productId, list}: {productData: IProduct, productId: any, list: any[]}) => {
+    const dispatch = useAppDispatch()
     const {token: {access}} = useAppSelector(s => s.main)
     const [localData, setLocalData] = useState<any>()
     const [getSmList] = apiSlice.endpoints.getSimilarProds.useLazyQuery()
@@ -49,7 +52,7 @@ const ProductPage = ({productData, productId, list}: {productData: IProduct, pro
 
 
     useEffect(() => setLocalList(list), [list])
-
+    
 
     const getData = (
 		page: any, 
@@ -64,7 +67,6 @@ const ProductPage = ({productData, productId, list}: {productData: IProduct, pro
                     card_pk: productId,
                     token: access
                 }).then(res => {
-                    console.log(res?.data)
                     if(res?.data?.results?.length === 0) setIsEnd(true)
 					if (page === 1) {
 						setLocalList(res?.data?.results?.map((i: any) => ({ ...i, height: _.random(200, 350) })))
@@ -87,7 +89,6 @@ const ProductPage = ({productData, productId, list}: {productData: IProduct, pro
                     page,
                     card_pk: productId
                 }).then(res => {
-                    console.log(res?.data)
 					if(res?.data?.results?.length === 0) setIsEnd(true)
 					if (page === 1) {
 						setLocalList(res?.data?.results?.map((i: any) => ({ ...i, height: _.random(200, 350) })))
@@ -108,6 +109,16 @@ const ProductPage = ({productData, productId, list}: {productData: IProduct, pro
 			}
 		}
 	}, [access])
+
+    useEffect(() => {
+        if(productId && access) {
+            service.getProduct(productId, access).then(res => {
+                if(res?.id) {
+                    setLocalData(res)
+                }
+            })
+        }
+    }, [access, productId])
 
 	useEffect(() => {
 		if (page > 1) {
