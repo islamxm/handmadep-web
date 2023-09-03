@@ -24,17 +24,19 @@ const service = new ApiService()
 export const getServerSideProps:GetServerSideProps<{productData: IProduct}> = async (context) => {
     const id = context?.params?.id
     const productData = await service.getProduct(id)
+    const initList = await service.getSimilarProducts({page: 1, card_pk: productData?.id})
     
     return {
         props: {
             productData,
-            productId: id
+            productId: id,
+            list: initList?.results
         }
     }
 }
 
 
-const ProductPage = ({productData, productId}: {productData: IProduct, productId: any}) => {
+const ProductPage = ({productData, productId, list}: {productData: IProduct, productId: any, list: any[]}) => {
     const {token: {access}} = useAppSelector(s => s.main)
     const [localData, setLocalData] = useState<any>()
     const [getSmList] = apiSlice.endpoints.getSimilarProds.useLazyQuery()
@@ -46,32 +48,14 @@ const ProductPage = ({productData, productId}: {productData: IProduct, productId
     const [prevPage, setPrevPage] = useState(0)
 
 
-    useEffect(() => {
-		if (access) {
-			if (page === 1) {
-				getData(1, 'init')
-			} else {
-				setPage(1)
-			}
-		}
-	}, [access])
-
-	useEffect(() => {
-		if (page > 1) {
-			if (page > prevPage) {
-				getData(page, 'update', 'next')
-			}
-			if (page < prevPage) {
-				getData(page, 'update', 'prev')
-			}
-		}
-	}, [page, prevPage])
+    useEffect(() => setLocalList(list), [list])
 
 
     const getData = (
 		page: any, 
 		type: 'init' | 'update', 
 		dir?: 'prev' | 'next') => {
+        console.log('GET LIST')
 		if (page) {
 			setCanLoadNext(false)
 			if (access) {
@@ -80,6 +64,7 @@ const ProductPage = ({productData, productId}: {productData: IProduct, productId
                     card_pk: productId,
                     token: access
                 }).then(res => {
+                    console.log(res?.data)
                     if(res?.data?.results?.length === 0) setIsEnd(true)
 					if (page === 1) {
 						setLocalList(res?.data?.results?.map((i: any) => ({ ...i, height: _.random(200, 350) })))
@@ -102,6 +87,7 @@ const ProductPage = ({productData, productId}: {productData: IProduct, productId
                     page,
                     card_pk: productId
                 }).then(res => {
+                    console.log(res?.data)
 					if(res?.data?.results?.length === 0) setIsEnd(true)
 					if (page === 1) {
 						setLocalList(res?.data?.results?.map((i: any) => ({ ...i, height: _.random(200, 350) })))
@@ -112,6 +98,27 @@ const ProductPage = ({productData, productId}: {productData: IProduct, productId
 			}
 		}
 	}
+
+    useEffect(() => {
+		if (access) {
+			if (page === 1) {
+				getData(1, 'init')
+			} else {
+				setPage(1)
+			}
+		}
+	}, [access])
+
+	useEffect(() => {
+		if (page > 1) {
+			if (page > prevPage) {
+				getData(page, 'update', 'next')
+			}
+			if (page < prevPage) {
+				getData(page, 'update', 'prev')
+			}
+		}
+	}, [page, prevPage])
 
     useEffect(() => {
         if(productData) setLocalData(productData)
