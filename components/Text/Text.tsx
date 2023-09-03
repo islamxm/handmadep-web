@@ -1,6 +1,7 @@
 import styles from './Text.module.scss';
 import {FC, useState, useRef, useEffect} from 'react';
 import { textTypes } from './types';
+import getClassNames from '@/helpers/getClassNames';
 
 const Text:FC<textTypes> = (props) => {
     const [focused, setFocused] = useState(false)
@@ -22,7 +23,9 @@ const Text:FC<textTypes> = (props) => {
     const onFocus = () => setFocused(true)
 
     return (
-        <div className={`${styles.wrapper} ${focused ? styles.focus : ''} ${error ? styles.error : ''}`}>
+        <div
+            className={getClassNames([styles.wrapper, focused && styles.focus, error && styles.error])} 
+            >
             <div onClick={focusInp} className={styles.label}>{placeholder}</div>
             <textarea
                 {...props}

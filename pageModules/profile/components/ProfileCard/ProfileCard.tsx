@@ -1,8 +1,7 @@
 import styles from './ProfileCard.module.scss';
-import { Row, Col } from 'antd';
 import Image from 'next/image';
 
-import {ChangeEvent, FC, useEffect, useState} from 'react';
+import {ChangeEvent, FC, useState} from 'react';
 import IUser from '@/models/IUser';
 import Button from '@/components/Button/Button';
 import placeholder from '@/public/assets/avatar-placeholder.png';

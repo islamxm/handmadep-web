@@ -3,10 +3,9 @@ import { headerTypes } from './types';
 import {FC, useEffect, useState} from 'react';
 import Container from '../Container/Container';
 import Button from '../Button/Button';
-import {BsFillChatDotsFill, BsPlusLg, BsBellFill} from 'react-icons/bs';
+import {BsPlusLg, BsBellFill} from 'react-icons/bs';
 import Avatar from '../Avatar/Avatar';
 import Search from '../Search/Search';
-import avatarImg from '@/public/assets/user.png';
 import { Dropdown } from 'antd';
 import {GoSignIn} from 'react-icons/go';
 import ProfileMenu from './components/ProfileMenu/ProfileMenu';
@@ -18,6 +17,7 @@ import { main_updateAuthPopup, main_updateSignupPopup } from '@/store/slices/mai
 import Router, { useRouter } from 'next/router';
 import NotificationsDrop from './components/NotificationsDrop/NotificationsDrop';
 import { useWindowSize } from 'usehooks-ts';
+import getClassNames from '@/helpers/getClassNames';
 
 
 const Header:FC<headerTypes> = () => {
@@ -52,7 +52,7 @@ const Header:FC<headerTypes> = () => {
 
 
     return (
-        <div className={`${styles.wrapper} ${searchPopup ? styles.open : ''}`}>
+        <div className={getClassNames([styles.wrapper, searchPopup && styles.open])}>
             <Auth 
                 open={authPopup}
                 onCancel={closeAuth}

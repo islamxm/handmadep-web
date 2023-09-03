@@ -6,7 +6,7 @@ import styles from '@/pageModules/home/home.module.scss';
 import * as _ from 'lodash';
 import { useAppSelector } from "@/hooks/useTypesRedux";
 import { GetServerSideProps } from "next";
-import { LoadPrev, LoadNext } from "@/components/loadMoreCtrl/loadMoreCtrl";
+import { LoadNext } from "@/components/loadMoreCtrl/loadMoreCtrl";
 
 const service = new ApiService()
 
@@ -49,7 +49,6 @@ const HomePage = ({ list, initPage }: { list: any[], initPage: number | any }) =
 		if (page) {
 			setCanLoadNext(false)
 			if (access) {
-				console.log('UPDATE LIST')
 				service.getCardsList(page).then(res => {
 					if(res?.results?.length === 0) setIsEnd(true)
 					if (page === 1) {

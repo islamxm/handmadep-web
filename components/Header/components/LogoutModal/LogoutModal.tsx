@@ -2,13 +2,11 @@ import {Modal, Row, Col, ModalFuncProps} from 'antd'
 import styles from './LogoutModal.module.scss';
 import {FC, useState} from 'react';
 import Button from '@/components/Button/Button';
-import { useAppSelector, useAppDispatch } from '@/hooks/useTypesRedux';
-import { Cookies } from 'typescript-cookie';
+import { useAppDispatch } from '@/hooks/useTypesRedux';
 import notify from '@/helpers/notify';
 import Router  from 'next/router';
-import { cookiesStorageKeys } from '@/helpers/storageKeys';
 import { main_deleteToken, main_updateLoading } from '@/store/slices/mainSlice';
-
+import { deauthorizeFunc } from '@/helpers/authorizeUtils';
 
 const LogoutModal:FC<ModalFuncProps> = (props) => {
     const {onCancel} = props
@@ -23,12 +21,7 @@ const LogoutModal:FC<ModalFuncProps> = (props) => {
         Router.replace('/')
         setLoad(true)
         dispatch(main_updateLoading(true))
-        Cookies.remove(cookiesStorageKeys.TOKEN_ACCESS)
-        Cookies.remove(cookiesStorageKeys.TOKEN_REFRESH)
-        if(process?.browser) {
-            sessionStorage.removeItem(cookiesStorageKeys.TOKEN_ACCESS)
-            sessionStorage.removeItem(cookiesStorageKeys.TOKEN_REFRESH)
-        }
+        deauthorizeFunc()
         dispatch(main_deleteToken())
         setLoad(false)
         notify('Logged out', 'SUCCESS')

@@ -8,11 +8,10 @@ import Keyword from '@/components/Keyword/Keyword';
 import {BsHeart, BsHeartFill, BsShareFill, BsFlagFill} from 'react-icons/bs';
 import parse from 'html-react-parser';
 import { useState, useEffect } from 'react';
-import { useRouter } from 'next/router';
+import getClassNames from '@/helpers/getClassNames';
 import { useAppSelector, useAppDispatch } from '@/hooks/useTypesRedux';
 import { main_updateAuthPopup } from '@/store/slices/mainSlice';
 import ApiService from '@/service/apiService';
-import FancyboxWrapper from '@/components/FancyboxWrapper/FancyboxWrapper';
 import { useWindowSize } from 'usehooks-ts';
 import {BiLinkExternal} from 'react-icons/bi'
 import ReportModal from '@/popups/ReportModal/ReportModal';
@@ -38,7 +37,6 @@ const Body:FC<IProduct> = ({
     const dispatch = useAppDispatch()
     const {token: {access}} = useAppSelector(s => s.main)
     const [reportModal, setReportModal] = useState(false)
-    const router = useRouter()
     const {width} = useWindowSize()
     const [liked, setLiked] = useState(false)
     const [pinned, setPinned] = useState(false)
@@ -65,8 +63,6 @@ const Body:FC<IProduct> = ({
                 text: title,
                 title: title,
             })
-        } else {
-            console.log("CAN'T SHARE")
         }
     }
 
@@ -74,14 +70,11 @@ const Body:FC<IProduct> = ({
     const onLike = () => {
         if(access && id) {
             if(!liked) {
-                // setLikeLayer(true)
                 setLikeLoad(true)
                 service.productLike(id, access).then(res => {
                     if(res?.status === 201 || res?.status === 204) {
-                        // setLikeLayer(true)
                         setLiked(true)
                     } else {
-                        // setLikeLayer(false)
                         setLiked(false)
                     }
                 }).finally(() => setLikeLoad(false))
@@ -89,16 +82,12 @@ const Body:FC<IProduct> = ({
                 setLikeLoad(true)
                 service.productUnlike(id, access).then(res => {
                     if(res?.status === 201 || res?.status === 204) {
-                        // setLikeLayer(false)
                         setLiked(false)
                     } else {
-                        // setLikeLayer(true)
                         setLiked(true)
                     }
                 }).finally(() => setLikeLoad(false))
-                // setLikeLayer(false)
             }
-            // setLiked(s => !s)
         } else {
             openAuth()
         }
@@ -188,13 +177,13 @@ const Body:FC<IProduct> = ({
                             <h2 className={styles.title}>{title}</h2>
                         </Col>
                         {
-                            description ? (
+                            description && (
                                 <Col span={24}>
                                     <div className={styles.descr}>
                                         {parse(description)}
                                     </div>
                                 </Col>
-                            ) : null
+                            )
                         }
                         
                         <Col span={24}>
@@ -228,7 +217,9 @@ const Body:FC<IProduct> = ({
                                         icon={width <= 768 && <BiLinkExternal/>}
                                         />
                                 </div>
-                                <div className={`${styles.button} ${styles.button_save}`}>
+                                <div
+                                    className={getClassNames([styles.button, styles.button_save])} 
+                                    >
                                     {
                                         pinned ? (
                                             <Button

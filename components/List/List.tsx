@@ -1,13 +1,8 @@
 import styles from './List.module.scss';
 import {FC, useEffect, useRef, useState} from 'react';
-import { Masonry } from 'masonic';
-import {IProduct} from '@/models/IProduct';
 import Product from '../Product/Product';
-import Image, { StaticImageData } from 'next/image';
-import pl from '@/public/assets/handmade-watermark.png';
-import useWindowScroll from '@react-hook/window-scroll';
 import { useWindowSize } from '@react-hook/window-size';
-import { nanoid } from 'nanoid';
+
 import { 
     useMasonry,
     usePositioner,
@@ -16,14 +11,7 @@ import {
     useResizeObserver 
 } from 'masonic';
 
-
-
-
 const columnWidth = 200;
-
-
-
-
 
 const List:FC<{
     list: any[] 
@@ -34,7 +22,6 @@ const List:FC<{
 }) => {
 
     const [itemWidth, setItemWidth] = useState(0)
-    // const [localList, setLocalList] = useState<any[]>([])
     
     const containerRef = useRef<any>(null);
     const [windowWidth, height] = useWindowSize();
@@ -57,10 +44,6 @@ const List:FC<{
             setItemWidth(200)
         }
     }
-
-    // useEffect(() => {
-    //     setLocalList(list)
-    // }, [list])
 
  
 

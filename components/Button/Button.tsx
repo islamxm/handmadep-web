@@ -1,10 +1,10 @@
 import styles from './Button.module.scss';
 import {FC} from 'react';
 import { buttonTypes, buttonVariants } from './types';
-import { CircleLoader, MoonLoader } from 'react-spinners';
 import { Tooltip } from 'antd';
 import Link from 'next/link';
 import {LoadingOutlined} from '@ant-design/icons';
+import getClassNames from '@/helpers/getClassNames';
 
 const Button:FC<buttonTypes> = ({
     text,
@@ -57,99 +57,104 @@ const Button:FC<buttonTypes> = ({
                 >
                 {
                     link && blank ? (
-                        <a href={link} rel={'nofollow'} target='_blank' style={style} className={`${styles.button} ${switchVariant(variant)} ${load ? styles.load : ''} ${round ? styles.round : ''} ${disabled ? styles.disabled : ''}`}>
+                        <a 
+                            href={link} 
+                            rel={'nofollow'} 
+                            target='_blank' 
+                            style={style} 
+                            className={getClassNames([styles.button, switchVariant(variant), load && styles.load, round && styles.round, disabled && styles.disabled])}>
                             <div className={styles.load}><LoadingOutlined size={35}  color={color}/></div>   
                             {
-                                before ? (
+                                before && (
                                     <div className={`${styles.side} ${styles.before}`}>{before}</div>
-                                ) : null
+                                ) 
                             }
                             {
-                                text ? (
+                                text && (
                                     <div className={styles.text}>{text}</div>
-                                ) : null
+                                ) 
                             }
                             {
-                                after ? (
+                                after && (
                                     <div className={`${styles.side} ${styles.after}`}>{after}</div>
-                                ) : null
+                                ) 
                             }
                             {
-                                icon ? (
+                                icon && (
                                     <div className={styles.icon}>{icon}</div>
-                                ) : null
+                                ) 
                             }
                             {
-                                badge ? (
+                                badge && (
                                     <div className={styles.badge}>
                                         {badge > 99 ? '+99' : badge}
                                     </div>
-                                ) : null
+                                )
                             }
                         </a>
                     ) : null
                 }
                 {
                     link && !blank ? (
-                        <Link href={link} style={style} className={`${styles.button} ${switchVariant(variant)} ${load ? styles.load : ''} ${round ? styles.round : ''} ${disabled ? styles.disabled : ''}`}>
+                        <Link href={link} style={style} className={getClassNames([styles.button, switchVariant(variant), load && styles.load, round && styles.round, disabled && styles.disabled])}>
                             <div className={styles.load}><LoadingOutlined size={35}  color={color}/></div>   
                             {
-                                before ? (
+                                before && (
                                     <div className={`${styles.side} ${styles.before}`}>{before}</div>
-                                ) : null
+                                ) 
                             }
                             {
-                                text ? (
+                                text && (
                                     <div className={styles.text}>{text}</div>
-                                ) : null
+                                ) 
                             }
                             {
-                                after ? (
+                                after && (
                                     <div className={`${styles.side} ${styles.after}`}>{after}</div>
-                                ) : null
+                                )
                             }
                             {
-                                icon ? (
+                                icon && (
                                     <div className={styles.icon}>{icon}</div>
-                                ) : null
+                                ) 
                             }
                             {
-                                badge ? (
+                                badge && (
                                     <div className={styles.badge}>
                                         {badge > 99 ? '+99' : badge}
                                     </div>
-                                ) : null
+                                ) 
                             }
                         </Link>
                     ) : (
-                        <button onClick={onClick} style={style} className={`${styles.button} ${switchVariant(variant)} ${load ? styles.load : ''} ${round ? styles.round : ''} ${disabled ? styles.disabled : ''}`}>
+                        <button onClick={onClick} style={style} className={getClassNames([styles.button, switchVariant(variant), load && styles.load, round && styles.round, disabled && styles.disabled])}>
                             <div className={styles.load}><LoadingOutlined size={35} color={color}/></div>   
                             {
-                                before ? (
+                                before && (
                                     <div className={`${styles.side} ${styles.before}`}>{before}</div>
-                                ) : null
+                                ) 
                             }
                             {
-                                text ? (
+                                text && (
                                     <div className={styles.text}>{text}</div>
-                                ) : null
+                                )
                             }
                             {
-                                after ? (
+                                after && (
                                     <div className={`${styles.side} ${styles.after}`}>{after}</div>
-                                ) : null
+                                ) 
                             }
                             {
-                                icon ? (
+                                icon && (
                                     <div className={styles.icon}>{icon}</div>
-                                ) : null
+                                )
                             }
                             {
-                                badge ? (
+                                badge && (
                                     <div className={styles.badge}>
                                         {badge > 99 ? '+99' : badge}
                                     </div>
-                                ) : null
+                                )
                             }
                         </button>
                     )
@@ -162,106 +167,106 @@ const Button:FC<buttonTypes> = ({
     return (
         <>
             {
-                link && !blank ? (
-                    <Link rel={'nofollow'} href={link} style={style} className={`${styles.button} ${switchVariant(variant)} ${load ? styles.load : ''} ${round ? styles.round : ''} ${disabled ? styles.disabled : ''}`}>
+                (link && !blank) && (
+                    <Link rel={'nofollow'} href={link} style={style} className={getClassNames([styles.button, switchVariant(variant), load && styles.load, round && styles.round, disabled && styles.disabled])}>
                         <div className={styles.load}><LoadingOutlined size={35} color={color}/></div>   
                         {
-                            before ? (
+                            before && (
                                 <div className={`${styles.side} ${styles.before}`}>{before}</div>
-                            ) : null
+                            )
                         }
                         {
-                            text ? (
+                            text && (
                                 <div className={styles.text}>{text}</div>
-                            ) : null
+                            )
                         }
                         {
-                            after ? (
+                            after && (
                                 <div className={`${styles.side} ${styles.after}`}>{after}</div>
-                            ) : null
+                            )
                         }
                         {
-                            icon ? (
+                            icon && (
                                 <div className={styles.icon}>{icon}</div>
-                            ) : null
+                            )
                         }
                         {
-                            badge ? (
+                            badge && (
                                 <div className={styles.badge}>
                                     {badge > 99 ? '+99' : badge}
                                 </div>
-                            ) : null
+                            )
                         }
                     </Link>
-                ) : null
+                )
             }
             {
                 !link && !blank ? (
-                    <button onClick={onClick} style={style} className={`${styles.button} ${switchVariant(variant)} ${load ? styles.load : ''} ${round ? styles.round : ''} ${disabled ? styles.disabled : ''}`}>
+                    <button onClick={onClick} style={style} className={getClassNames([styles.button, switchVariant(variant), load && styles.load, round && styles.round, disabled && styles.disabled])}>
                         <div className={styles.load}><LoadingOutlined size={35} color={color}/></div>   
                         {
-                            before ? (
+                            before && (
                                 <div className={`${styles.side} ${styles.before}`}>{before}</div>
-                            ) : null
+                            )
                         }
                         {
-                            text ? (
+                            text && (
                                 <div className={styles.text}>{text}</div>
-                            ) : null
+                            )
                         }
                         {
-                            after ? (
+                            after && (
                                 <div className={`${styles.side} ${styles.after}`}>{after}</div>
-                            ) : null
+                            )
                         }
                         {
-                            icon ? (
+                            icon && (
                                 <div className={styles.icon}>{icon}</div>
-                            ) : null
+                            )
                         }
                         {
-                            badge ? (
+                            badge && (
                                 <div className={styles.badge}>
                                     {badge > 99 ? '+99' : badge}
                                 </div>
-                            ) : null
+                            )
                         }
                     </button>
                 ) : null
             }
             {
-                link && blank ? (
-                    <a href={link} target='_blank' style={style} className={`${styles.button} ${switchVariant(variant)} ${load ? styles.load : ''} ${round ? styles.round : ''} ${disabled ? styles.disabled : ''}`}>
+                (link && blank) && (
+                    <a href={link} target='_blank' style={style} className={getClassNames([styles.button, switchVariant(variant), load && styles.load, round && styles.round, disabled && styles.disabled])}>
                         <div className={styles.load}><LoadingOutlined size={35}  color={color}/></div>   
                         {
-                            before ? (
+                            before && (
                                 <div className={`${styles.side} ${styles.before}`}>{before}</div>
-                            ) : null
+                            ) 
                         }
                         {
-                            text ? (
+                            text && (
                                 <div className={styles.text}>{text}</div>
-                            ) : null
+                            ) 
                         }
                         {
-                            after ? (
+                            after && (
                                 <div className={`${styles.side} ${styles.after}`}>{after}</div>
-                            ) : null
+                            ) 
                         }
                         {
-                            icon ? (
+                            icon && (
                                 <div className={styles.icon}>{icon}</div>
-                            ) : null
+                            ) 
                         }
                         {
-                            badge ? (
+                            badge && (
                                 <div className={styles.badge}>
                                     {badge > 99 ? '+99' : badge}
                                 </div>
-                            ) : null
+                            )
                         }
                     </a>
-                ) : null
+                )
             }
         </>
     )

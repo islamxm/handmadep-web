@@ -1,7 +1,7 @@
 import { inputTypes } from "./types";
 import {FC, useRef, useState, useEffect} from 'react';
 import styles from './Input.module.scss';
-
+import getClassNames from "@/helpers/getClassNames";
 
 
 const Input:FC<inputTypes> = (props) => {
@@ -25,7 +25,7 @@ const Input:FC<inputTypes> = (props) => {
     const onFocus = () => setFocused(true)
 
     return (
-        <div className={`${styles.wrapper} ${focused ? styles.focus : ''} ${error ? styles.error : ''}`}>
+        <div className={getClassNames([styles.wrapper, focused && styles.focus, error && styles.error])}>
             <div onClick={focusInp} className={styles.label}>{placeholder}</div>
             <input
                 {...props}

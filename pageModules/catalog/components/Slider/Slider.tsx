@@ -1,15 +1,10 @@
 import styles from './Slider.module.scss';
 import {Swiper, SwiperSlide} from 'swiper/react';
-import {Pagination, Navigation} from 'swiper'
+import {Pagination} from 'swiper'
 import {FC} from 'react';
-import { StaticImageData } from 'next/image';
 import Image from 'next/image';
 import placeholder from '@/public/assets/handmade-watermark.png';
-import img1 from '@/public/assets/img1.jpeg'
-import img2 from '@/public/assets/img2.jpg'
 import FancyboxWrapper from '@/components/FancyboxWrapper/FancyboxWrapper';
-const testImgs = [img1, img2];
-
 
 const Slider:FC<{
     images?: string[],
@@ -18,8 +13,6 @@ const Slider:FC<{
     images,
     title
 }) => {
-
-
 
     return (
         <div className={styles.wrapper}>
@@ -40,8 +33,7 @@ const Slider:FC<{
                             <SwiperSlide className={styles.slide} key={index}>
                                 <FancyboxWrapper>
                                     <a data-fancybox="gallery" href={item} className={styles.item}>
-                                        <Image 
-                                        //placeholder={'blur'} 
+                                        <Image  
                                         src={item}
                                         loader={p => p?.src && typeof p?.src === 'string' ? p.src : ''}
                                         unoptimized 

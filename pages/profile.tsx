@@ -3,11 +3,9 @@ import { Row, Col } from "antd";
 import ProfileCard from "@/pageModules/profile/components/ProfileCard/ProfileCard";
 import ProfileEdit from "@/pageModules/profile/components/ProfileEdit/ProfileEdit";
 import { useAppSelector } from "@/hooks/useTypesRedux";
-import { useGetUserDataQuery } from "@/store/slices/apiSlice";
 
 const ProfilePage = () => {
 	const { token: { access }, userData } = useAppSelector(s => s.main)
-	// const userDataRes = useGetUserDataQuery(access)
 
 	return (
 		<ContentLayout>

@@ -1,13 +1,12 @@
 import ContentLayout from "@/components/ContentLayout/ContentLayout";
 import { useRouter } from "next/router";
 import List from "@/components/List/List";
-import { useEffect, useState, useCallback, useRef } from "react";
+import { useEffect, useState } from "react";
 import ApiService from "@/service/apiService";
 import PageTitle from "@/components/PageTitle/PageTitle";
 import { useAppSelector } from "@/hooks/useTypesRedux";
 import * as _ from 'lodash';
 import { GetServerSideProps } from 'next'
-import { IProduct } from "@/models/IProduct";
 import Head from "next/head";
 import { LoadNext } from "@/components/loadMoreCtrl/loadMoreCtrl";
 import apiSlice from "@/store/slices/apiSlice";

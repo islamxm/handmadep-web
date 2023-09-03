@@ -1,6 +1,5 @@
 import styles from './Product.module.scss';
-import Link from 'next/link';
-import {FC, useEffect, useState, useRef, memo} from 'react';
+import {useEffect, useState, useRef, memo} from 'react';
 import {IProduct} from '@/models/IProduct';
 import Image from 'next/image';
 import { useAppSelector, useAppDispatch } from '@/hooks/useTypesRedux';
@@ -8,30 +7,20 @@ import {motion, AnimatePresence} from 'framer-motion';
 import { useLongPress } from 'use-long-press';
 import {
     BsFillHeartFill,
-    BsFillPinAngleFill,
-    BsHeart,
     BsBookmark,
-    BsFillBookmarkFill, 
-    BsShareFill, 
-    BsFillBookmarksFill,
-    BsHeartFill,
     BsBookmarkFill
 } from 'react-icons/bs';
 import placeholder from '@/public/assets/handmade-watermark.png';
 import Button from '../Button/Button';
 import { useDoubleTap } from 'use-double-tap';
-import colors from '@/helpers/colors';
-import { useInView } from 'react-intersection-observer';
 import * as _ from 'lodash';
 import Router from 'next/router';
 import { useRouter } from 'next/router';
 import { main_updateAuthPopup, main_updateCurrentProduct } from '@/store/slices/mainSlice';
 import ApiService from '@/service/apiService';
-import LOCAL_STORAGE from '@/helpers/localStorage';
-
+import getClassNames from '@/helpers/getClassNames';
 
 const service = new ApiService()
-
 
 interface ITest extends IProduct {
     height?: number
@@ -57,31 +46,19 @@ const ProductItem = ({
         is_liked,
         newLimit,
     } = data
-    const router = useRouter()
-    // const [randomHeight, setRandomHeight] = useState(150)
     const cardRef = useRef<HTMLDivElement | null>(null)
     const [liked, setLiked] = useState(false)
     const [pinned, setPinned] = useState(false)
     const [likeLayer, setLikeLayer] = useState(false)
 
-    const [bg, setBg] = useState('rgb(55, 29, 49)')
+    const [bg] = useState('rgb(55, 29, 49)')
     const [loaded, setLoaded] = useState(false)
 
     const dispatch = useAppDispatch()
     const {token} = useAppSelector(s => s.main)
     const {access} = token
 
-
     const openAuth = () => dispatch(main_updateAuthPopup(true))
-
-    // useEffect(() => {
-    //     setRandomHeight(_.random(150,350))
-    // }, [])
-
-    
-    // useEffect(() => {
-    //     setBg(colors[_.random(colors?.length - 1)])
-    // }, [])
 
     useEffect(() => {
         setPinned(is_favorited ? true : false)
@@ -134,7 +111,6 @@ const ProductItem = ({
     const onLike = () => {
         if(access && id) {
             if(!liked) {
-                // setLikeLayer(true)
                 service.productLike(id, access).then(res => {
                     if(res?.status === 201 || res?.status === 204) {
                         setLikeLayer(true)
@@ -154,15 +130,10 @@ const ProductItem = ({
                         setLiked(true)
                     }
                 })
-                // setLikeLayer(false)
             }
-            // setLiked(s => !s)
         } else {
             openAuth()
         }
-
-        // setLikeLayer(s => !s)
-        // setLiked(s => !s)
     }   
 
     const onSave = () => {
@@ -193,46 +164,11 @@ const ProductItem = ({
 
     return (
         <motion.div 
-            className={`${styles.wrapper} ${loaded ? styles.loaded : styles.loading}`}
-            // className={`${styles.wrapper} ${styles.loaded}`}
+            className={getClassNames([styles.wrapper, loaded ? styles.loaded : styles.loading])}
             ref={cardRef}
             {...openProductModal()}
             >
             <div className={styles.loading_el}></div>
-{/* 
-            <motion.div 
-                initial='hidden'
-                whileInView={'visible'}
-                variants={{
-                    hidden: {height: '100%'},
-                    visible: {
-                        height: 0,
-                        transition: {
-                            duration: 1.5,
-                            ease: 'easeInOut',
-                        },
-                    },
-                }}
-                viewport={{once: true}}
-                className={styles.layer}></motion.div> */}
-            {/* <div className={styles.opts}>
-                <div className={styles.item}>
-                    <Button
-                        round
-                        variant={'white'}
-                        onClick={onLike}
-                        icon={liked ? <BsHeartFill color='var(--brown)'/> : <BsHeart/>}
-                        />
-                </div>
-                <div className={styles.item}>
-                    <Button
-                        onClick={onShare}
-                        round
-                        variant={'white'}
-                        icon={<BsShareFill/>}
-                        />
-                </div>
-            </div> */}
             <div className={styles.action}>
                 <div className={styles.item}>
                     <Button
@@ -262,14 +198,12 @@ const ProductItem = ({
                 <div className={styles.image} style={{backgroundColor: bg, height: data?.height}}>
                             <Image
                                 className={styles.image_el}
-                                // placeholder={'blur'}
                                 loader={(p) => {
                                     return p?.src ? p?.src : ''
                                 }} 
                                 onLoad={(e) => {
                                     setLoaded(true)
                                 }}
-                                // priority
                                 loading={'lazy'}
                                 unoptimized
                                 width={100}

@@ -6,7 +6,7 @@ import {ImEnter} from 'react-icons/im';
 import Avatar from '../Avatar/Avatar';
 import { useAppDispatch, useAppSelector } from '@/hooks/useTypesRedux';
 import {useEffect, useState} from 'react';
-import Router, {useRouter} from 'next/router';
+import {useRouter} from 'next/router';
 import Drop from './components/Drop/Drop';
 import { main_closeSearch, main_openSearch, main_updateAuthPopup } from '@/store/slices/mainSlice';
 import NotificationsDrop from '../Header/components/NotificationsDrop/NotificationsDrop';

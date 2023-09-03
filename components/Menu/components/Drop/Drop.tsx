@@ -1,12 +1,12 @@
 import styles from './Drop.module.scss';
-import {ChangeEvent, FC, MouseEvent, MouseEventHandler, ReactEventHandler} from 'react';
-import OutsideClickHandler from "react-outside-click-handler";
+import {FC} from 'react';
 import Button from '@/components/Button/Button';
 import {FaUser} from 'react-icons/fa'
 import {BsFillBookmarkFill} from 'react-icons/bs'
 import {AiFillHeart} from 'react-icons/ai';
 import getClassNames from "@/helpers/getClassNames";
 import Router from "next/router";
+
 interface I {
   isOpen?:boolean,
   onClose?: (...args:any[]) => any

@@ -2,30 +2,24 @@ import styles from './Search.module.scss';
 import {BiSearch} from 'react-icons/bi'
 import {CgClose} from 'react-icons/cg';
 import {useState, FC, useEffect, useRef} from 'react';
-import {searchItemType, searchTypes} from './types';
 import Button from '../Button/Button';
 import {Dropdown} from 'antd';
 import Result from './components/Result/Result';
 import ApiService from '@/service/apiService';
-import {useAppSelector, useAppDispatch} from '@/hooks/useTypesRedux';
+import {useAppDispatch} from '@/hooks/useTypesRedux';
 import {useDebounce} from 'usehooks-ts';
 import Router, {useRouter} from 'next/router';
 import {main_closeSearch} from '@/store/slices/mainSlice';
-import {useWindowSize} from 'usehooks-ts';
-import apiSlice, {useSearchQuery} from "@/store/slices/apiSlice";
+import apiSlice from "@/store/slices/apiSlice";
 import OutsideClickHandler from 'react-outside-click-handler';
 import {LoadingOutlined} from '@ant-design/icons';
-import { LoadNext } from '../loadMoreCtrl/loadMoreCtrl';
-
-
+import getClassNames from '@/helpers/getClassNames';
 
 const service = new ApiService()
-
 
 const Search: FC<any> = () => {
   const ref = useRef<HTMLDivElement>(null)
   const [search] = apiSlice.endpoints?.search.useLazyQuery()
-  const {width} = useWindowSize()
   const dispatch = useAppDispatch()
   const [focused, setFocused] = useState(false)
   const [value, setValue] = useState('')
@@ -46,6 +40,7 @@ const Search: FC<any> = () => {
   const getData = () => {
     if (debValue !== '' && page) {
       setIsLoading(true)
+      setCanLoadNext(false)
       search({query_string: debValue, page}).then(res => {
         if(res?.data?.results?.length === 0) setIsEnd(true) 
         if(page === 1) {
@@ -53,7 +48,10 @@ const Search: FC<any> = () => {
         } else {
           setList(s => [...s, ...res?.data?.results]) 
         }
-      }).finally(() => setIsLoading(false))
+      }).finally(() => {
+        setIsLoading(false)
+        setCanLoadNext(true)
+      })
     }
   }
 
@@ -95,11 +93,7 @@ const Search: FC<any> = () => {
     }
   }
 
-
   useEffect(() => {
-    // if (focused && list?.length > 0) {
-    //   setDropdownOpen(true)
-    // }
     if(list?.length > 0) setDropdownOpen(true)
     if(list?.length === 0) setDropdownOpen(false)
   }, [list])
@@ -134,7 +128,10 @@ const Search: FC<any> = () => {
         page={page}
         />}
     >
-      <div ref={ref} className={`${styles.wrapper} ${focused ? styles.focused : ''}`}>
+      <div 
+        ref={ref} 
+        className={getClassNames([styles.wrapper, focused && styles.focused])}
+        >
         <div onClick={goToKeywordPageClick} className={styles.icon}>
           <BiSearch/>
         </div>

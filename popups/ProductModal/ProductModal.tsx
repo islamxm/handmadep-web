@@ -1,20 +1,13 @@
 import styles from './ProductModal.module.scss';
 import { Modal, ModalFuncProps, Row, Col } from 'antd';
 import {FC, useState, useEffect} from 'react'
-import Avatar from '@/components/Avatar/Avatar';
 import UserBadge from '@/components/UserBadge/UserBadge';
 import Image from 'next/image';
 import { useAppSelector, useAppDispatch } from '@/hooks/useTypesRedux';
-import { useGetProductQuery } from '@/store/slices/apiSlice';
 
 import {
-    BsFillHeartFill,
-    BsFillPinAngleFill,
     BsHeart,
     BsBookmark,
-    BsFillBookmarkFill, 
-    BsShareFill, 
-    BsFillBookmarksFill,
     BsHeartFill,
     BsBookmarkFill
 } from 'react-icons/bs';
@@ -22,6 +15,7 @@ import {
 import Button from '@/components/Button/Button';
 import ApiService from '@/service/apiService';
 import { main_updateCurrentProduct } from '@/store/slices/mainSlice';
+
 interface I {
 
 }
@@ -172,7 +166,6 @@ const ProductModal:FC<I & ModalFuncProps> = (props) => {
                                         round
                                         />
                                 </div>
-                                {/* <div className={styles.item}></div> */}
                             </div>
                         </Col>
                     )

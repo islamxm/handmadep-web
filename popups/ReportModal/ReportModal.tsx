@@ -2,7 +2,6 @@ import { Modal, ModalFuncProps, Row, Col } from 'antd';
 import styles from './ReportModal.module.scss';
 import {FC, useState, useEffect} from 'react';
 import Item from './components/Item/Item';
-import ApiService from '@/service/apiService';
 import Button from '@/components/Button/Button';
 import { useAppSelector } from '@/hooks/useTypesRedux';
 import notify from '@/helpers/notify';

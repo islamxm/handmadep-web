@@ -2,8 +2,7 @@ import styles from './UserBadge.module.scss';
 import Avatar from '../Avatar/Avatar';
 import {FC} from 'react';
 import { StaticImageData } from 'next/image';
-import placeholder from '@/public/assets/avatar-placeholder.png';
-
+import getClassNames from '@/helpers/getClassNames';
 
 const UserBadge:FC<{
     image?: string | StaticImageData,
@@ -18,7 +17,6 @@ const UserBadge:FC<{
     style,
     
     linkObj
-    
 }) => {
 
     if(linkObj ) {
@@ -38,7 +36,10 @@ const UserBadge:FC<{
         )
     }
     return (
-        <div style={style} className={`${styles.wrapper} ${classNames ? classNames?.map(i => i) : ''}`}>
+        <div 
+            style={style} 
+            className={getClassNames([styles.wrapper, classNames && classNames?.map((i => i))])}
+            >
             <div className={styles.avatar}>
                 <Avatar
                     label={username}

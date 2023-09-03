@@ -3,25 +3,18 @@ import Main from "@/pageModules/catalog/components/Main/Main"
 import {Row, Col} from 'antd';
 import PageTitle from "@/components/PageTitle/PageTitle";
 import List from "@/components/List/List";
-// import prodsMock from "@/mock/prodsMock";
 import ApiService from "@/service/apiService";
 import { GetServerSideProps } from 'next'
-import { useEffect, useRef, useState } from "react";
-
+import { useEffect, useState } from "react";
 import { IProduct } from "@/models/IProduct";
 import { useAppSelector } from "@/hooks/useTypesRedux";
-import { useRouter } from "next/router";
 import * as _ from 'lodash'
 import Head from "next/head";
 import { LoadNext } from "@/components/loadMoreCtrl/loadMoreCtrl";
-import apiSlice, { useGetSimilarProdsQuery } from "@/store/slices/apiSlice";
-import { useAppDispatch } from "@/hooks/useTypesRedux";
-import { main_updateLoading } from "@/store/slices/mainSlice";
+import apiSlice from "@/store/slices/apiSlice";
+
 
 const service = new ApiService()
-
-
-
 
 export const getServerSideProps:GetServerSideProps<{productData: IProduct}> = async (context) => {
     const id = context?.params?.id
@@ -39,7 +32,6 @@ export const getServerSideProps:GetServerSideProps<{productData: IProduct}> = as
 
 
 const ProductPage = ({productData, productId, list}: {productData: IProduct, productId: any, list: any[]}) => {
-    const dispatch = useAppDispatch()
     const {token: {access}} = useAppSelector(s => s.main)
     const [localData, setLocalData] = useState<any>()
     const [getSmList] = apiSlice.endpoints.getSimilarProds.useLazyQuery()
@@ -50,9 +42,7 @@ const ProductPage = ({productData, productId, list}: {productData: IProduct, pro
     const [isEnd, setIsEnd] = useState(false)
     const [prevPage, setPrevPage] = useState(0)
 
-
     useEffect(() => setLocalList(list), [list])
-    
 
     const getData = (
 		page: any, 

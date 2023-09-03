@@ -12,12 +12,6 @@ import MainWrapper from '@/components/MainWrapper/MainWrapper';
 import NProgress from 'nprogress';
 import "nprogress/nprogress.css";
 
-// const TopProgressBar = dynamic(
-//   () => {
-//     return import("components/TopProgressBar");
-//   },
-//   { ssr: true },
-// );
 
 Router.events.on("routeChangeStart", () => NProgress.start());
 Router.events.on("routeChangeComplete", () => NProgress.done());

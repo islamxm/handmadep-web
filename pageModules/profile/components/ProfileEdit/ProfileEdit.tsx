@@ -10,7 +10,6 @@ import ApiService from '@/service/apiService';
 import Button from '@/components/Button/Button';
 import { main_updateUserData } from '@/store/slices/mainSlice';
 import notify from '@/helpers/notify';
-import { useGetUserDataQuery } from '@/store/slices/apiSlice';
 
 const service = new ApiService()
 
@@ -27,7 +26,6 @@ const ProfileEdit:FC<IUser> = ({
     const [localEmail, setLocalEmail] = useState('')
     const [localAbout, setLocalAbout] = useState('')
     const [localSite, setLocalSite] = useState('')
-    // const {refetch} = useGetUserDataQuery('')
 
     useEffect(() => {
         if(username) {
@@ -103,18 +101,6 @@ const ProfileEdit:FC<IUser> = ({
                         placeholder='About'
                         />
                 </Col>
-                {/* <Col span={24}>
-                    <Input
-                        placeholder='New password'
-                        type='password'
-                        />
-                </Col>
-                <Col span={24}>
-                    <Input
-                        placeholder='Confirm password'
-                        type='password'
-                        />
-                </Col> */}
                 <Col span={24}>
                     <div className={styles.action}>
                         <Button

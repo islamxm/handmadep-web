@@ -1,7 +1,7 @@
 import ContentLayout from "@/components/ContentLayout/ContentLayout";
 import List from "@/components/List/List";
 import PageTitle from "@/components/PageTitle/PageTitle";
-import {useRef, useState, useEffect} from 'react';
+import { useState, useEffect} from 'react';
 import { useAppSelector } from "@/hooks/useTypesRedux";
 import styles from '@/pageModules/home/home.module.scss';
 import apiSlice from "@/store/slices/apiSlice";

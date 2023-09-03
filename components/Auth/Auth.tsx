@@ -4,21 +4,12 @@ import { FC, useState, useEffect } from 'react';
 import Button from '../Button/Button';
 import Input from '../Input/Input';
 import Image from 'next/image';
-
 import { useAppDispatch, useAppSelector } from '@/hooks/useTypesRedux';
 import google from '@/public/assets/auth-google.png';
 import { HiOutlineMail } from 'react-icons/hi';
-
-import { Cookies } from 'typescript-cookie';
-import Checkbox from '../Checkbox/Checkbox';
-
-import { GoogleLogin, useGoogleLogin } from '@react-oauth/google';
 import notify from '@/helpers/notify';
-import { useAuthGoogleQuery, useAuthMutation } from '@/store/slices/apiSlice';
-
+import { useAuthMutation } from '@/store/slices/apiSlice';
 import { main_updateLoading, main_updateResetPassPopup, main_updateToken } from '@/store/slices/mainSlice';
-import { cookiesStorageKeys } from '@/helpers/storageKeys';
-
 import ResetPasswordModal from '@/popups/ResetPasswordModal/ResetPasswordModa';
 import { authorizeFunc, deauthorizeFunc } from '@/helpers/authorizeUtils';
 import apiSlice from '@/store/slices/apiSlice';
@@ -30,11 +21,9 @@ interface I extends ModalFuncProps {
 const Auth: FC<I> = (props) => {
 	const { onCancel, toggleModal } = props
 	const [authResponse, authResponseResult] = useAuthMutation()
-
 	const { resetPassPopup } = useAppSelector(s => s.main)
 	const [authWithEmail, setAuthWithEmail] = useState(false)
 	const dispatch = useAppDispatch()
-
 	const [email, setEmail] = useState('');
 	const [password, setPassword] = useState('');
 
@@ -61,7 +50,6 @@ const Auth: FC<I> = (props) => {
 				access: tokens?.access,
 				refresh: tokens?.refresh
 			}))
-			// window.location.reload()
 		}
 		if (authResponseResult?.isError) {
 			deauthorizeFunc()

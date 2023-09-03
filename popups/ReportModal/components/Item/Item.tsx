@@ -3,7 +3,6 @@ import styles from './Item.module.scss';
 
 
 interface I {
-    // list: {value: string, label: string},
     value: string,
     selected?: string,
     label: string

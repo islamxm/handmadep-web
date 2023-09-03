@@ -1,30 +1,22 @@
 import styles from './Signup.module.scss';
 import { Modal, ModalFuncProps, Col, Row } from 'antd'
-import { FC, useState, useEffect, useCallback } from 'react';
+import { FC, useState, useCallback } from 'react';
 import Input from '../Input/Input';
 import Button from '../Button/Button';
 import google from '@/public/assets/auth-google.png';
-import facebook from '@/public/assets/auth-facebook.png';
-import twitter from '@/public/assets/auth-twitter.png';
 import Image from 'next/image';
 import ApiService from '@/service/apiService';
-import { GoogleLogin, useGoogleLogin } from '@react-oauth/google';
-import { endpoints } from '@/service/endpoints';
 import notify from '@/helpers/notify';
-import Checkbox from '../Checkbox/Checkbox';
 import { useAppDispatch } from '@/hooks/useTypesRedux';
 import { main_updateLoading } from '@/store/slices/mainSlice';
-import { Cookies } from 'typescript-cookie';
 import apiSlice from '@/store/slices/apiSlice';
 import { HiOutlineMail } from 'react-icons/hi';
 
 const service = new ApiService();
 
-
 interface IAuthModal extends ModalFuncProps {
     toggleModal: (...args: any[]) => any
 }
-
 
 const Signup: FC<IAuthModal> = (props) => {
     const { onCancel, toggleModal } = props;
@@ -42,8 +34,6 @@ const Signup: FC<IAuthModal> = (props) => {
     const [passwordError, setPasswordError] = useState('')
     const [usernameError, setUsernameError] = useState('')
 
-    const [save, setSave] = useState(false)
-
     const onSubmit = useCallback(() => {
         setLoad(true)
         setUsernameError('')
@@ -56,7 +46,6 @@ const Signup: FC<IAuthModal> = (props) => {
             re_password: repeatPassword,
             username
         }).then(res => {
-            console.log(res)
             if (res?.status === 200 || res?.status === 201) {
                 notify('Success', 'SUCCESS')
                 toggleModal()

@@ -1,10 +1,6 @@
 import styles from './Result.module.scss';
-import {FC, useEffect} from 'react';
-import { resultType } from '../../types';
+import {FC} from 'react';
 import Item from '../Item/Item';
-import Card from '../Card/Card';
-import {Row, Col} from 'antd';
-import { useInView } from 'react-intersection-observer';
 import { LoadNext } from '@/components/loadMoreCtrl/loadMoreCtrl';
 
 const Result:FC<{
