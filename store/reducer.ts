@@ -35,7 +35,9 @@ export interface IGlobalState {
     cachedCards: {
         currentPage: number,
         list: any[]
-    } | null
+    } | null,
+
+    censoreModel:any
 }
 
 
@@ -54,6 +56,7 @@ export const globalState: IGlobalState = {
     resetPassPopup: false,
     searchPopup: false,
     currentProduct: null,
-    cachedCards: null
+    cachedCards: null,
+    censoreModel: null
 }
 

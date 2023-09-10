@@ -42,6 +42,9 @@ const mainSlice = createSlice({
         },
         main_updateCachedCards: (state, action) => {
             state.cachedCards = action.payload
+        },
+        main_updateCensoreModel: (state, action) => {
+            state.censoreModel = action.payload
         }
     }
 })
@@ -59,5 +62,6 @@ export const {
     main_openSearch,
     main_updateCurrentProduct,
     main_updateResetPassPopup,
-    main_updateUserData
+    main_updateUserData,
+    main_updateCensoreModel
 } = actions

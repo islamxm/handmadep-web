@@ -19,15 +19,19 @@ import { useRouter } from 'next/router';
 import { main_updateAuthPopup, main_updateCurrentProduct } from '@/store/slices/mainSlice';
 import ApiService from '@/service/apiService';
 import getClassNames from '@/helpers/getClassNames';
+import * as nsfwjs from 'nsfwjs'
+
+
 
 const service = new ApiService()
+
+
 
 interface ITest extends IProduct {
     height?: number
     isLast?: boolean,
     newLimit?: (...args: any[]) => any,
 } 
-
 const ProductItem = ({
     data 
 }: {data: ITest}) => {
@@ -46,19 +50,22 @@ const ProductItem = ({
         is_liked,
         newLimit,
     } = data
+    
     const cardRef = useRef<HTMLDivElement | null>(null)
     const [liked, setLiked] = useState(false)
     const [pinned, setPinned] = useState(false)
     const [likeLayer, setLikeLayer] = useState(false)
+    const imgRef = useRef<HTMLImageElement>(null)
 
     const [bg] = useState('rgb(55, 29, 49)')
     const [loaded, setLoaded] = useState(false)
 
     const dispatch = useAppDispatch()
-    const {token} = useAppSelector(s => s.main)
+    const {token, censoreModel} = useAppSelector(s => s.main)
     const {access} = token
 
     const openAuth = () => dispatch(main_updateAuthPopup(true))
+
 
     useEffect(() => {
         setPinned(is_favorited ? true : false)
@@ -74,6 +81,19 @@ const ProductItem = ({
         } 
       });
 
+      const getClassify = async (img:any) => {
+        const t = await censoreModel.classify(img)
+        return t;
+      }
+
+      useEffect(() => {
+        if(censoreModel && cover_url && imgRef?.current) {
+            const img = document.documentElement.querySelector('#iii')
+            getClassify(imgRef?.current).then(res => {
+                console.log(res)
+            })
+        }
+      }, [censoreModel, cover_url, imgRef])
       
 
     useEffect(() => {
@@ -197,6 +217,8 @@ const ProductItem = ({
                 </AnimatePresence>
                 <div className={styles.image} style={{backgroundColor: bg, height: data?.height}}>
                             <Image
+                                id='iii'
+                                ref={imgRef}
                                 className={styles.image_el}
                                 loader={(p) => {
                                     return p?.src ? p?.src : ''

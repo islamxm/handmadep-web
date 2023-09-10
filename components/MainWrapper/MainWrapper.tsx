@@ -3,10 +3,10 @@ import { useEffect } from "react";
 import ProductModal from "@/popups/ProductModal/ProductModal";
 import { useRouter } from "next/router";
 import apiSlice, { useAuthGoogleTokenMutation, useGetUserDataQuery } from "@/store/slices/apiSlice";
-import { main_updateLoading, main_updateUserData } from "@/store/slices/mainSlice";
+import { main_updateCensoreModel, main_updateLoading, main_updateUserData } from "@/store/slices/mainSlice";
 import { authorizeFunc } from "@/helpers/authorizeUtils";
 import ApiService from "@/service/apiService";
-
+import * as nsfw from 'nsfwjs';
 const service = new ApiService()
 
 const MainWrapper = ({
@@ -50,6 +50,12 @@ const MainWrapper = ({
 		[authGoogleTokenResponseToken]
 	)
 
+
+	useEffect(() => {
+		nsfw.load().then(res => {
+			dispatch(main_updateCensoreModel(res))
+		})
+	}, [])
 
 	return (
 		<>

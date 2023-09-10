@@ -23,13 +23,13 @@ const ProfileMenu = ({
                 <li className={styles.item}>
                     <Link href={'/likes'} className={styles.link}>
                         <div className={styles.icon}><BsHeartFill/></div>
-                        <div className={styles.text}>Favourites</div>
+                        <div className={styles.text}>Likes</div>
                     </Link> 
                 </li>
                 <li className={styles.item}>
                     <Link href={'/favs'} className={styles.link}>
                         <div className={styles.icon}><BsBookmarkFill/></div>
-                        <div className={styles.text}>Saved</div>
+                        <div className={styles.text}>Favorites</div>
                     </Link> 
                 </li>
                 <li className={getClassNames([styles.item, styles.logout])}>
