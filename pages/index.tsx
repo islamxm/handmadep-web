@@ -39,9 +39,6 @@ const HomePage = ({ list, initPage }: { list: any[], initPage: number | any }) =
 		setLocalList(list)
 	}, [list])
 
-
-	
-
 	const getData = (
 		page: any, 
 		type: 'init' | 'update', 
