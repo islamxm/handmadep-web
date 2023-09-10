@@ -18,6 +18,8 @@ import Router, { useRouter } from 'next/router';
 import NotificationsDrop from './components/NotificationsDrop/NotificationsDrop';
 import { useWindowSize } from 'usehooks-ts';
 import getClassNames from '@/helpers/getClassNames';
+import img from '@/public/logo.png';
+import Image from 'next/image';
 
 
 const Header:FC<headerTypes> = () => {
@@ -67,7 +69,12 @@ const Header:FC<headerTypes> = () => {
                 />
             <Container>
                 <div className={styles.in}>
-                    <div className={`${styles.part} ${styles.logo}`}></div>
+                    <div className={`${styles.part} ${styles.logo}`}>
+                        <Image
+                            src={img}
+                            alt=''
+                            />
+                    </div>
                     <div className={`${styles.part} ${styles.action}`}>
                         <div className={styles.item}>
                             <Button

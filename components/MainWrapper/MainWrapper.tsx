@@ -6,7 +6,7 @@ import apiSlice, { useAuthGoogleTokenMutation, useGetUserDataQuery } from "@/sto
 import { main_updateCensoreModel, main_updateLoading, main_updateUserData } from "@/store/slices/mainSlice";
 import { authorizeFunc } from "@/helpers/authorizeUtils";
 import ApiService from "@/service/apiService";
-import * as nsfw from 'nsfwjs';
+
 const service = new ApiService()
 
 const MainWrapper = ({
@@ -51,11 +51,11 @@ const MainWrapper = ({
 	)
 
 
-	useEffect(() => {
-		nsfw.load().then(res => {
-			dispatch(main_updateCensoreModel(res))
-		})
-	}, [])
+	// useEffect(() => {
+	// 	nsfw.load().then(res => {
+	// 		dispatch(main_updateCensoreModel(res))
+	// 	})
+	// }, [])
 
 	return (
 		<>

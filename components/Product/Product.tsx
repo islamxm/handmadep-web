@@ -86,14 +86,7 @@ const ProductItem = ({
         return t;
       }
 
-      useEffect(() => {
-        if(censoreModel && cover_url && imgRef?.current) {
-            const img = document.documentElement.querySelector('#iii')
-            getClassify(imgRef?.current).then(res => {
-                console.log(res)
-            })
-        }
-      }, [censoreModel, cover_url, imgRef])
+     
       
 
     useEffect(() => {
