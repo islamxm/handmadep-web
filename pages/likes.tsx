@@ -26,23 +26,28 @@ const FavsPage = () => {
 			setCanLoadNext(false)
 			if (access) {
 				getList({
-                    page,
-                    token: access
-                }).then(res => {
-                    if(res?.data?.results?.length === 0) setIsEnd(true)
-					if (page === 1) {
-						setLocalList(res?.data?.results?.map((i: any) => ({ ...i, height: _.random(200, 350) })))
-					} else {
-						switch (dir) {
-							case 'next':
-								setLocalList(s => [...s, ...res?.data?.results?.map((i: any) => ({ ...i, height: _.random(200, 350) }))])
-								break;
-							case 'prev':
-								setLocalList(s => [...res?.data?.results?.map((i: any) => ({ ...i, height: _.random(200, 350) })), ...s])
-								break;
-							default:
+						page,
+						token: access
+				}).then(res => {
+					if(res?.data && localList?.length < res?.data?.count) {
+						if(res?.data?.results?.length > 0) {
+							const newListLength = res?.data?.results?.length
+							if(localList?.length + newListLength === res?.data?.count) setIsEnd(true)
+							if (page === 1) {
 								setLocalList(res?.data?.results?.map((i: any) => ({ ...i, height: _.random(200, 350) })))
-								break;
+							} else {
+								switch (dir) {
+									case 'next':
+										setLocalList(s => [...s, ...res?.data?.results?.map((i: any) => ({ ...i, height: _.random(200, 350) }))])
+										break;
+									case 'prev':
+										setLocalList(s => [...res?.data?.results?.map((i: any) => ({ ...i, height: _.random(200, 350) })), ...s])
+										break;
+									default:
+										setLocalList(res?.data?.results?.map((i: any) => ({ ...i, height: _.random(200, 350) })))
+										break;
+								}
+							}
 						}
 					}
 				}).finally(() => setCanLoadNext(true))

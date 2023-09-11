@@ -7,7 +7,7 @@ const AboutPage = () => {
       <PageTitle
         title={'About'}
         />
-      <div></div>
+      
     </ContentLayout>
   )
 }

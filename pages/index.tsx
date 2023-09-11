@@ -47,6 +47,7 @@ const HomePage = ({ list, initPage }: { list: any[], initPage: number | any }) =
 			setCanLoadNext(false)
 			if (access) {
 				service.getCardsList(page).then(res => {
+					console.log(res)
 					if(res?.results?.length === 0) setIsEnd(true)
 					if (page === 1) {
 						setLocalList(res?.results?.map((i: any) => ({ ...i, height: _.random(200, 350) })))
