@@ -11,6 +11,7 @@ export const endpoints = {
     // ** Основные эндпоинты
 
     auth: `${PATH}users/`,
+    refresh: `${PATH}auth/jwt/refresh`,
     authO: `${PATH}auth/o/`,
     resetPassword: `${PATH}users/reset_password/`,
     //POST - создать пользователя

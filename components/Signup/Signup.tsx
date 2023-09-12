@@ -11,6 +11,7 @@ import { useAppDispatch } from '@/hooks/useTypesRedux';
 import { main_updateLoading } from '@/store/slices/mainSlice';
 import apiSlice from '@/store/slices/apiSlice';
 import { HiOutlineMail } from 'react-icons/hi';
+import Link from 'next/link';
 
 const service = new ApiService();
 
@@ -201,7 +202,7 @@ const Signup: FC<IAuthModal> = (props) => {
                     </Col>
                     <Col span={24}>
                         <div className={styles.terms}>
-                            If you choose to continue, you agree to the <a href="#">Terms of Useset</a> established by HandMadeP. Read our <a href="#">Privacy Policy</a>.
+                            If you choose to continue, you agree to the <Link href={'/terms'}>Terms of Useset</Link> established by HandMadeP. Read our <Link href={'/policy'}>Privacy Policy</Link>.
                         </div>
                     </Col>
                 </Row>

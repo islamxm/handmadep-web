@@ -9,7 +9,7 @@ import google from '@/public/assets/auth-google.png';
 import { HiOutlineMail } from 'react-icons/hi';
 import notify from '@/helpers/notify';
 import { useAuthMutation } from '@/store/slices/apiSlice';
-import { main_updateLoading, main_updateResetPassPopup, main_updateToken } from '@/store/slices/mainSlice';
+import { main_updateAuthPopup, main_updateLoading, main_updateResetPassPopup, main_updateToken } from '@/store/slices/mainSlice';
 import ResetPasswordModal from '@/popups/ResetPasswordModal/ResetPasswordModa';
 import { authorizeFunc, deauthorizeFunc } from '@/helpers/authorizeUtils';
 import apiSlice from '@/store/slices/apiSlice';
@@ -51,6 +51,7 @@ const Auth: FC<I> = (props) => {
 				access: tokens?.access,
 				refresh: tokens?.refresh
 			}))
+			dispatch(main_updateAuthPopup(false))
 		}
 		if (authResponseResult?.isError) {
 			deauthorizeFunc()
@@ -163,7 +164,7 @@ const Auth: FC<I> = (props) => {
 					</Col>
 					<Col span={24}>
 						<div className={styles.terms}>
-						If you choose to continue, you agree to the <Link href={'/terms'}>Terms of Useset</Link> established by HandMadeP. Read our <a href="#">Privacy Policy</a>.
+						If you choose to continue, you agree to the <Link href={'/terms'}>Terms of Useset</Link> established by HandMadeP. Read our <Link href="/policy">Privacy Policy</Link>.
 						</div>
 					</Col>
 				</Row>

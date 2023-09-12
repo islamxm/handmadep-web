@@ -7,6 +7,7 @@ import styles from '@/pageModules/home/home.module.scss';
 import apiSlice from "@/store/slices/apiSlice";
 import { LoadNext } from "@/components/loadMoreCtrl/loadMoreCtrl";
 import * as _ from 'lodash';
+import PrivateRoute from "@/hoc/PrivateRoute";
 
 
 const FavsPage = () => {
@@ -78,6 +79,7 @@ const FavsPage = () => {
 
 
     return (
+			<PrivateRoute>
         <div className={styles.wrapper}>
             <ContentLayout>
                 <PageTitle
@@ -95,6 +97,7 @@ const FavsPage = () => {
                 )}
             </ContentLayout>
         </div>
+				</PrivateRoute>
     )
 }
 

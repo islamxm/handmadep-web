@@ -7,6 +7,7 @@ import * as _ from 'lodash';
 import { useAppSelector } from "@/hooks/useTypesRedux";
 import { GetServerSideProps } from "next";
 import { LoadNext } from "@/components/loadMoreCtrl/loadMoreCtrl";
+import { notFound } from 'next/navigation'
 
 const service = new ApiService()
 
@@ -19,8 +20,9 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 	return {
 		props: {
 			list: data,
-			initPage: 1
-		}
+			initPage: 1,
+		},
+		//
 	}
 }
 

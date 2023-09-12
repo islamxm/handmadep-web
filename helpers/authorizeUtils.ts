@@ -12,6 +12,7 @@ export const deauthorizeFunc = () => {
     console.log('DEAUTHORIZE')
     Cookies.remove(cookiesStorageKeys.TOKEN_ACCESS)
     Cookies.remove(cookiesStorageKeys.TOKEN_REFRESH)
+    window.location.replace('/')
 }
 
 export const authorizeFunc:I = (tokens) => {

@@ -1,17 +1,8 @@
-import { Cookies } from "typescript-cookie";
-import Router from 'next/router';
+import { deauthorizeFunc } from "@/helpers/authorizeUtils";
 
 const checkAuth = (res: Response, noparse?: boolean) => {
-
     if(res?.status === 401) {
-        Cookies.remove('handmadep-web-access-token')
-        Cookies.remove('handmadep-web-refresh-token')
-        if(process?.browser) {
-            sessionStorage.removeItem('handmadep-web-access-token')
-            sessionStorage.removeItem('handmadep-web-refresh-token')
-            // window.location.replace('/')
-            Router.replace('/')
-        }
+        deauthorizeFunc()
     } else {
         if(noparse) {
             return res

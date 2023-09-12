@@ -46,6 +46,15 @@ const apiSlice = createApi({
 			})
 		}),
 
+		refresh: builder.mutation({
+			query: (body: {refresh: any}) => ({
+				url: endpoints.refresh,
+				method: "POST",
+				headers,
+				body: JSON.stringify(body)
+			})
+		}),
+
 		authGoogle: builder.query({
 			query: () => `https://handmadep.com/api/auth/o/google-oauth2/?redirect_uri=https://handmadep.com/google`
 		}),
@@ -186,6 +195,7 @@ const apiSlice = createApi({
 export default apiSlice;
 
 export const {
+	useRefreshMutation,
 	useAuthMutation,
 	useAuthGoogleQuery,
 	useAuthGoogleTokenMutation,
