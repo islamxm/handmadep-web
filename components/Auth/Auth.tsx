@@ -14,6 +14,7 @@ import ResetPasswordModal from '@/popups/ResetPasswordModal/ResetPasswordModa';
 import { authorizeFunc, deauthorizeFunc } from '@/helpers/authorizeUtils';
 import apiSlice from '@/store/slices/apiSlice';
 import Link from 'next/link';
+import GlobalLinks from '../GlobalLinks/GlobalLinks';
 
 interface I extends ModalFuncProps {
 	toggleModal: (...args: any[]) => any
@@ -164,8 +165,11 @@ const Auth: FC<I> = (props) => {
 					</Col>
 					<Col span={24}>
 						<div className={styles.terms}>
-						If you choose to continue, you agree to the <Link href={'/terms'}>Terms of Useset</Link> established by HandMadeP. Read our <Link href="/policy">Privacy Policy</Link>.
+						By continuing, you agree to HandMadeP <Link href={'/terms'}>Terms of Use</Link>. Read our <Link href={'/policy'}>Privacy Policy</Link>.
 						</div>
+					</Col>
+					<Col span={24}>
+						<GlobalLinks/>
 					</Col>
 				</Row>
 			</Col>

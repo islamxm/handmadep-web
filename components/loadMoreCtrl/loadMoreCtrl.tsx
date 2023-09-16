@@ -44,7 +44,7 @@ export const LoadNext:FC<ILoadMore> = ({
     }, [inView, setPage])
 
     return (
-        <div ref={ref}>load more</div>
+        <div ref={ref}></div>
     )
 }
 

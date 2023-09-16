@@ -1,0 +1,30 @@
+.wrapper {
+  background-color: #fff;
+  
+
+  .in {
+    padding: 50px 0;
+    display: flex;
+    justify-content: flex-end;
+
+    .part {
+
+      .list {
+        .item {
+          margin-bottom: 15px;
+          a {
+            font-weight: 600;
+            font-size: 18px;
+            line-height: 25px;
+            transition: all .3s ease;
+            color: var(--blue);
+
+            &:hover {
+              color: var(--light_blue);
+            }
+          }
+        }
+      }
+    }
+  }
+}

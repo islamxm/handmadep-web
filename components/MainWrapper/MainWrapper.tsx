@@ -6,7 +6,7 @@ import apiSlice, { useAuthGoogleTokenMutation, useGetUserDataQuery } from "@/sto
 import { main_updateCensoreModel, main_updateLoading, main_updateUserData } from "@/store/slices/mainSlice";
 import { authorizeFunc } from "@/helpers/authorizeUtils";
 import ApiService from "@/service/apiService";
-
+import Footer from "../Footer/Footer";
 const service = new ApiService()
 
 const MainWrapper = ({

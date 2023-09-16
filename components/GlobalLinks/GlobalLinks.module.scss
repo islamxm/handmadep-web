@@ -1,0 +1,17 @@
+.wrapper {
+  border-top: 1px solid #eaeaea;
+  padding-top: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  a {
+    margin: 0 10px;
+    color: var(--light_blue);
+    transition: all .3s ease;
+    font-weight: 500;
+
+    &:hover {
+      color: lightskyblue;
+    }
+  }
+}

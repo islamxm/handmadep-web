@@ -12,6 +12,7 @@ import { main_updateLoading } from '@/store/slices/mainSlice';
 import apiSlice from '@/store/slices/apiSlice';
 import { HiOutlineMail } from 'react-icons/hi';
 import Link from 'next/link';
+import GlobalLinks from '../GlobalLinks/GlobalLinks';
 
 const service = new ApiService();
 
@@ -204,6 +205,9 @@ const Signup: FC<IAuthModal> = (props) => {
                         <div className={styles.terms}>
                             If you choose to continue, you agree to the <Link href={'/terms'}>Terms of Useset</Link> established by HandMadeP. Read our <Link href={'/policy'}>Privacy Policy</Link>.
                         </div>
+                    </Col>
+                    <Col span={24}>
+                        <GlobalLinks/>
                     </Col>
                 </Row>
             </Col>
