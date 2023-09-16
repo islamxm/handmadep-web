@@ -7,7 +7,8 @@ import * as _ from 'lodash';
 import { useAppSelector } from "@/hooks/useTypesRedux";
 import { GetServerSideProps } from "next";
 import { LoadNext } from "@/components/loadMoreCtrl/loadMoreCtrl";
-import { notFound } from 'next/navigation'
+import Head from "next/head";
+import logo from '@/public/logo.png';
 
 const service = new ApiService()
 
@@ -105,6 +106,15 @@ const HomePage = ({ list, initPage }: { list: any[], initPage: number | any }) =
 
 	return (
 		<div className={styles.wrapper}>
+			<Head>
+				<title>Crafted with Care: Explore Unique Handmade Goods</title>
+				<meta name="description" content="Explore a curated collection of exquisite handcrafted products that showcase the creativity and skill of artisans worldwide. From intricately designed jewelry to beautifully crafted home decor, our site offers a diverse range of unique items that add a touch of artistry to your life. Discover the charm of handmade goods and support artisans who pour their heart and soul into every creation."/>
+				<meta property="og:title" content="Crafted with Care: Explore Unique Handmade Goods"/>
+				<meta property="og:description" content="Explore a curated collection of exquisite handcrafted products that showcase the creativity and skill of artisans worldwide. From intricately designed jewelry to beautifully crafted home decor, our site offers a diverse range of unique items that add a touch of artistry to your life. Discover the charm of handmade goods and support artisans who pour their heart and soul into every creation."/>
+				<link rel="canonical" href={`https://handmadep.com`} />
+				<meta property="og:image" content={'/logo.png'}/>
+				<meta property="og:image:alt" content={'Crafted with Care: Explore Unique Handmade Goods'}/>
+			</Head>
 			<ContentLayout>
 				<List
 					setPage={setPage}

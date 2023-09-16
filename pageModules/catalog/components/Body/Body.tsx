@@ -174,7 +174,7 @@ const Body:FC<IProduct> = ({
                 <div className={styles.main}>
                     <Row gutter={[20,20]}>
                         <Col span={24}>
-                            <h2 className={styles.title}>{title}</h2>
+                            <h1 className={styles.title}>{title}</h1>
                         </Col>
                         {
                             description && (

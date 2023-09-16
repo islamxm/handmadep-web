@@ -132,8 +132,8 @@ const ProductPage = ({productData, productId, list}: {productData: IProduct, pro
                 <meta name="description" content={productData?.description ? `${productData?.description?.slice(0, 200)}...` : productData?.title}></meta>
                 <meta property="og:description" content={productData?.description ? `${productData?.description?.slice(0, 200)}...` : productData?.title}></meta>
                 <meta property="og:title" content={productData?.title}></meta>
-                <meta property="og:url" content={`https://handmadep.netlify.app/itm/${productData?.id}`}></meta>
-                <link rel="canonical" href={`https://handmadep.netlify.app/itm/${productData?.id}`} />
+                <meta property="og:url" content={`https://handmadep.com/itm/${productData?.id}`}></meta>
+                <link rel="canonical" href={`https://handmadep.com/itm/${productData?.id}`} />
                 <meta name="keywords" content={productData?.tags?.map((i:any) => i?.keyword)?.join(',')}/>
                 <meta property="og:type" content="product"/>
                 <meta property="og:image" content={productData?.cover_url}/>
@@ -145,7 +145,7 @@ const ProductPage = ({productData, productId, list}: {productData: IProduct, pro
                     <Main {...localData}/>
                 </Col>
                 <Col span={24}>
-                    <PageTitle title={'Similar products'}/>
+                    <PageTitle isTitle={false} title={'Similar products'}/>
                     <List
                         list={localList}
                         setPage={setPage}
