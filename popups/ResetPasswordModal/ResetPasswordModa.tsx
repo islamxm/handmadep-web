@@ -5,6 +5,7 @@ import Input from '@/components/Input/Input';
 import Button from '@/components/Button/Button';
 import { useResetPasswordMutation } from '@/store/slices/apiSlice';
 import notify from '@/helpers/notify';
+import GlobalLinks from '@/components/GlobalLinks/GlobalLinks';
 
 const ResetPasswordModal:FC<ModalFuncProps> = (props) => {
     const {onCancel} = props
