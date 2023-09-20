@@ -142,7 +142,7 @@ const ProductPage = ({productData, productId, list}: {productData: IProduct, pro
             </Head>
             <Row gutter={[40,40]}>
                 <Col span={24}>
-                    <Main {...localData}/>
+                    <Main  {...localData} ssrData={productData}/>
                 </Col>
                 <Col span={24}>
                     <PageTitle isTitle={false} title={'Similar products'}/>

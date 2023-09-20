@@ -5,10 +5,14 @@ import {Row, Col} from 'antd';
 import { IProduct } from '@/models/IProduct';
 import {FC} from 'react';
 
+interface I extends IProduct {
+    ssrData?: IProduct | any
+}
 
-const Main:FC<IProduct> = (props) => {
+const Main:FC<I> = (props) => {
 
-    const {cover_url, title} = props;
+    const {cover_url, title, ssrData} = props;
+    
 
     return (
         <div className={styles.wrapper}>
@@ -20,7 +24,7 @@ const Main:FC<IProduct> = (props) => {
                         />
                 </Col>
                 <Col md={12} span={24}>
-                    <Body {...props}/>
+                    <Body {...props} title={ssrData?.title || title}/>
                 </Col>
             </Row>
         </div>
