@@ -83,7 +83,9 @@ const ProductPage = ({productData, productId, list}: {productData: IProduct, pro
 					if (page === 1) {
 						setLocalList(res?.data?.results?.map((i: any) => ({ ...i, height: _.random(200, 350) })))
 					} else {
-						setLocalList(s => [...s, ...res?.data?.results?.map((i: any) => ({ ...i, height: _.random(200, 350) }))])
+                        if(res?.data?.results) {
+                            setLocalList(s => [...s, ...res?.data?.results?.map((i: any) => ({ ...i, height: _.random(200, 350) }))])
+                        }
 					}
 				}).finally(() => setCanLoadNext(true))
 			}
