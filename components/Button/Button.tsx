@@ -21,6 +21,7 @@ const Button:FC<buttonTypes> = ({
     badge,
     link,
     blank,
+    className,
     onClick = () => {}
 }) => {
 
@@ -62,7 +63,7 @@ const Button:FC<buttonTypes> = ({
                             rel={'nofollow'} 
                             target='_blank' 
                             style={style} 
-                            className={getClassNames([styles.button, switchVariant(variant), load && styles.load, round && styles.round, disabled && styles.disabled])}>
+                            className={getClassNames([styles.button, switchVariant(variant), load && styles.load, round && styles.round, disabled && styles.disabled, className])}>
                             <div className={styles.load}><LoadingOutlined size={35}  color={color}/></div>   
                             {
                                 before && (
@@ -96,7 +97,7 @@ const Button:FC<buttonTypes> = ({
                 }
                 {
                     link && !blank ? (
-                        <Link href={link} style={style} className={getClassNames([styles.button, switchVariant(variant), load && styles.load, round && styles.round, disabled && styles.disabled])}>
+                        <Link href={link} style={style} className={getClassNames([styles.button, switchVariant(variant), load && styles.load, round && styles.round, disabled && styles.disabled, className])}>
                             <div className={styles.load}><LoadingOutlined size={35}  color={color}/></div>   
                             {
                                 before && (
@@ -127,7 +128,7 @@ const Button:FC<buttonTypes> = ({
                             }
                         </Link>
                     ) : (
-                        <button onClick={onClick} style={style} className={getClassNames([styles.button, switchVariant(variant), load && styles.load, round && styles.round, disabled && styles.disabled])}>
+                        <button onClick={onClick} style={style} className={getClassNames([styles.button, switchVariant(variant), load && styles.load, round && styles.round, disabled && styles.disabled, className])}>
                             <div className={styles.load}><LoadingOutlined size={35} color={color}/></div>   
                             {
                                 before && (
@@ -168,7 +169,7 @@ const Button:FC<buttonTypes> = ({
         <>
             {
                 (link && !blank) && (
-                    <Link rel={'nofollow'} href={link} style={style} className={getClassNames([styles.button, switchVariant(variant), load && styles.load, round && styles.round, disabled && styles.disabled])}>
+                    <Link rel={'nofollow'} href={link} style={style} className={getClassNames([styles.button, switchVariant(variant), load && styles.load, round && styles.round, disabled && styles.disabled, className])}>
                         <div className={styles.load}><LoadingOutlined size={35} color={color}/></div>   
                         {
                             before && (
@@ -202,7 +203,7 @@ const Button:FC<buttonTypes> = ({
             }
             {
                 !link && !blank ? (
-                    <button onClick={onClick} style={style} className={getClassNames([styles.button, switchVariant(variant), load && styles.load, round && styles.round, disabled && styles.disabled])}>
+                    <button onClick={onClick} style={style} className={getClassNames([styles.button, switchVariant(variant), load && styles.load, round && styles.round, disabled && styles.disabled, className])}>
                         <div className={styles.load}><LoadingOutlined size={35} color={color}/></div>   
                         {
                             before && (
@@ -236,7 +237,7 @@ const Button:FC<buttonTypes> = ({
             }
             {
                 (link && blank) && (
-                    <a href={link} target='_blank' style={style} className={getClassNames([styles.button, switchVariant(variant), load && styles.load, round && styles.round, disabled && styles.disabled])}>
+                    <a href={link} target='_blank' style={style} className={getClassNames([styles.button, switchVariant(variant), load && styles.load, round && styles.round, disabled && styles.disabled, className])}>
                         <div className={styles.load}><LoadingOutlined size={35}  color={color}/></div>   
                         {
                             before && (

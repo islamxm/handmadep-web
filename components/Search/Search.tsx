@@ -111,15 +111,23 @@ const Search: FC<any> = () => {
   }
 
   return (
-    <OutsideClickHandler onOutsideClick={() => {
-      setDropdownOpen(false)
-      onResetandClear()
-      dispatch(main_closeSearch())
+    
+    <OutsideClickHandler onOutsideClick={(e) => {
+      if(e?.target && 'classList' in e?.target) {
+        const classList: any = e?.target?.classList
+        if('length' in classList) {
+          if(classList[classList?.length - 1] !== 'search-button') {
+            setDropdownOpen(false)
+            onResetandClear()
+            dispatch(main_closeSearch())
+          }
+        }
+      }
     }}>
     <Dropdown
       open={dropdownOpen}
       overlay={<Result 
-        onClose={() => setDropdownOpen(false)} 
+        // onClose={() => setDropdownOpen(false)} 
         setPage={setPage} 
         width={dropdownWidth} 
         items={list}

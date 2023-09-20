@@ -68,7 +68,7 @@ const List:FC<{
 
 
     return (
-        <div ref={ref} className={getClassNames([styles.wrapper, 'root-list'])}>
+        <div ref={ref} className={styles.wrapper}>
             {
                 useMasonry({
                     positioner,

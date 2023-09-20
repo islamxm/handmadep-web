@@ -37,7 +37,6 @@ export const LoadNext:FC<ILoadMore> = ({
         rootMargin: '0px 0px 50% 0px'
     })
 
-
     useEffect(() => {
         if(inView && canLoadNext) {
             setPage((s:any) => {

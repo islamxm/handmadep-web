@@ -69,6 +69,8 @@
         font-size: 10px;
         line-height: 10px;
         font-weight: 600;   
+        pointer-events: none;
+        touch-action: none;
     }
 
     .load {
@@ -83,6 +85,8 @@
         z-index: 0;
         opacity: 0;
         transition: all .3s ease;
+        pointer-events: none;
+        touch-action: none;
     }
 
     .side, .icon {
@@ -90,6 +94,8 @@
         line-height: 16px;
         transition: all .3s ease;
         flex: 0 0 auto;
+        pointer-events: none;
+        touch-action: none;
     }
 
     .icon {
@@ -98,14 +104,20 @@
         display: flex;
         align-items: center;
         justify-content: center;
+        pointer-events: none;
+        touch-action: none;
     }
 
     .before {
         margin-right: 10px; 
+        pointer-events: none;
+        touch-action: none;
     }
 
     .after {
         margin-left: 10px;
+        pointer-events: none;
+        touch-action: none;
     }
 
     .text {
@@ -114,6 +126,8 @@
         font-weight: 500;
         transition: all .3s ease;
         text-align: center;
+        pointer-events: none;
+        touch-action: none;
     }
 }
 

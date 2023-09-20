@@ -20,8 +20,8 @@ const Menu = () => {
     const [dropOpen, setDropOpen] = useState(false)
     const openAuth = () => dispatch(main_updateAuthPopup(true))
     const closeAuth = () => dispatch(main_updateAuthPopup(false))
-
-
+    
+    
     useEffect(() => {
         setDropOpen(false)
     }, [router?.pathname]);
@@ -46,6 +46,7 @@ const Menu = () => {
                         onClick={() => {
                             searchPopup ? dispatch(main_closeSearch()) : dispatch(main_openSearch())
                         }}
+                        className='search-button'
                         round
                         variant={'transparent'}
                         icon={<AiOutlineSearch size={25}/>}

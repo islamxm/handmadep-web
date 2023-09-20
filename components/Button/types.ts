@@ -16,6 +16,7 @@ export type buttonTypes = {
     onClick?: (...args: any[]) => any
     link?: string,
     blank?: boolean,
+    className?: string
 } 
 
 export type buttonVariants = 'default' | 'danger' | 'success' | 'black' | 'brown' | 'white' | 'blue' | 'transparent' | 'gray'

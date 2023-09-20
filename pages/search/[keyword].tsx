@@ -110,8 +110,8 @@ const KeywordPage = ({list, keyword}: {list: any[], keyword: string}) => {
                     <meta name="description" content={`HandMadeP.com ${keyword} Search. See more ideas about ${keyword}`}></meta>
                     <meta name="og:description" content={`HandMadeP.com ${keyword} Search. See more ideas about ${keyword}`}></meta>
                     <meta property="og:title" content={`'${keyword}' - Search - HandMadeP.com`}></meta>
-                    <meta property="og:url" content={`https://handmadep.netlify.app/search/${keyword}`}></meta>
-                    <link rel="canonical" href={`https://handmadep.netlify.app/search/${keyword}`} />
+                    <meta property="og:url" content={`https://handmadep.com/search/${keyword}`}></meta>
+                    <link rel="canonical" href={`https://handmadep.com/search/${keyword}`} />
                     <meta name="keywords" content={keyword}/>
                     <meta property="og:type" content="website"/>
                 </Head>
