@@ -1,6 +1,7 @@
 import { Cookies } from "typescript-cookie";
 import * as _ from 'lodash';
 import colors from "@/helpers/colors";
+import { MutableRefObject } from "react";
 const SESSION_STORAGE = process?.browser && window?.sessionStorage   
 
 
@@ -37,7 +38,9 @@ export interface IGlobalState {
         list: any[]
     } | null,
 
-    censoreModel:any
+    censoreModel:any,
+
+    listRef: null | MutableRefObject<HTMLDivElement>
 }
 
 
@@ -57,6 +60,7 @@ export const globalState: IGlobalState = {
     searchPopup: false,
     currentProduct: null,
     cachedCards: null,
-    censoreModel: null
+    censoreModel: null,
+    listRef: null
 }
 

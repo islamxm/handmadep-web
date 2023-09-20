@@ -2,7 +2,7 @@ import styles from './List.module.scss';
 import {FC, useEffect, useRef, useState} from 'react';
 import Product from '../Product/Product';
 import { useWindowSize } from '@react-hook/window-size';
-
+import { useAppDispatch } from '@/hooks/useTypesRedux';
 import { 
     useMasonry,
     usePositioner,
@@ -10,6 +10,8 @@ import {
     useContainerPosition,
     useResizeObserver 
 } from 'masonic';
+import getClassNames from '@/helpers/getClassNames';
+import { main_updateListRef } from '@/store/slices/mainSlice';
 
 const columnWidth = 200;
 
@@ -20,7 +22,8 @@ const List:FC<{
     list = [], 
     setPage
 }) => {
-
+    const dispatch = useAppDispatch()
+    const ref = useRef<HTMLDivElement>(null)
     const [itemWidth, setItemWidth] = useState(0)
     
     const containerRef = useRef<any>(null);
@@ -57,9 +60,15 @@ const List:FC<{
     }, [])
 
 
+    useEffect(() => {
+        if(ref?.current) {
+            dispatch(main_updateListRef(ref?.current))
+        }
+    }, [ref])
+
 
     return (
-        <div className={styles.wrapper}>
+        <div ref={ref} className={getClassNames([styles.wrapper, 'root-list'])}>
             {
                 useMasonry({
                     positioner,

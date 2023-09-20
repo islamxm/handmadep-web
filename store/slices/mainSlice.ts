@@ -45,6 +45,9 @@ const mainSlice = createSlice({
         },
         main_updateCensoreModel: (state, action) => {
             state.censoreModel = action.payload
+        },
+        main_updateListRef: (state, action) => {
+            state.listRef = action.payload
         }
     }
 })
@@ -63,5 +66,6 @@ export const {
     main_updateCurrentProduct,
     main_updateResetPassPopup,
     main_updateUserData,
-    main_updateCensoreModel
+    main_updateCensoreModel,
+    main_updateListRef
 } = actions
