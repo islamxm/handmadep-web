@@ -1,7 +1,7 @@
 import ContentLayout from "@/components/ContentLayout/ContentLayout";
 import PageTitle from "@/components/PageTitle/PageTitle";
 import Head from "next/head";
-
+import Main from "@/pageModules/contacts/Main/Main";
 
 const ContactsPage = () => {
   return (
@@ -13,10 +13,9 @@ const ContactsPage = () => {
         title={'Contacts'}
         />
       <div>
-        <p>
-          If you have questions or suggestions on how to improve the Handmadep experience, or if you&apos;ve discovered an error or bug on the website, please let us know through our contact from below.
-        </p>
+        <Main/>
       </div>
+      
     </ContentLayout>
   )
 }

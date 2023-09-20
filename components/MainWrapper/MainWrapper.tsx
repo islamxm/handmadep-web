@@ -3,7 +3,7 @@ import { useEffect } from "react";
 import ProductModal from "@/popups/ProductModal/ProductModal";
 import { useRouter } from "next/router";
 import apiSlice, { useAuthGoogleTokenMutation, useGetUserDataQuery } from "@/store/slices/apiSlice";
-import { main_updateCensoreModel, main_updateLoading, main_updateUserData } from "@/store/slices/mainSlice";
+import { main_updateAuthPopup, main_updateCensoreModel, main_updateLoading, main_updateSignupPopup, main_updateUserData } from "@/store/slices/mainSlice";
 import { authorizeFunc } from "@/helpers/authorizeUtils";
 import ApiService from "@/service/apiService";
 import Footer from "../Footer/Footer";
@@ -14,6 +14,7 @@ const MainWrapper = ({
 }: {
 	children?: React.ReactNode
 }) => {
+	const router = useRouter()
 	const dispatch = useAppDispatch();
 	const { token: { access }, currentProduct } = useAppSelector(s => s.main)
 	const [getUserData, userDatares] = apiSlice.endpoints.getUserData.useLazyQuery()
@@ -56,6 +57,11 @@ const MainWrapper = ({
 	// 		dispatch(main_updateCensoreModel(res))
 	// 	})
 	// }, [])
+
+	useEffect(() => {
+		dispatch(main_updateAuthPopup(false))
+		dispatch(main_updateSignupPopup(false))
+	}, [router])
 
 	return (
 		<>

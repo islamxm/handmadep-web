@@ -4,7 +4,7 @@ import { Row, Col } from 'antd';
 import Button from '@/components/Button/Button';
 import Input from '@/components/Input/Input';
 import Text from '@/components/Text/Text';
-
+import Link from 'next/link';
 const Main:FC<any> = () => {
   const [name, setName] = useState('')
   const [email, setEmail] = useState('')
@@ -14,33 +14,10 @@ const Main:FC<any> = () => {
   return (
     <div className={styles.wrapper}>
       <p>
-      If you have questions or suggestions on how to improve the Designspiration experience, or if you&apos;ve discovered an error or bug on the website, please let us know through our contact form below.
+      If you have questions, comments, or suggestions on how to improve the HandmadeP experience, we would love to hear it! <Link href={'/contacts'}>
+        Contact Us
+      </Link>
       </p>
-      <div className={styles.form}>
-        <Row gutter={[10,10]}>
-          <Col span={24}>
-            <Input
-              placeholder='Name'
-              />
-          </Col>
-          <Col span={24}>
-            <Input
-              placeholder='E-mail'
-              />
-          </Col>
-          <Col span={24}>
-            <Text
-              placeholder='Text...'
-              style={{height: 200}}
-              />
-          </Col>
-          <Col span={24}>
-            <Button
-              text='Send'
-              />
-          </Col>
-        </Row>
-      </div>
     </div>
   )
 }
