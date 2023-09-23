@@ -11,7 +11,7 @@ interface I extends IProduct {
 
 const Main:FC<I> = (props) => {
 
-    const {cover_url, title, ssrData} = props;
+    const {cover_url, title, ssrData, description} = props;
     
 
     return (
@@ -24,7 +24,7 @@ const Main:FC<I> = (props) => {
                         />
                 </Col>
                 <Col md={12} span={24}>
-                    <Body {...props} title={ssrData?.title || title}/>
+                    <Body {...props} description={ssrData?.description || description} title={ssrData?.title || title}/>
                 </Col>
             </Row>
         </div>
