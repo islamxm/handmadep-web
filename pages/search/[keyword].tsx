@@ -119,7 +119,7 @@ const KeywordPage = ({list, keyword}: {list: any[], keyword: string}) => {
                     title={query?.keyword}
                     />
                 <List
-                    list={localList}
+                    list={page > 1 ? localList : list}
                     setPage={setPage}
                     />
                 {(localList?.length > 0 && canLoadNext && !isEnd) && (
