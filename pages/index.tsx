@@ -118,7 +118,7 @@ const HomePage = ({ list, initPage }: { list: any[], initPage: number | any }) =
 			<ContentLayout>
 				<List
 					setPage={setPage}
-					list={localList} />
+					list={page > 1 ? localList : list} />
 				{(localList?.length > 0 && canLoadNext && !isEnd) && (
 					<LoadNext 
 						canLoadNext={canLoadNext} 
