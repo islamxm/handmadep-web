@@ -149,7 +149,7 @@ const ProductPage = ({productData, productId, list}: {productData: IProduct, pro
                 <Col span={24}>
                     <PageTitle isTitle={false} title={'Similar products'}/>
                     <List
-                        list={page > 1 ? localList : list}
+                        list={list}
                         setPage={setPage}
                         />
                     {(localList?.length > 0 && canLoadNext && !isEnd) && (
