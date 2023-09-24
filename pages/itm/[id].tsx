@@ -12,7 +12,7 @@ import * as _ from 'lodash'
 import Head from "next/head";
 import { LoadNext } from "@/components/loadMoreCtrl/loadMoreCtrl";
 import apiSlice from "@/store/slices/apiSlice";
-
+import IndexList from "@/components/IndexList/IndexList";
 
 const service = new ApiService()
 
@@ -148,8 +148,9 @@ const ProductPage = ({productData, productId, list}: {productData: IProduct, pro
                 </Col>
                 <Col span={24}>
                     <PageTitle isTitle={false} title={'Similar products'}/>
+                    <IndexList list={list}/>
                     <List
-                        list={list}
+                        list={localList}
                         setPage={setPage}
                         />
                     {(localList?.length > 0 && canLoadNext && !isEnd) && (

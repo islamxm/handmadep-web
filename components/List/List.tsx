@@ -8,7 +8,8 @@ import {
     usePositioner,
     useScroller,
     useContainerPosition,
-    useResizeObserver 
+    useResizeObserver,
+    Masonry
 } from 'masonic';
 import getClassNames from '@/helpers/getClassNames';
 import { main_updateListRef } from '@/store/slices/mainSlice';
@@ -85,17 +86,7 @@ const List:FC<{
                     // },
                 })
             }
-            {/* <Masonry
-                rowGutter={20}
-                columnGutter={20}
-                columnWidth={itemWidth}
-                items={list}
-                overscanBy={5}
-                render={Product}
-                // key={'home'}
-                // itemKey={data => data?.id}
-                // resizeObserver={resizeObserver}
-                /> */}
+            
         </div>
     )
 }

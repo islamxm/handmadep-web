@@ -9,6 +9,7 @@ import { GetServerSideProps } from "next";
 import { LoadNext } from "@/components/loadMoreCtrl/loadMoreCtrl";
 import Head from "next/head";
 import logo from '@/public/logo.png';
+import IndexList from "@/components/IndexList/IndexList";
 
 const service = new ApiService()
 
@@ -116,9 +117,10 @@ const HomePage = ({ list, initPage }: { list: any[], initPage: number | any }) =
 				<meta property="og:image:alt" content={'Crafted with Care: Explore Unique Handmade Goods'}/>
 			</Head>
 			<ContentLayout>
+				<IndexList list={list}/>
 				<List
 					setPage={setPage}
-					list={page > 1 ? localList : list} />
+					list={localList} />
 				{(localList?.length > 0 && canLoadNext && !isEnd) && (
 					<LoadNext 
 						canLoadNext={canLoadNext} 

@@ -10,6 +10,7 @@ import { GetServerSideProps } from 'next'
 import Head from "next/head";
 import { LoadNext } from "@/components/loadMoreCtrl/loadMoreCtrl";
 import apiSlice from "@/store/slices/apiSlice";
+import IndexList from "@/components/IndexList/IndexList";
 
 const service = new ApiService()
 
@@ -118,8 +119,9 @@ const KeywordPage = ({list, keyword}: {list: any[], keyword: string}) => {
                 <PageTitle
                     title={query?.keyword}
                     />
+                <IndexList list={list}/>
                 <List
-                    list={page > 1 ? localList : list}
+                    list={localList}
                     setPage={setPage}
                     />
                 {(localList?.length > 0 && canLoadNext && !isEnd) && (
