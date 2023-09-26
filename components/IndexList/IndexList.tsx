@@ -8,7 +8,12 @@ const IndexList = ({list = []}: {list?: any[]}) => {
       {
         list?.length > 0 && (
           list?.map((i) => (
-            <div key={i?.id} className={styles.item}>{i?.title}</div>
+            <article key={i?.id} className={styles.item}>
+              <div className={styles.img}>
+                <img src={i?.cover_url} alt={i?.title} />
+              </div>
+              <div className={styles.name}>{i?.title}</div>
+            </article>
           ))
         )
       }

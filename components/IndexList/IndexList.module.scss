@@ -1,4 +1,6 @@
 .wrapper {
   position: absolute;
   visibility: hidden;
+  display: flex;
+  flex-wrap: wrap;
 }
