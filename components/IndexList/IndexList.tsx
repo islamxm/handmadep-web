@@ -3,7 +3,6 @@ import Link from 'next/link';
 import { FC } from 'react'
 
 const IndexList = ({list = []}: {list?: any[]}) => {
-  console.log(list)
   return (
     <div className={styles.wrapper}>
       {
