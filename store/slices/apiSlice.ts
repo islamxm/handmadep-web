@@ -187,7 +187,20 @@ const apiSlice = createApi({
 				url: endpoints.getLikes + `?p=${page}`,
 				headers: setHeaderWithToken(token)
 			})
+		}),
+
+		setFeedback: builder.query({
+			query: (body: {
+				email: string,
+				feedback_text: string
+			}) => ({
+				url: endpoints.feedback,
+				headers,
+				method: "POST",
+				body: JSON.stringify(body)
+			})
 		})
+
 	}),
 })
 
@@ -206,6 +219,7 @@ export const {
 	useGetCardsQuery,
 	useGetProductQuery,
 	useSearchQuery,
-	useGetLikesQuery
+	useGetLikesQuery,
+	useSetFeedbackQuery
 } = apiSlice
 

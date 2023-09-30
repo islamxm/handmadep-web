@@ -52,6 +52,8 @@ export const endpoints = {
 
     search: `${PATH}cards/search/`,
 
-    onReport: `${PATH}reports/`
+    onReport: `${PATH}reports/`,
+
+    feedback: `${PATH}feedbacks/`,
 
 }
