@@ -18,7 +18,7 @@ export const getServerSideProps:GetServerSideProps<any> = async (context) => {
     const keyword = context?.params?.keyword
 
     const res = await service.search(keyword, 1)
-    const list = await res?.results
+    const list = await res?.results?.map((i: any) => ({ ...i, height: _.random(200, 350) }))
     
     return {
         props: {

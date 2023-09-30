@@ -4,6 +4,7 @@ import Image from 'next/image';
 import placeholder from '@/public/assets/handmade-watermark.png';
 import Router from 'next/router';
 import getClassNames from '@/helpers/getClassNames';
+import Link from 'next/link';
 
 const Item:FC<any> = ({
     cover_url,
@@ -12,21 +13,21 @@ const Item:FC<any> = ({
 }) => {
 
     return (
-        <div className={styles.wrapper} onClick={() => Router.push(`/itm/${id}`)}>
+        <Link className={styles.wrapper} href={`/itm/${id}`}>
             <div
                 className={getClassNames([styles.image, !cover_url && styles.none])} 
                 >
-                <Image 
+                {/* <Image 
                     src={cover_url ? cover_url : placeholder} 
                     width={45}
                     height={45}
                     loader={(p) => {
                         return p?.src && typeof p?.src === 'string' ? p?.src : '' 
                     }}
-                    alt=""/>
+                    alt=""/> */}
             </div>
             <div className={styles.name}>{title}</div>
-        </div>
+        </Link>
     )
 }
 

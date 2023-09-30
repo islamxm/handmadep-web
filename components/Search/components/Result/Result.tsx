@@ -22,15 +22,10 @@ const Result:FC<{
     isEnd,
     page
 }) => {
-    
-
 
     if(items?.length === 0) {
         return null
     } 
-    
-    
-
 
     return (
         <div style={{width: width}} className={styles.wrapper}>

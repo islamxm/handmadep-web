@@ -15,6 +15,7 @@ import OutsideClickHandler from 'react-outside-click-handler';
 import {LoadingOutlined} from '@ant-design/icons';
 import getClassNames from '@/helpers/getClassNames';
 
+
 const service = new ApiService()
 
 const Search: FC<any> = () => {
@@ -31,7 +32,7 @@ const Search: FC<any> = () => {
 
   const [list, setList] = useState<any[]>([])
 
-  const [dropdownOpen, setDropdownOpen] = useState(false)
+  const [dropdownOpen, setDropdownOpen] = useState(true)
   const [isLoading, setIsLoading] = useState(false)
 
   const [canLoadNext, setCanLoadNext] = useState(true)
@@ -94,8 +95,14 @@ const Search: FC<any> = () => {
   }
 
   useEffect(() => {
-    if(list?.length > 0) setDropdownOpen(true)
-    if(list?.length === 0) setDropdownOpen(false)
+    if(list?.length > 0) {
+      console.log('OPEN')
+      setDropdownOpen(true)
+    }
+    if(list?.length === 0) {
+      console.log('CLOSE')
+      setDropdownOpen(false)
+    }
   }, [list])
 
 
@@ -110,9 +117,16 @@ const Search: FC<any> = () => {
     setList([])
   }
 
+  useEffect(() => {
+    setValue('')
+  }, [router])
+
   return (
     
     <OutsideClickHandler onOutsideClick={(e) => {
+      // setDropdownOpen(false)
+      // onResetandClear()
+      // dispatch(main_closeSearch())
       if(e?.target && 'classList' in e?.target) {
         const classList: any = e?.target?.classList
         if('length' in classList) {
@@ -124,18 +138,18 @@ const Search: FC<any> = () => {
         }
       }
     }}>
-    <Dropdown
-      open={dropdownOpen}
-      overlay={<Result 
-        // onClose={() => setDropdownOpen(false)} 
-        setPage={setPage} 
-        width={dropdownWidth} 
-        items={list}
-        canLoadNext={canLoadNext}
-        isEnd={isEnd}
-        page={page}
-        />}
-    >
+      {
+        dropdownOpen && (
+          <Result 
+            setPage={setPage} 
+            width={dropdownWidth} 
+            items={list}
+            canLoadNext={canLoadNext}
+            isEnd={isEnd}
+            page={page}
+            />
+        )
+      }
       <div 
         ref={ref} 
         className={getClassNames([styles.wrapper, focused && styles.focused])}
@@ -155,7 +169,7 @@ const Search: FC<any> = () => {
             value={value}
             type="text"/>
         </div>
-        <div className={`${styles.close} ${value ? styles.active : ''}`}>
+        <div className={`${styles.close} ${styles.active}`}>
           {
             isLoading ? (
               <Button
@@ -181,7 +195,6 @@ const Search: FC<any> = () => {
           }
         </div>
       </div>
-    </Dropdown>
     </OutsideClickHandler>
   )
 }

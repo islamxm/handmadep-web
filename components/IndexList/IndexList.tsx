@@ -11,7 +11,7 @@ const IndexList = ({list = []}: {list?: any[]}) => {
             <article key={i?.id} className={styles.item}>
               <Link href={`/itm/${i?.id}`}>More</Link>
               <div className={styles.img}>
-                <img src={i?.cover_url} alt={i?.title} />
+                <img src={i?.cover_url} alt={i?.title} width={0} height={0}/>
               </div>
               <div className={styles.name}>{i?.title}</div>
             </article>
