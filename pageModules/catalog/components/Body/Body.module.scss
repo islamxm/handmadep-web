@@ -25,6 +25,13 @@
 
             .descr {
                 word-wrap: break-word;
+                a {
+                    color: var(--blue);
+                    transition: all .3s ease;
+                    &:hover {
+                        color: var(--light_blue);
+                    }
+                }
             }
 
             .keywords {

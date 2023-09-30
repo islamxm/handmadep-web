@@ -6,7 +6,7 @@ import Button from '@/components/Button/Button';
 import UserBadge from '@/components/UserBadge/UserBadge';
 import Keyword from '@/components/Keyword/Keyword';
 import {BsHeart, BsHeartFill, BsShareFill, BsFlagFill} from 'react-icons/bs';
-import parse from 'html-react-parser';
+import parse, {domToReact} from 'html-react-parser';
 import { useState, useEffect } from 'react';
 import getClassNames from '@/helpers/getClassNames';
 import { useAppSelector, useAppDispatch } from '@/hooks/useTypesRedux';
@@ -17,6 +17,14 @@ import {BiLinkExternal} from 'react-icons/bi'
 import ReportModal from '@/popups/ReportModal/ReportModal';
 
 const service = new ApiService()
+
+const options = {
+    replace: (domNode: any) => {
+        if (domNode.attribs && domNode.name === "a") {
+            return (<div>{domToReact(domNode.children, options)}</div>);
+        }
+    }
+};
 
 const Body:FC<IProduct> = ({
     cover_url,
@@ -180,7 +188,7 @@ const Body:FC<IProduct> = ({
                             description && (
                                 <Col span={24}>
                                     <div className={styles.descr}>
-                                        {parse(description)}
+                                        {parse(description, options)}
                                     </div>
                                 </Col>
                             )
