@@ -1,7 +1,11 @@
 .wrapper {
     min-height: 100vh;
     position: relative;
-
+    display: flex;
+    flex-direction: column;
+    .main {
+        flex: 1 0 auto;
+    }
     .load {
         position: fixed;
         top: 0;

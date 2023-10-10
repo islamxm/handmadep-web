@@ -127,6 +127,8 @@ const Body:FC<IProduct> = ({
         }
     }
 
+    useEffect(() => console.log(shop), [shop])
+
 
     return (
         <div className={`${styles.wrapper} panel`}>
@@ -212,7 +214,7 @@ const Body:FC<IProduct> = ({
                             <div className={styles.ex}>
                                 <div className={styles.author}>
                                     <UserBadge
-                                        linkObj={{link: shop?.shop_url || '/', rel: 'nofollow'}}
+                                        linkObj={{link: `/link/${shop?.name}?url=${shop?.shop_url}` || '/', rel: 'nofollow'}}
                                         username={shop?.name}
                                         />
                                 </div>

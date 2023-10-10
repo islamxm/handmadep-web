@@ -199,6 +199,14 @@ const apiSlice = createApi({
 				method: "POST",
 				body: JSON.stringify(body)
 			})
+		}),
+
+		deleteAccount: builder.mutation({
+			query: (token:any) => ({
+				url: endpoints.me,
+				method: "DELETE",
+				headers: setHeaderWithToken(token)
+			})
 		})
 
 	}),
@@ -220,6 +228,7 @@ export const {
 	useGetProductQuery,
 	useSearchQuery,
 	useGetLikesQuery,
-	useSetFeedbackQuery
+	useSetFeedbackQuery,
+	useDeleteAccountMutation
 } = apiSlice
 

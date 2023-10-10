@@ -1,0 +1,22 @@
+.wrapper {
+  text-align: center;
+  max-width: 500px;
+  margin: 0 auto;
+  width: 100%;
+
+  .title {
+
+  }
+
+  .text {
+    span {
+      color: var(--blue);
+      transition: all .3s ease;
+      text-decoration: underline;
+
+      // &:hover {
+      //   color: var(--light_blue);
+      // }
+    }
+  }
+}

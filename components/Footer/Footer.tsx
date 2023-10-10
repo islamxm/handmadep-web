@@ -24,7 +24,7 @@ const Footer:FC<any> = () => {
                 <Link href={'/about'}>About us</Link>
               </li>
               <li className={styles.item}>
-                <Link href={'/about'}>Contacts</Link>
+                <Link href={'/contacts'}>Contacts</Link>
               </li>
             </ul>
           </div>

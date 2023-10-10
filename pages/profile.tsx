@@ -4,6 +4,7 @@ import ProfileCard from "@/pageModules/profile/components/ProfileCard/ProfileCar
 import ProfileEdit from "@/pageModules/profile/components/ProfileEdit/ProfileEdit";
 import { useAppSelector } from "@/hooks/useTypesRedux";
 import PrivateRoute from "@/hoc/PrivateRoute";
+import ProfileFooter from "@/pageModules/profile/components/ProfileFooter/ProfileFooter";
 
 const ProfilePage = () => {
 	const { token: { access }, userData } = useAppSelector(s => s.main)
@@ -16,7 +17,7 @@ const ProfilePage = () => {
 						span={24}
 						lg={8}
 					>
-						<ProfileCard {...userData} />
+						<ProfileCard {...userData}/>
 					</Col>
 					<Col
 						span={24}
@@ -25,6 +26,7 @@ const ProfilePage = () => {
 						<ProfileEdit
 							{...userData}
 						/>
+						<ProfileFooter/>
 					</Col>
 				</Row>
 			</ContentLayout>

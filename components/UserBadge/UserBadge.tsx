@@ -3,6 +3,7 @@ import Avatar from '../Avatar/Avatar';
 import {FC} from 'react';
 import { StaticImageData } from 'next/image';
 import getClassNames from '@/helpers/getClassNames';
+import Link from 'next/link';
 
 const UserBadge:FC<{
     image?: string | StaticImageData,
@@ -15,13 +16,12 @@ const UserBadge:FC<{
     username,
     classNames,
     style,
-    
     linkObj
 }) => {
 
     if(linkObj ) {
         return (
-            <a href={linkObj?.link} rel={linkObj?.rel} target='_blank' style={style} className={`${styles.wrapper} ${classNames ? classNames?.map(i => i) : ''}`}>
+            <Link href={linkObj?.link} rel={linkObj?.rel} target='_blank' style={style} className={`${styles.wrapper} ${classNames ? classNames?.map(i => i) : ''}`}>
                 <div className={styles.avatar}>
                     <Avatar
                         label={username}
@@ -32,7 +32,7 @@ const UserBadge:FC<{
                 <div className={styles.label}>
                     {username}    
                 </div> 
-            </a>
+            </Link>
         )
     }
     return (
