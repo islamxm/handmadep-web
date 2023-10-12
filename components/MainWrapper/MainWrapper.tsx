@@ -1,13 +1,16 @@
 import { useAppSelector, useAppDispatch } from "@/hooks/useTypesRedux";
 import { useEffect } from "react";
 import ProductModal from "@/popups/ProductModal/ProductModal";
-import { useRouter } from "next/router";
+import Router, { useRouter } from "next/router";
 import apiSlice, { useAuthGoogleTokenMutation, useGetUserDataQuery } from "@/store/slices/apiSlice";
 import { main_updateAuthPopup, main_updateCensoreModel, main_updateLoading, main_updateSignupPopup, main_updateUserData } from "@/store/slices/mainSlice";
 import { authorizeFunc } from "@/helpers/authorizeUtils";
 import ApiService from "@/service/apiService";
 import Footer from "../Footer/Footer";
 import Script from "next/script";
+
+
+
 const service = new ApiService()
 
 const MainWrapper = ({
@@ -47,6 +50,7 @@ const MainWrapper = ({
 		dispatch(main_updateLoading(authGoogleTokenResponseToken.isLoading))
 		if (authGoogleTokenResponseToken.isSuccess && authGoogleTokenResponseToken.data?.access && authGoogleTokenResponseToken.data?.refresh) {
 			authorizeFunc(authGoogleTokenResponseToken.data)
+			Router.push('/')
 		}
 	}, 
 		[authGoogleTokenResponseToken]

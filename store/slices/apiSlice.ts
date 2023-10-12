@@ -56,20 +56,29 @@ const apiSlice = createApi({
 		}),
 
 		authGoogle: builder.query({
-			query: () => `https://handmadep.com/api/auth/o/google-oauth2/?redirect_uri=https://handmadep.com/google`
-		}),
-
-		authGoogleToken: builder.mutation({
+			query: () => `https://handmadep.com/api/auth/o/google-oauth2/?redirect_uri=https://handmadep.com`
+		   }),
+		 
+		   authGoogleToken: builder.mutation({
 			query: (body: {
-				code?: string | string[],
-				state?: string | string[]
-			}) => ({
-				url: endpoints.authO + `google-oauth2/`,
-				method: "POST",
-				headers,
-				body: JSON.stringify(body)
-			})
-		}),
+			 code?: string | string[],
+			 state?: string | string[]
+			}) => {
+			 let url = new URL(endpoints.authO + `google-oauth2/`);
+										 let code = Array.isArray(body.code!) ? body.code![0] : body.code!;
+			 let state = Array.isArray(body.state!) ? body.state![0] : body.state!;
+			 url.searchParams.append('code', code);
+			 url.searchParams.append('state', state);
+			 return {
+			  url: url.toString(),
+			  method: "POST",
+			  headers,
+			  body: JSON.stringify(body)
+			 }
+			}
+		   }),
+
+		
 
 		resetPassword: builder.mutation({
 			query: (body: {

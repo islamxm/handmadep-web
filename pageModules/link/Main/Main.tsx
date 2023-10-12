@@ -18,31 +18,36 @@ const Main:FC<any> = () => {
     }
   }, [query])
 
-  return (
-    <div className={styles.wrapper}>
-      <Row gutter={[20,20]}>
-        <Col span={24}>
-          <h2 className={styles.title}>You leave HandMadeP</h2>
-        </Col>
-        <Col span={24}>
-          <div className={styles.text}>
-          You opened a link on handmadep.com that redirects to <span>{link}</span>
-          </div>
-        </Col>
-        {
-          link && (
-            <Col span={24}>
-              <Button
-                link={link}
-                text={'Open the link'}
-                />
-            </Col>
-          )
-        }
-        
-      </Row>
-    </div>
-  )
+  if(link) {
+    return (
+      <div className={styles.wrapper}>
+        <Row gutter={[20,20]}>
+          <Col span={24}>
+            <h2 className={styles.title}>You leave HandMadeP</h2>
+          </Col>
+          <Col span={24}>
+            <div className={styles.text}>
+            You opened a link on handmadep.com that redirects to <span>{link}</span>
+            </div>
+          </Col>
+          {
+            link && (
+              <Col span={24}>
+                <Button
+                  link={link}
+                  text={'Open the link'}
+                  />
+              </Col>
+            )
+          }
+          
+        </Row>
+      </div>
+    )
+  }
+
+  return null
+  
 }
 
 export default Main;
