@@ -21,12 +21,17 @@ export const getServerSideProps:GetServerSideProps<{productData: IProduct}> = as
     const productData = await service.getProduct(id)
     const initList = await service.getSimilarProducts({page: 1, card_pk: productData?.id})
     
+    if(!productData) {
+        return {
+            notFound: true
+        }
+    }
     return {
         props: {
             productData,
             productId: id,
             list: initList?.results?.map((i: any) => ({ ...i, height: _.random(200, 350) }))
-        }
+        },
     }
 }
 
