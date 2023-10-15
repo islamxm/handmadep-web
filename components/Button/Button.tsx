@@ -64,7 +64,7 @@ const Button:FC<buttonTypes> = ({
                             target='_blank' 
                             style={style} 
                             className={getClassNames([styles.button, switchVariant(variant), load && styles.load, round && styles.round, disabled && styles.disabled, className])}>
-                            <div className={styles.load}><LoadingOutlined size={35}  color={color}/></div>   
+                            <div className={styles.load}><LoadingOutlined rev={undefined} size={35}  color={color}/></div>   
                             {
                                 before && (
                                     <div className={`${styles.side} ${styles.before}`}>{before}</div>
@@ -98,7 +98,7 @@ const Button:FC<buttonTypes> = ({
                 {
                     link && !blank ? (
                         <Link href={link} style={style} className={getClassNames([styles.button, switchVariant(variant), load && styles.load, round && styles.round, disabled && styles.disabled, className])}>
-                            <div className={styles.load}><LoadingOutlined size={35}  color={color}/></div>   
+                            <div className={styles.load}><LoadingOutlined rev={undefined} size={35}  color={color}/></div>   
                             {
                                 before && (
                                     <div className={`${styles.side} ${styles.before}`}>{before}</div>
@@ -129,7 +129,7 @@ const Button:FC<buttonTypes> = ({
                         </Link>
                     ) : (
                         <button onClick={onClick} style={style} className={getClassNames([styles.button, switchVariant(variant), load && styles.load, round && styles.round, disabled && styles.disabled, className])}>
-                            <div className={styles.load}><LoadingOutlined size={35} color={color}/></div>   
+                            <div className={styles.load}><LoadingOutlined rev={undefined} size={35} color={color}/></div>   
                             {
                                 before && (
                                     <div className={`${styles.side} ${styles.before}`}>{before}</div>
@@ -170,7 +170,7 @@ const Button:FC<buttonTypes> = ({
             {
                 (link && !blank) && (
                     <Link rel={'nofollow'} href={link} style={style} className={getClassNames([styles.button, switchVariant(variant), load && styles.load, round && styles.round, disabled && styles.disabled, className])}>
-                        <div className={styles.load}><LoadingOutlined size={35} color={color}/></div>   
+                        <div className={styles.load}><LoadingOutlined rev={undefined} size={35} color={color}/></div>   
                         {
                             before && (
                                 <div className={`${styles.side} ${styles.before}`}>{before}</div>
@@ -204,7 +204,7 @@ const Button:FC<buttonTypes> = ({
             {
                 !link && !blank ? (
                     <button onClick={onClick} style={style} className={getClassNames([styles.button, switchVariant(variant), load && styles.load, round && styles.round, disabled && styles.disabled, className])}>
-                        <div className={styles.load}><LoadingOutlined size={35} color={color}/></div>   
+                        <div className={styles.load}><LoadingOutlined rev={undefined} size={35} color={color}/></div>   
                         {
                             before && (
                                 <div className={`${styles.side} ${styles.before}`}>{before}</div>
@@ -238,7 +238,7 @@ const Button:FC<buttonTypes> = ({
             {
                 (link && blank) && (
                     <a href={link} target='_blank' style={style} className={getClassNames([styles.button, switchVariant(variant), load && styles.load, round && styles.round, disabled && styles.disabled, className])}>
-                        <div className={styles.load}><LoadingOutlined size={35}  color={color}/></div>   
+                        <div className={styles.load}><LoadingOutlined rev={undefined} size={35}  color={color}/></div>   
                         {
                             before && (
                                 <div className={`${styles.side} ${styles.before}`}>{before}</div>
