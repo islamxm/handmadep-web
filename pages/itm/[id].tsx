@@ -13,6 +13,7 @@ import Head from "next/head";
 import { LoadNext } from "@/components/loadMoreCtrl/loadMoreCtrl";
 import apiSlice from "@/store/slices/apiSlice";
 import IndexList from "@/components/IndexList/IndexList";
+import Script from "next/script";
 
 const service = new ApiService()
 
@@ -147,6 +148,7 @@ const ProductPage = ({productData, productId, list}: {productData: IProduct, pro
                 <meta property="og:image:alt" content={productData?.title}/>
                 <meta name="author" content={productData.shop?.name}></meta>
             </Head>
+            <Script  id='google-adsense' strategy={'afterInteractive'} async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5137005946192410"/>
             <Row gutter={[40,40]}>
                 <Col span={24}>
                     <Main  {...localData} ssrData={productData}/>

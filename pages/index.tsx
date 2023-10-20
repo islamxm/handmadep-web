@@ -10,6 +10,7 @@ import { LoadNext } from "@/components/loadMoreCtrl/loadMoreCtrl";
 import Head from "next/head";
 import logo from '@/public/logo.png';
 import IndexList from "@/components/IndexList/IndexList";
+import Script from "next/script";
 
 const service = new ApiService()
 
@@ -51,7 +52,6 @@ const HomePage = ({ list, initPage }: { list: any[], initPage: number | any }) =
 			setCanLoadNext(false)
 			if (access) {
 				service.getCardsList(page).then(res => {
-					console.log(res)
 					if(res?.results?.length === 0) setIsEnd(true)
 					if (page === 1) {
 						setLocalList(res?.results?.map((i: any) => ({ ...i, height: _.random(200, 350) })))
@@ -116,6 +116,7 @@ const HomePage = ({ list, initPage }: { list: any[], initPage: number | any }) =
 				<meta property="og:image" content={'/logo.png'}/>
 				<meta property="og:image:alt" content={'Crafted with Care: Explore Unique Handmade Goods'}/>
 			</Head>
+			<Script  id='google-adsense' strategy={'afterInteractive'} async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5137005946192410"/>
 			<ContentLayout>
 				<IndexList list={list}/>
 				<List

@@ -11,6 +11,7 @@ import Head from "next/head";
 import { LoadNext } from "@/components/loadMoreCtrl/loadMoreCtrl";
 import apiSlice from "@/store/slices/apiSlice";
 import IndexList from "@/components/IndexList/IndexList";
+import Script from "next/script";
 
 const service = new ApiService()
 
@@ -116,6 +117,7 @@ const KeywordPage = ({list, keyword}: {list: any[], keyword: string}) => {
                     <meta name="keywords" content={keyword}/>
                     <meta property="og:type" content="website"/>
                 </Head>
+                <Script  id='google-adsense' strategy={'afterInteractive'} async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5137005946192410"/>
                 <PageTitle
                     title={query?.keyword}
                     />
