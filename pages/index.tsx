@@ -112,7 +112,7 @@ const HomePage = ({ list, initPage }: { list: any[], initPage: number | any }) =
 				<meta name="description" content="Explore a curated collection of exquisite handcrafted products that showcase the creativity and skill of artisans worldwide. From intricately designed jewelry to beautifully crafted home decor, our site offers a diverse range of unique items that add a touch of artistry to your life. Discover the charm of handmade goods and support artisans who pour their heart and soul into every creation."/>
 				<meta property="og:title" content="Crafted with Care: Explore Unique Handmade Goods"/>
 				<meta property="og:description" content="Explore a curated collection of exquisite handcrafted products that showcase the creativity and skill of artisans worldwide. From intricately designed jewelry to beautifully crafted home decor, our site offers a diverse range of unique items that add a touch of artistry to your life. Discover the charm of handmade goods and support artisans who pour their heart and soul into every creation."/>
-				<link rel="canonical" href={`https://handmadep.com`} />
+				<link rel="canonical" href={`https://handmadep.com`}/>
 				<meta property="og:image" content={'/logo.png'}/>
 				<meta property="og:image:alt" content={'Crafted with Care: Explore Unique Handmade Goods'}/>
 			</Head>

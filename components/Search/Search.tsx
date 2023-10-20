@@ -3,7 +3,6 @@ import {BiSearch} from 'react-icons/bi'
 import {CgClose} from 'react-icons/cg';
 import {useState, FC, useEffect, useRef} from 'react';
 import Button from '../Button/Button';
-import {Dropdown} from 'antd';
 import Result from './components/Result/Result';
 import ApiService from '@/service/apiService';
 import {useAppDispatch} from '@/hooks/useTypesRedux';
@@ -14,6 +13,7 @@ import apiSlice from "@/store/slices/apiSlice";
 import OutsideClickHandler from 'react-outside-click-handler';
 import {LoadingOutlined} from '@ant-design/icons';
 import getClassNames from '@/helpers/getClassNames';
+
 
 
 const service = new ApiService()
@@ -177,7 +177,7 @@ const Search: FC<any> = () => {
                 disabled={true}
                 variant={'transparent'}
                 style={{width: 40, height: 40}}
-                icon={<LoadingOutlined size={30}/>}
+                icon={<LoadingOutlined rev={undefined} size={30}/>}
               />
             ) : (
               <Button
