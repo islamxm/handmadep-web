@@ -36,6 +36,7 @@ export default function App({ Component, pageProps }: AppProps) {
           `
         }
       </Script>
+      
       <MainWrapper>
       <GoogleOAuthProvider clientId='6757538311-qdea2pctjq0jj7qqb7ql43bqfuqvg0mj.apps.googleusercontent.com'>
           <ToastContainer limit={3}/>

@@ -116,7 +116,7 @@ const HomePage = ({ list, initPage }: { list: any[], initPage: number | any }) =
 				<meta property="og:image" content={'/logo.png'}/>
 				<meta property="og:image:alt" content={'Crafted with Care: Explore Unique Handmade Goods'}/>
 			</Head>
-			<Script  id='google-adsense' strategy={'afterInteractive'} async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5137005946192410"/>
+			<Script  id='google-adsense' strategy={'afterInteractive'} async={true} src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5137005946192410"/>
 			<ContentLayout>
 				<IndexList list={list}/>
 				<List

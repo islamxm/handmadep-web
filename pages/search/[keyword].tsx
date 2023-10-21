@@ -117,7 +117,7 @@ const KeywordPage = ({list, keyword}: {list: any[], keyword: string}) => {
                     <meta name="keywords" content={keyword}/>
                     <meta property="og:type" content="website"/>
                 </Head>
-                <Script  id='google-adsense' strategy={'afterInteractive'} async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5137005946192410"/>
+                <Script  id='google-adsense' strategy={'afterInteractive'} async={true} src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5137005946192410"/>
                 <PageTitle
                     title={query?.keyword}
                     />
