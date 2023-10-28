@@ -115,8 +115,8 @@ const HomePage = ({ list, initPage }: { list: any[], initPage: number | any }) =
 				<link rel="canonical" href={`https://handmadep.com`}/>
 				<meta property="og:image" content={'/logo.png'}/>
 				<meta property="og:image:alt" content={'Crafted with Care: Explore Unique Handmade Goods'}/>
+				<script async={true} id="google-adsense" src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5137005946192410"/>
 			</Head>
-			<Script  id='google-adsense' strategy={'afterInteractive'} async={true} src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5137005946192410"/>
 			<ContentLayout>
 				<IndexList list={list}/>
 				<List

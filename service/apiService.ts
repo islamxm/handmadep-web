@@ -11,9 +11,6 @@ export const headers = {
 
 
 class ApiService {
-
-
-
     // ** Регистрация нового юзера
     register = async (body: {
         email: string,

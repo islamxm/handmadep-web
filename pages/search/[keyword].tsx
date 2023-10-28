@@ -112,12 +112,12 @@ const KeywordPage = ({list, keyword}: {list: any[], keyword: string}) => {
                     <meta name="description" content={`HandMadeP.com ${keyword} Search. See more ideas about ${keyword}`}></meta>
                     <meta name="og:description" content={`HandMadeP.com ${keyword} Search. See more ideas about ${keyword}`}></meta>
                     <meta property="og:title" content={`'${keyword}' - Search - HandMadeP.com`}></meta>
-                    <meta property="og:url" content={`https://handmadep.com/search/${keyword}`}></meta>
-                    <link rel="canonical" href={`https://handmadep.com/search/${keyword}`} />
+                    <meta property="og:url" content={`https://handmadep.com/search/${keyword?.toLowerCase()}`}></meta>
+                    <link rel="canonical" href={`https://handmadep.com/search/${keyword?.toLowerCase()}`} />
                     <meta name="keywords" content={keyword}/>
                     <meta property="og:type" content="website"/>
+                    <script async={true} id="google-adsense" src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5137005946192410"/>
                 </Head>
-                <Script  id='google-adsense' strategy={'afterInteractive'} async={true} src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5137005946192410"/>
                 <PageTitle
                     title={query?.keyword}
                     />
