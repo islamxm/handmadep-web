@@ -4,106 +4,94 @@ import ApiService from "@/service/apiService";
 import { useEffect, useState } from 'react';
 import styles from '@/pageModules/home/home.module.scss';
 import * as _ from 'lodash';
-import { useAppSelector } from "@/hooks/useTypesRedux";
+import { useAppDispatch, useAppSelector } from "@/hooks/useTypesRedux";
 import { GetServerSideProps } from "next";
 import { LoadNext } from "@/components/loadMoreCtrl/loadMoreCtrl";
 import Head from "next/head";
 import logo from '@/public/logo.png';
 import IndexList from "@/components/IndexList/IndexList";
 import Script from "next/script";
+import store from "@/store/store";
+import apiSlice, { getRunningQueriesThunk } from "@/store/slices/apiSlice";
 
-const service = new ApiService()
 
-export const getServerSideProps: GetServerSideProps = async (context) => {
-	const { query: { page } } = context
+export const getServerSideProps =  store.getServerSideProps(
+	(store) => async () => {
+		
+		const res = await store.dispatch(apiSlice.endpoints.getCards.initiate({body: {last_id: 0}}))
 
-	const res = await service.getCardsList(page ?? 1)
-	const data = await res?.results?.map((i: any) => ({ ...i, height: _.random(200, 350) }))
 
-	return {
-		props: {
-			list: data,
-			initPage: 1,
-		},
-		//
+		return {
+			props: {
+				list: res?.data?.results?.map((i: any) => ({...i, height: _.random(200, 350)}))
+			}
+		}
 	}
-}
+)
 
-const HomePage = ({ list, initPage }: { list: any[], initPage: number | any }) => {
+
+
+const HomePage = ({ list }: { list: any[]}) => {
+	const [getCards] = apiSlice.endpoints.getCards.useLazyQuery()
 	const { token: { access } } = useAppSelector(s => s.main)
-	const [page, setPage] = useState(1)
-
-	const [prevPage, setPrevPage] = useState(0)
 	const [localList, setLocalList] = useState<any[]>([])
+	const [lastId, setLastId] = useState(0)
 	const [isEnd, setIsEnd] = useState(false)
 
-	// контроль возможности загрузки СЛЕДУЮЩЕЙ страницы (пока без логики)
 	const [canLoadNext, setCanLoadNext] = useState(true)
 
 	useEffect(() => {
 		setLocalList(list)
+		if(list?.length > 0) {
+			setLastId(Number(list[list.length - 1]?.id))
+		}
 	}, [list])
 
-	const getData = (
-		page: any, 
-		type: 'init' | 'update', 
-		dir?: 'prev' | 'next') => {
-		if (page) {
-			setCanLoadNext(false)
-			if (access) {
-				service.getCardsList(page).then(res => {
-					if(res?.results?.length === 0) setIsEnd(true)
-					if (page === 1) {
-						setLocalList(res?.results?.map((i: any) => ({ ...i, height: _.random(200, 350) })))
+
+	const getData = (initId?: number) => {
+		setCanLoadNext(false)
+		if(access) {
+			getCards({token: access, body: {last_id: initId || lastId}}).then(res => {
+				const {data, isLoading, isSuccess} = res
+				if(data && !isLoading && isSuccess) {
+					if(lastId === 0) {
+						setLocalList(data?.results?.map((i:any) => ({...i, height: _.random(200,350)})))
 					} else {
-						switch (dir) {
-							case 'next':
-								setLocalList(s => [...s, ...res?.results?.map((i: any) => ({ ...i, height: _.random(200, 350) }))])
-								break;
-							case 'prev':
-								setLocalList(s => [...res?.results?.map((i: any) => ({ ...i, height: _.random(200, 350) })), ...s])
-								break;
-							default:
-								setLocalList(res?.results?.map((i: any) => ({ ...i, height: _.random(200, 350) })))
-								break;
-						}
+						setLocalList(s => [...s, ...data?.results?.map((i:any) => ({...i, height: _.random(200,350)}))])	
 					}
-				}).finally(() => setCanLoadNext(true))
-			} else {
-				
-				service.getCardsList(page).then(res => {
-					if(res?.results?.length === 0) setIsEnd(true)
-					if (page === 1) {
-						setLocalList(res?.results?.map((i: any) => ({ ...i, height: _.random(200, 350) })))
+					if(data?.results?.length > 0) {
+						setLastId(Number(data.results[data.results.length - 1]?.id))
 					} else {
-						setLocalList(s => [...s, ...res?.results?.map((i: any) => ({ ...i, height: _.random(200, 350) }))])
+						setIsEnd(true)
 					}
-				}).finally(() => setCanLoadNext(true))
-			}
+				} 
+			})
+		} else {
+			getCards({body: {last_id: lastId}}).then(res => {
+				const {data, isLoading, isSuccess} = res
+				if(data && !isLoading && isSuccess) {
+					
+					setLocalList(s => [...s, ...data?.results?.map((i:any) => ({...i, height: _.random(200,350)}))])
+					if(data?.results?.length > 0) {
+						setLastId(Number(data.results[data.results.length - 1]?.id))
+					} else {
+						setIsEnd(true)
+					}
+				}
+			}).finally(() => {
+				setCanLoadNext(true)
+			})
 		}
 	}
 
-	/** при появлении TOKEN для того чтобы сделать новый запрос проверяем если мы находимся на 1 странице то делаем запрос на получение данных, а если нет то просто сетим страницу 1 */
 	useEffect(() => {
-		if (access) {
-			if (page === 1) {
-				getData(1, 'init')
-			} else {
-				setPage(1)
-			}
+		if(access) {
+			setLastId(0)
+			getData(0)
 		}
 	}, [access])
 
-	useEffect(() => {
-		if (page > 1) {
-			if (page > prevPage) {
-				getData(page, 'update', 'next')
-			}
-			if (page < prevPage) {
-				getData(page, 'update', 'prev')
-			}
-		}
-	}, [page, prevPage])
+
 
 	return (
 		<div className={styles.wrapper}>
@@ -120,14 +108,12 @@ const HomePage = ({ list, initPage }: { list: any[], initPage: number | any }) =
 			<ContentLayout>
 				<IndexList list={list}/>
 				<List
-					setPage={setPage}
-					list={localList} />
+					list={localList}/>
 				{(localList?.length > 0 && canLoadNext && !isEnd) && (
 					<LoadNext 
 						canLoadNext={canLoadNext} 
-						setPage={setPage} 
-						page={page} 
-						setPrevPage={setPrevPage}
+						getMore={getData}
+						isEnd={isEnd}
 						/>
 				)}
 			</ContentLayout>

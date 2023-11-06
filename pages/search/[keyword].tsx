@@ -33,8 +33,7 @@ const KeywordPage = ({list, keyword}: {list: any[], keyword: string}) => {
     const [search] = apiSlice.endpoints.search.useLazyQuery()
     const {token: {access}} = useAppSelector(s => s.main)
     const {query} = useRouter()
-    const [page, setPage] = useState(1)
-    const [prevPage, setPrevPage] = useState(0)
+    const [lastId, setLastId] = useState(0)
     const [localList, setLocalList] = useState<any[]>([]) 
     const [canLoadNext, setCanLoadNext] = useState(true)
     const [isEnd, setIsEnd] = useState(false)
@@ -43,66 +42,47 @@ const KeywordPage = ({list, keyword}: {list: any[], keyword: string}) => {
 		setLocalList(list)
 	}, [list])
 
-    const getData = (
-		page: any, 
-		type: 'init' | 'update', 
-		dir?: 'prev' | 'next') => {
-		if (page) {
-			setCanLoadNext(false)
-			if (access) {
-				console.log('UPDATE LIST')
-				search({query_string: keyword, page}).then(res => {
-                    if(res?.data?.results?.length === 0) setIsEnd(false)
-					if (page === 1) {
-						setLocalList(res?.data?.results?.map((i: any) => ({ ...i, height: _.random(200, 350) })))
+    const getData = (initId?: number) => {
+		setCanLoadNext(false)
+		if(access) {
+			search({last_id: initId || lastId, token: access, query_string: keyword}).then(res => {
+				const {data, isLoading, isSuccess} = res
+				if(data && !isLoading && isSuccess) {
+					if(lastId === 0) {
+						setLocalList(data?.results?.map((i:any) => ({...i, height: _.random(200,350)})))
 					} else {
-						switch (dir) {
-							case 'next':
-								setLocalList(s => [...s, ...res?.data?.results?.map((i: any) => ({ ...i, height: _.random(200, 350) }))])
-								break;
-							case 'prev':
-								setLocalList(s => [...res?.data?.results?.map((i: any) => ({ ...i, height: _.random(200, 350) })), ...s])
-								break;
-							default:
-								setLocalList(res?.data?.results?.map((i: any) => ({ ...i, height: _.random(200, 350) })))
-								break;
-						}
+						setLocalList(s => [...s, ...data?.results?.map((i:any) => ({...i, height: _.random(200,350)}))])	
 					}
-				}).finally(() => setCanLoadNext(true))
-			} else {
-				
-				search({query_string: keyword, page}).then(res => {
-                    if(res?.data?.results?.length === 0) setIsEnd(false)
-					if (page === 1) {
-						setLocalList(res?.data?.results?.map((i: any) => ({ ...i, height: _.random(200, 350) })))
+					if(data?.results?.length > 0) {
+						setLastId(Number(data.results[data.results.length - 1]?.id))
 					} else {
-						setLocalList(s => [...s, ...res?.data?.results?.map((i: any) => ({ ...i, height: _.random(200, 350) }))])
+						setIsEnd(true)
 					}
-				}).finally(() => setCanLoadNext(true))
-			}
+				} 
+			})
+		} else {
+			search({last_id: lastId, query_string: keyword}).then(res => {
+				const {data, isLoading, isSuccess} = res
+				if(data && !isLoading && isSuccess) {
+					setLocalList(s => [...s, ...data?.results?.map((i:any) => ({...i, height: _.random(200,350)}))])
+					if(data?.results?.length > 0) {
+						setLastId(Number(data.results[data.results.length - 1]?.id))
+					} else {
+						setIsEnd(true)
+					}
+				}
+			}).finally(() => {
+				setCanLoadNext(true)
+			})
 		}
 	}
 
     useEffect(() => {
-		if (access) {
-			if (page === 1) {
-				getData(1, 'init')
-			} else {
-				setPage(1)
-			}
+		if(access) {
+			setLastId(0)
+			getData(0)
 		}
 	}, [access])
-
-    useEffect(() => {
-		if (page > 1) {
-			if (page > prevPage) {
-				getData(page, 'update', 'next')
-			}
-			if (page < prevPage) {
-				getData(page, 'update', 'prev')
-			}
-		}
-	}, [page, prevPage])
 
     return (
         <div>
@@ -124,14 +104,11 @@ const KeywordPage = ({list, keyword}: {list: any[], keyword: string}) => {
                 <IndexList list={list}/>
                 <List
                     list={localList}
-                    setPage={setPage}
                     />
                 {(localList?.length > 0 && canLoadNext && !isEnd) && (
                     <LoadNext 
                         canLoadNext={canLoadNext} 
-                        setPage={setPage} 
-                        setPrevPage={setPrevPage}
-                        page={page} 
+                        getMore={getData}
                         />
                 )}
             </ContentLayout>

@@ -184,7 +184,7 @@ class ApiService {
                         'Authorization': `JWT ${token}`
                     }
                 })
-                return await res?.json()
+                return await res?.json();
             } catch(err) {
                 console.log(err)
             }
@@ -286,9 +286,9 @@ class ApiService {
         }
     }
 
-    getSimilarProducts = async ({page, card_pk ,per_page = 20}: {page: number, card_pk: number | string, per_page?: number}) => {
+    getSimilarProducts = async ({last_id = 0, card_pk ,per_page = 20}: {card_pk: number | string, per_page?: number, last_id?: number}) => {
         try {
-            let res = await fetch(`${PATH}cards/get_similar_cards/${card_pk}?p=${page}&per_page=${per_page}`, {
+            let res = await fetch(`${PATH}cards/get_similar_cards/${card_pk}?last_id=${last_id}&per_page=${per_page}`, {
                 method: "POST",
                 headers: {
                     ...headers

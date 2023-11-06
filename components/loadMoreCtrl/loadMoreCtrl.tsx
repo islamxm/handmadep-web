@@ -4,32 +4,10 @@ import { useInView } from 'react-intersection-observer';
 import { useAppSelector } from '@/hooks/useTypesRedux';
 
 
-export const LoadPrev:FC<ILoadMore> = ({
-    setPage,
-    page,
-    setPrevPage
-}) => {
-    const {inView, ref} = useInView()
-    
-    useEffect(() => {
-        inView && setPage(s => {
-            setPrevPage && setPrevPage(s)
-            return s - 1
-        })
-    }, [inView, setPage])
-
-    return (
-        <div ref={ref}/>
-    )
-}
-
-
-
 export const LoadNext:FC<ILoadMore> = ({
-    setPage,
-    setPrevPage,
-    page,
-    canLoadNext
+    getMore,
+    canLoadNext,
+    isEnd
 }) => {
     const {listRef} = useAppSelector(s => s.main)
     const {ref, inView} = useInView({
@@ -38,13 +16,10 @@ export const LoadNext:FC<ILoadMore> = ({
     })
 
     useEffect(() => {
-        if(inView && canLoadNext) {
-            setPage((s:any) => {
-                setPrevPage && setPrevPage(s)
-                return s + 1
-            })
+        if(inView && canLoadNext && !isEnd) {
+            getMore && getMore()
         }
-    }, [inView, setPage])
+    }, [inView, getMore, canLoadNext, isEnd])
 
     return (
         <div ref={ref}></div>

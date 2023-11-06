@@ -5,7 +5,7 @@ import Router from 'next/router';
 import type { AppProps } from 'next/app';
 import PageLayout from '@/components/PageLayout/PageLayout';
 import { Provider } from 'react-redux';
-import store from '@/store/store';
+
 import {GoogleOAuthProvider} from '@react-oauth/google';
 import { ToastContainer } from 'react-toastify';
 import MainWrapper from '@/components/MainWrapper/MainWrapper';
@@ -13,15 +13,16 @@ import NProgress from 'nprogress';
 import "nprogress/nprogress.css";
 import Script from 'next/script';
 import Head from 'next/head';
+import store from '@/store/store';
 
 
 Router.events.on("routeChangeStart", () => NProgress.start());
 Router.events.on("routeChangeComplete", () => NProgress.done());
 Router.events.on('routeChangeError', () => NProgress.done());
 
-export default function App({ Component, pageProps }: AppProps) {
+function App({ Component, pageProps }: AppProps) {
   return (
-    <Provider store={store}>
+    <>
       <Head>
         <script async={true} id='gtm-1' src="https://www.googletagmanager.com/gtag/js?id=G-1KET5VSY85"/>
         <script id='gtm-2' async={true} >
@@ -54,9 +55,10 @@ export default function App({ Component, pageProps }: AppProps) {
           </PageLayout>
         </GoogleOAuthProvider>
       </MainWrapper>
-        
+    </> 
          
-    </Provider>
    
   )
 }
+
+export default store.withRedux(App);

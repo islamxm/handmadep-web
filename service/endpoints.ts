@@ -50,7 +50,7 @@ export const endpoints = {
 
 
 
-    search: `${PATH}cards/search/`,
+    search: `${PATH}cards/new_search/`,
 
     onReport: `${PATH}reports/`,
 

@@ -18,10 +18,8 @@ const columnWidth = 200;
 
 const List:FC<{
     list: any[] 
-    setPage: (...args: any[]) => any
 }> = ({
     list = [], 
-    setPage
 }) => {
     const dispatch = useAppDispatch()
     const ref = useRef<HTMLDivElement>(null)

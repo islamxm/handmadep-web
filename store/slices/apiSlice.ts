@@ -104,17 +104,17 @@ const apiSlice = createApi({
 			query: ({
 				token,
 				body: {
-					page
+					last_id
 				}
 			}: {
 				token?:any,
 				body: {
-					page: number | string
+					last_id?: number | string
 				}
 			}) => ({
-				url: endpoints.cardsList + `?p=${page}`,
+				url: endpoints.cardsList + `?last_id=${last_id || 0}`,
 				headers: setHeaderWithToken(token)
-			})
+			}),
 		}),
 
 		getProduct: builder.query({
@@ -133,17 +133,17 @@ const apiSlice = createApi({
 
     getSimilarProds: builder.query({
 			query: ({
-				page,
+				last_id = 0,
 				card_pk,
 				per_page = 20,
 				token
 			}: {
-				page: number,
+				last_id: number,
 				card_pk: any,
 				per_page?: number,
 				token?: any
 			}) => ({
-				url: endpoints.getSimilarProducts + `/${card_pk}?p=${page}&per_page=${per_page}`,
+				url: endpoints.getSimilarProducts + `/${card_pk}?last_id=${last_id}&per_page=${per_page}`,
 				headers: setHeaderWithToken(token)
 			}),
 			transformErrorResponse: (res) => checkAuth(res.status)
@@ -166,12 +166,12 @@ const apiSlice = createApi({
 		}),
 
 		search: builder.query({
-			query: ({query_string, page, token}: {
+			query: ({query_string, last_id, token}: {
 				query_string?:any,
-				page?: number,
+				last_id?: number,
 				token?: any
 			}) => ({
-				url: endpoints.search + `?query_string=${query_string}&p=${page}`,
+				url: endpoints.search + `?query_string=${query_string}&last_id=${last_id}`,
 				headers: setHeaderWithToken(token)
 			}),
 		}),
@@ -238,6 +238,7 @@ export const {
 	useSearchQuery,
 	useGetLikesQuery,
 	useSetFeedbackQuery,
-	useDeleteAccountMutation
+	useDeleteAccountMutation,
+	util: {getRunningQueriesThunk}
 } = apiSlice
 

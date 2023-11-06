@@ -14,13 +14,14 @@ import { LoadNext } from "@/components/loadMoreCtrl/loadMoreCtrl";
 import apiSlice from "@/store/slices/apiSlice";
 import IndexList from "@/components/IndexList/IndexList";
 import Script from "next/script";
+import useLoadCards from "@/hooks/useLoadCards";
 
 const service = new ApiService()
 
 export const getServerSideProps:GetServerSideProps<{productData: IProduct}> = async (context) => {
     const id = context?.params?.id
     const productData = await service.getProduct(id)
-    const initList = await service.getSimilarProducts({page: 1, card_pk: productData?.id})
+    const initList = await service.getSimilarProducts({last_id: 0, card_pk: productData?.id})
     
     if(!productData) {
         return {
@@ -31,7 +32,7 @@ export const getServerSideProps:GetServerSideProps<{productData: IProduct}> = as
         props: {
             productData,
             productId: id,
-            list: initList?.results?.map((i: any) => ({ ...i, height: _.random(200, 350) }))
+            list: initList?.results?.map((i: any) => ({ ...i, height: _.random(200, 350) })) || []
         },
     }
 }
@@ -43,10 +44,12 @@ const ProductPage = ({productData, productId, list}: {productData: IProduct, pro
     const [getSmList] = apiSlice.endpoints.getSimilarProds.useLazyQuery()
 
     const [localList, setLocalList] = useState<any[]>([])
-    const [page, setPage] = useState(1)
+    const [page, setPage] = useState<number | undefined>(undefined)
     const [canLoadNext, setCanLoadNext] = useState(true)
     const [isEnd, setIsEnd] = useState(false)
     const [prevPage, setPrevPage] = useState(0)
+
+
 
     useEffect(() => setLocalList(list), [list])
 
@@ -54,63 +57,66 @@ const ProductPage = ({productData, productId, list}: {productData: IProduct, pro
 		page: any, 
 		type: 'init' | 'update', 
 		dir?: 'prev' | 'next') => {
-        console.log('GET LIST')
-		if (page) {
-			setCanLoadNext(false)
-			if (access) {
-				getSmList({
-                    page,
-                    card_pk: productId,
-                    token: access
-                }).then(res => {
-                    if(res?.data?.results?.length === 0) setIsEnd(true)
-					if (page === 1) {
-						setLocalList(res?.data?.results?.map((i: any) => ({ ...i, height: _.random(200, 350) })))
-					} else {
-						switch (dir) {
-							case 'next':
-								setLocalList(s => [...s, ...res?.data?.results?.map((i: any) => ({ ...i, height: _.random(200, 350) }))])
-								break;
-							case 'prev':
-								setLocalList(s => [...res?.data?.results?.map((i: any) => ({ ...i, height: _.random(200, 350) })), ...s])
-								break;
-							default:
-								setLocalList(res?.data?.results?.map((i: any) => ({ ...i, height: _.random(200, 350) })))
-								break;
-						}
-					}
-				}).finally(() => setCanLoadNext(true))
-			} else {
-				getSmList({
-                    page,
-                    card_pk: productId
-                }).then(res => {
-					if(res?.data?.results?.length === 0) setIsEnd(true)
-					if (page === 1) {
-						setLocalList(res?.data?.results?.map((i: any) => ({ ...i, height: _.random(200, 350) })))
-					} else {
-                        if(res?.data?.results) {
-                            setLocalList(s => [...s, ...res?.data?.results?.map((i: any) => ({ ...i, height: _.random(200, 350) }))])
+            if(page) {
+                setCanLoadNext(false)
+                if (access) {
+                    getSmList({
+                        last_id: page,
+                        card_pk: productId,
+                        token: access
+                    }).then(res => {
+                        if(res?.data?.results?.length === 0) setIsEnd(true)
+                        if (page === 1) {
+                            setLocalList(res?.data?.results?.map((i: any) => ({ ...i, height: _.random(200, 350) })))
+                        } else {
+                            switch (dir) {
+                                case 'next':
+                                    setLocalList(s => [...s, ...res?.data?.results?.map((i: any) => ({ ...i, height: _.random(200, 350) }))])
+                                    break;
+                                case 'prev':
+                                    setLocalList(s => [...res?.data?.results?.map((i: any) => ({ ...i, height: _.random(200, 350) })), ...s])
+                                    break;
+                                default:
+                                    setLocalList(res?.data?.results?.map((i: any) => ({ ...i, height: _.random(200, 350) })))
+                                    break;
+                            }
                         }
-					}
-				}).finally(() => setCanLoadNext(true))
-			}
-		}
+                    }).finally(() => setCanLoadNext(true))
+                } else {
+                    getSmList({
+                        last_id: page,
+                        card_pk: productId
+                    }).then(res => {
+                        if(res?.data?.results?.length === 0) setIsEnd(true)
+                        if (page === 1) {
+                            setLocalList(res?.data?.results?.map((i: any) => ({ ...i, height: _.random(200, 350) })))
+                        } else {
+                            if(res?.data?.results) {
+                                setLocalList(s => [...s, ...res?.data?.results?.map((i: any) => ({ ...i, height: _.random(200, 350) }))])
+                            }
+                        }
+                    }).finally(() => setCanLoadNext(true))
+                }
+            }
+            
 	}
 
     useEffect(() => {
 		if (access) {
-			if (page === 1) {
-				getData(1, 'init')
+			if (page === 0) {
+				getData(0, 'init')
 			} else {
-				setPage(1)
+				setPage(0)
 			}
 		}
 	}, [access])
 
+    
+
     useEffect(() => {
         if(productId && access) {
             service.getProduct(productId, access).then(res => {
+                console.log(res)
                 if(res?.id) {
                     setLocalData(res)
                 }
@@ -118,16 +124,22 @@ const ProductPage = ({productData, productId, list}: {productData: IProduct, pro
         }
     }, [access, productId])
 
-	useEffect(() => {
-		if (page > 1) {
-			if (page > prevPage) {
-				getData(page, 'update', 'next')
-			}
-			if (page < prevPage) {
-				getData(page, 'update', 'prev')
-			}
-		}
-	}, [page, prevPage])
+	// useEffect(() => {
+	// 	if (page > 1) {
+	// 		if (page > prevPage) {
+	// 			getData(page, 'update', 'next')
+	// 		}
+	// 		if (page < prevPage) {
+	// 			getData(page, 'update', 'prev')
+	// 		}
+	// 	}
+	// }, [page, prevPage])
+
+    useEffect(() => {
+        if(typeof page === 'number') {
+            getData(page, 'update', 'next')
+        }
+    }, [page])
 
     useEffect(() => {
         if(productData) setLocalData(productData)
@@ -147,8 +159,8 @@ const ProductPage = ({productData, productId, list}: {productData: IProduct, pro
                 <meta property="og:image" content={productData?.cover_url}/>
                 <meta property="og:image:alt" content={productData?.title}/>
                 <meta name="author" content={productData.shop?.name}></meta>
+                <script async={true} id="google-adsense" src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5137005946192410"/>
             </Head>
-            <Script  id='google-adsense' strategy={'afterInteractive'} async={true} src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5137005946192410"/>
             <Row gutter={[40,40]}>
                 <Col span={24}>
                     <Main  {...localData} ssrData={productData}/>
@@ -158,13 +170,13 @@ const ProductPage = ({productData, productId, list}: {productData: IProduct, pro
                     <IndexList list={list}/>
                     <List
                         list={localList}
-                        setPage={setPage}
                         />
                     {(localList?.length > 0 && canLoadNext && !isEnd) && (
                         <LoadNext 
                             canLoadNext={canLoadNext} 
                             setPage={setPage} 
-                            page={page}
+                            page={page || 0}
+                            lastItemId={page}
                             setPrevPage={setPrevPage}
                             />
                     )}
