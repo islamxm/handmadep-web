@@ -16,7 +16,7 @@ import getClassNames from '@/helpers/getClassNames';
 
 
 
-const service = new ApiService()
+
 
 const Search: FC<any> = () => {
   const ref = useRef<HTMLDivElement>(null)
@@ -28,7 +28,7 @@ const Search: FC<any> = () => {
   const router = useRouter()
   const debValue = useDebounce(value, 500)
   const [dropdownWidth, setDropdownWidth] = useState(0)
-  const [page, setPage] = useState(1)
+  const [page, setPage] = useState(0)
 
   const [list, setList] = useState<any[]>([])
 
@@ -39,21 +39,21 @@ const Search: FC<any> = () => {
   const [isEnd, setIsEnd] = useState(false)
 
   const getData = () => {
-    if (debValue !== '' && page) {
-      setIsLoading(true)
-      setCanLoadNext(false)
-      search({query_string: debValue, page}).then(res => {
-        if(res?.data?.results?.length === 0) setIsEnd(true) 
-        if(page === 1) {
-          setList(res?.data?.results)
-        } else {
-          setList(s => [...s, ...res?.data?.results]) 
-        }
-      }).finally(() => {
-        setIsLoading(false)
-        setCanLoadNext(true)
-      })
-    }
+    // if (debValue !== '' && page) {
+    //   setIsLoading(true)
+    //   setCanLoadNext(false)
+    //   search({query_string: debValue, last_id: page}).then(res => {
+    //     if(res?.data?.results?.length === 0) setIsEnd(true) 
+    //     if(page === 1) {
+    //       setList(res?.data?.results)
+    //     } else {
+    //       setList(s => [...s, ...res?.data?.results]) 
+    //     }
+    //   }).finally(() => {
+    //     setIsLoading(false)
+    //     setCanLoadNext(true)
+    //   })
+    // }
   }
 
   useEffect(() => {
@@ -61,10 +61,10 @@ const Search: FC<any> = () => {
   }, [page])
 
   useEffect(() => {
-    if (page === 1) {
+    if (page === 0) {
       getData()
     } else {
-      setPage(1)
+      setPage(0)
     }
   }, [debValue])
 
@@ -96,11 +96,9 @@ const Search: FC<any> = () => {
 
   useEffect(() => {
     if(list?.length > 0) {
-      console.log('OPEN')
       setDropdownOpen(true)
     }
     if(list?.length === 0) {
-      console.log('CLOSE')
       setDropdownOpen(false)
     }
   }, [list])
@@ -113,7 +111,7 @@ const Search: FC<any> = () => {
 
   const onResetandClear = () => {
     setValue('')
-    setPage(1)
+    setPage(0)
     setList([])
   }
 
