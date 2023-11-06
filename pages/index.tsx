@@ -12,30 +12,26 @@ import logo from '@/public/logo.png';
 import IndexList from "@/components/IndexList/IndexList";
 import Script from "next/script";
 import store from "@/store/store";
-import apiSlice, { getRunningQueriesThunk } from "@/store/slices/apiSlice";
+import apiSlice, { getRunningQueriesThunk, useGetCardsQuery } from "@/store/slices/apiSlice";
 
+const service = new ApiService()
 
 export const getServerSideProps =  store.getServerSideProps(
 	(store) => async () => {
 		
 		const res = await store.dispatch(apiSlice.endpoints.getCards.initiate({body: {last_id: 0}}))
 
-		if(res?.isError) {
-			return {
-				notFound: true
-			}
-		}
-
 		return {
 			props: {
-				list: res?.data?.results?.map((i: any) => ({...i, height: _.random(200, 350)}))
+				// list: res?.data?.results?.map((i: any) => ({...i, height: _.random(200, 350)})),
+				list: res
 			}
 		}
 	}
 )
 
 
-const HomePage = ({ list }: { list: any[]}) => {
+const HomePage = ({ list, error }: { list: any[], error: any}) => {
 	const [getCards] = apiSlice.endpoints.getCards.useLazyQuery()
 	const { token: { access } } = useAppSelector(s => s.main)
 	const [localList, setLocalList] = useState<any[]>([])
@@ -45,12 +41,16 @@ const HomePage = ({ list }: { list: any[]}) => {
 	const [canLoadNext, setCanLoadNext] = useState(true)
 
 	useEffect(() => {
-		setLocalList(list)
-		if(list?.length > 0) {
-			setLastId(Number(list[list.length - 1]?.id))
-		}
+		console.log(list)
+		// if(list?.length) {
+		// 	setLocalList(list)
+		// }
+		// if(list?.length > 0) {
+		// 	setLastId(Number(list[list.length - 1]?.id))
+		// } 
+		getData(0)
+		
 	}, [list])
-
 
 	const getData = (initId?: number) => {
 		setCanLoadNext(false)
@@ -72,6 +72,7 @@ const HomePage = ({ list }: { list: any[]}) => {
 			})
 		} else {
 			getCards({body: {last_id: lastId}}).then(res => {
+				console.log(res)
 				const {data, isLoading, isSuccess} = res
 				if(data && !isLoading && isSuccess) {
 					
@@ -108,7 +109,7 @@ const HomePage = ({ list }: { list: any[]}) => {
 				<script async={true} id="google-adsense" src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5137005946192410"/>
 			</Head>
 			<ContentLayout>
-				<IndexList list={list}/>
+				<IndexList list={[]}/>
 				<List
 					list={localList}/>
 				{(localList?.length > 0 && canLoadNext && !isEnd) && (

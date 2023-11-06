@@ -143,30 +143,15 @@ class ApiService {
 
 
     // ** Получить товары
-    getCardsList = async (page: any, token?: IToken) => {
-        if(token) {
-            try {
-                let res = await fetch(endpoints.cardsList + `?p=${page}`, {
-                    method: 'GET',
-                    headers: {
-                        ...headers,
-                        'Authorization': `JWT ${token}`
-                    }
-                })
-                return await res?.json()
-            } catch(err) {
-                console.log(err)
-            }
-        } else {
-            try {
-                let res = await fetch(endpoints.cardsList + `?p=${page}`, {
-                    method: 'GET',
-                    headers
-                })
-                return await res?.json()
-            } catch(err) {
-                console.log(err)
-            }
+    getCardsList = async (last_id?: any, token?: IToken) => {
+        try {
+            let res = await fetch(`${PATH}cards/` + `?p=${1}`, {
+                method: 'GET',
+                headers, 
+            })
+            return await res?.json()
+        } catch(err) {
+            console.log(err)
         }
         
     } 

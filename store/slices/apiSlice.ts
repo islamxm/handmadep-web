@@ -26,7 +26,6 @@ const setHeaderWithToken = (token: any) => {
 	}
 }
 
-
 const apiSlice = createApi({
 	reducerPath: 'api',
 	baseQuery: fetchBaseQuery({ baseUrl: BASE_DOMAIN }),
@@ -104,7 +103,7 @@ const apiSlice = createApi({
 			query: ({
 				token,
 				body: {
-					last_id
+					last_id = 0
 				}
 			}: {
 				token?:any,
@@ -112,7 +111,7 @@ const apiSlice = createApi({
 					last_id?: number | string
 				}
 			}) => ({
-				url: endpoints.cardsList + `?last_id=${last_id || 0}`,
+				url: endpoints.cardsList + `?last_id=${last_id}`,
 				headers: setHeaderWithToken(token)
 			}),
 		}),
