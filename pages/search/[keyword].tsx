@@ -12,22 +12,38 @@ import { LoadNext } from "@/components/loadMoreCtrl/loadMoreCtrl";
 import apiSlice from "@/store/slices/apiSlice";
 import IndexList from "@/components/IndexList/IndexList";
 import Script from "next/script";
+import store from "@/store/store";
 
 const service = new ApiService()
 
-export const getServerSideProps:GetServerSideProps<any> = async (context) => {
-    const keyword = context?.params?.keyword
+// export const getServerSideProps:GetServerSideProps<any> = async (context) => {
+//     const keyword = context?.params?.keyword
 
-    const res = await service.search(keyword, 1)
-    const list = await res?.results?.map((i: any) => ({ ...i, height: _.random(200, 350) }))
+//     // const res = await service.search(keyword, 1)
+//     // const list = await res?.results?.map((i: any) => ({ ...i, height: _.random(200, 350) }))
     
-    return {
-        props: {
-          list,
-          keyword
-        }
-    }
-  }
+//     return {
+//         props: {
+//           list,
+//           keyword
+//         }
+//     }
+//   }
+
+
+  export const getServerSideProps =  store.getServerSideProps(
+	(store) => async (context) => {
+	    const keyword = context?.params?.keyword
+		const res = await store.dispatch(apiSlice.endpoints.search.initiate({last_id: 0, query_string: keyword}))
+
+		return {
+			props: {
+				list: res?.data?.results?.map((i: any) => ({...i, height: _.random(200, 350)})),
+                keyword
+			}
+		}
+	}
+)
 
 const KeywordPage = ({list, keyword}: {list: any[], keyword: string}) => {
     const [search] = apiSlice.endpoints.search.useLazyQuery()
@@ -40,6 +56,9 @@ const KeywordPage = ({list, keyword}: {list: any[], keyword: string}) => {
 
     useEffect(() => {
 		setLocalList(list)
+		if(list?.length > 0) {
+			setLastId(Number(list[list.length - 1]?.id))
+		}
 	}, [list])
 
     const getData = (initId?: number) => {

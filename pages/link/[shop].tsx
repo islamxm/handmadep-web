@@ -1,8 +1,6 @@
 import ContentLayout from "@/components/ContentLayout/ContentLayout";
-import PageTitle from "@/components/PageTitle/PageTitle";
 import Main from "@/pageModules/link/Main/Main";
 import Head from "next/head";
-import Script from "next/script";
 
 const RedirectPage = () => {
 

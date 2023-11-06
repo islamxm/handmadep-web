@@ -135,7 +135,6 @@ const apiSlice = createApi({
 			query: ({
 				last_id = 0,
 				card_pk,
-				per_page = 20,
 				token
 			}: {
 				last_id: number,
@@ -143,7 +142,7 @@ const apiSlice = createApi({
 				per_page?: number,
 				token?: any
 			}) => ({
-				url: endpoints.getSimilarProducts + `/${card_pk}?last_id=${last_id}&per_page=${per_page}`,
+				url: endpoints.getSimilarProducts + `/${card_pk}?last_id=${last_id}`,
 				headers: setHeaderWithToken(token)
 			}),
 			transformErrorResponse: (res) => checkAuth(res.status)
@@ -171,7 +170,7 @@ const apiSlice = createApi({
 				last_id?: number,
 				token?: any
 			}) => ({
-				url: endpoints.search + `?query_string=${query_string}&last_id=${last_id}`,
+				url: endpoints.search + `?query_string=${query_string}&last_id=${last_id = 0}`,
 				headers: setHeaderWithToken(token)
 			}),
 		}),

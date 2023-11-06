@@ -20,6 +20,11 @@ export const getServerSideProps =  store.getServerSideProps(
 		
 		const res = await store.dispatch(apiSlice.endpoints.getCards.initiate({body: {last_id: 0}}))
 
+		if(res?.isError) {
+			return {
+				notFound: true
+			}
+		}
 
 		return {
 			props: {
@@ -28,7 +33,6 @@ export const getServerSideProps =  store.getServerSideProps(
 		}
 	}
 )
-
 
 
 const HomePage = ({ list }: { list: any[]}) => {
@@ -90,8 +94,6 @@ const HomePage = ({ list }: { list: any[]}) => {
 			getData(0)
 		}
 	}, [access])
-
-
 
 	return (
 		<div className={styles.wrapper}>

@@ -13,133 +13,110 @@ import Head from "next/head";
 import { LoadNext } from "@/components/loadMoreCtrl/loadMoreCtrl";
 import apiSlice from "@/store/slices/apiSlice";
 import IndexList from "@/components/IndexList/IndexList";
-import Script from "next/script";
-import useLoadCards from "@/hooks/useLoadCards";
+import store from "@/store/store";
 
 const service = new ApiService()
 
-export const getServerSideProps:GetServerSideProps<{productData: IProduct}> = async (context) => {
-    const id = context?.params?.id
-    const productData = await service.getProduct(id)
-    const initList = await service.getSimilarProducts({last_id: 0, card_pk: productData?.id})
-    
-    if(!productData) {
-        return {
-            notFound: true
+export const getServerSideProps =  store.getServerSideProps(
+	(store) => async (context) => {
+		const id = context?.params?.id
+        const product = await store.dispatch(apiSlice.endpoints.getProduct.initiate({id: typeof id === 'string' ? id : ''}))
+        const similarList = await store.dispatch(apiSlice.endpoints.getSimilarProds.initiate({last_id: 0, card_pk: id}))
+
+        if(product?.isError) {
+            return {
+                notFound: true
+            }
         }
-    }
-    return {
-        props: {
-            productData,
-            productId: id,
-            list: initList?.results?.map((i: any) => ({ ...i, height: _.random(200, 350) })) || []
-        },
-    }
-}
+
+		return {
+			props: {
+				list: similarList?.data?.results?.map((i: any) => ({...i, height: _.random(200, 350)})),
+                productData: product?.data,
+                productId: id,
+			}
+		}
+	}
+)
 
 
 const ProductPage = ({productData, productId, list}: {productData: IProduct, productId: any, list: any[]}) => {
     const {token: {access}} = useAppSelector(s => s.main)
     const [localData, setLocalData] = useState<any>()
     const [getSmList] = apiSlice.endpoints.getSimilarProds.useLazyQuery()
+    const [getProduct] = apiSlice.endpoints.getProduct.useLazyQuery()
 
     const [localList, setLocalList] = useState<any[]>([])
-    const [page, setPage] = useState<number | undefined>(undefined)
     const [canLoadNext, setCanLoadNext] = useState(true)
     const [isEnd, setIsEnd] = useState(false)
-    const [prevPage, setPrevPage] = useState(0)
-
-
-
-    useEffect(() => setLocalList(list), [list])
-
-    const getData = (
-		page: any, 
-		type: 'init' | 'update', 
-		dir?: 'prev' | 'next') => {
-            if(page) {
-                setCanLoadNext(false)
-                if (access) {
-                    getSmList({
-                        last_id: page,
-                        card_pk: productId,
-                        token: access
-                    }).then(res => {
-                        if(res?.data?.results?.length === 0) setIsEnd(true)
-                        if (page === 1) {
-                            setLocalList(res?.data?.results?.map((i: any) => ({ ...i, height: _.random(200, 350) })))
-                        } else {
-                            switch (dir) {
-                                case 'next':
-                                    setLocalList(s => [...s, ...res?.data?.results?.map((i: any) => ({ ...i, height: _.random(200, 350) }))])
-                                    break;
-                                case 'prev':
-                                    setLocalList(s => [...res?.data?.results?.map((i: any) => ({ ...i, height: _.random(200, 350) })), ...s])
-                                    break;
-                                default:
-                                    setLocalList(res?.data?.results?.map((i: any) => ({ ...i, height: _.random(200, 350) })))
-                                    break;
-                            }
-                        }
-                    }).finally(() => setCanLoadNext(true))
-                } else {
-                    getSmList({
-                        last_id: page,
-                        card_pk: productId
-                    }).then(res => {
-                        if(res?.data?.results?.length === 0) setIsEnd(true)
-                        if (page === 1) {
-                            setLocalList(res?.data?.results?.map((i: any) => ({ ...i, height: _.random(200, 350) })))
-                        } else {
-                            if(res?.data?.results) {
-                                setLocalList(s => [...s, ...res?.data?.results?.map((i: any) => ({ ...i, height: _.random(200, 350) }))])
-                            }
-                        }
-                    }).finally(() => setCanLoadNext(true))
-                }
-            }
-            
-	}
+    const [lastId, setLastId] = useState(0)
+    
 
     useEffect(() => {
-		if (access) {
-			if (page === 0) {
-				getData(0, 'init')
-			} else {
-				setPage(0)
-			}
+		setLocalList(list)
+		if(list?.length > 0) {
+			setLastId(Number(list[list.length - 1]?.id))
+		}
+	}, [list])
+
+    const getData = (initId?: number) => {
+        setCanLoadNext(false)
+		if(access) {
+			getSmList({last_id: initId || lastId, card_pk: productId}).then((res:any) => {
+				const {data, isLoading, isSuccess} = res
+				if(data && !isLoading && isSuccess) {
+					if(lastId === 0) {
+						setLocalList(data?.results?.map((i:any) => ({...i, height: _.random(200,350)})))
+					} else {
+						setLocalList(s => [...s, ...data?.results?.map((i:any) => ({...i, height: _.random(200,350)}))])	
+					}
+					if(data?.results?.length > 0) {
+						setLastId(Number(data.results[data.results.length - 1]?.id))
+					} else {
+						setIsEnd(true)
+					}
+				} 
+			})
+		} else {
+			getSmList({last_id: lastId, card_pk: productId}).then(res => {
+				const {data, isLoading, isSuccess} = res
+				if(data && !isLoading && isSuccess) {
+					
+					setLocalList(s => [...s, ...data?.results?.map((i:any) => ({...i, height: _.random(200,350)}))])
+					if(data?.results?.length > 0) {
+						setLastId(Number(data.results[data.results.length - 1]?.id))
+					} else {
+						setIsEnd(true)
+					}
+				}
+			}).finally(() => {
+				setCanLoadNext(true)
+			})
+		}
+    }
+
+
+    useEffect(() => {
+		if(access) {
+			setLastId(0)
+			getData(0)
 		}
 	}, [access])
-
     
 
     useEffect(() => {
         if(productId && access) {
-            service.getProduct(productId, access).then(res => {
-                console.log(res)
-                if(res?.id) {
-                    setLocalData(res)
+            getProduct({token: access, id: productId}).then(({
+                data, 
+                isSuccess
+            }) => {
+                if(data && isSuccess) {
+                    setLocalData(data)
                 }
             })
         }
     }, [access, productId])
 
-	// useEffect(() => {
-	// 	if (page > 1) {
-	// 		if (page > prevPage) {
-	// 			getData(page, 'update', 'next')
-	// 		}
-	// 		if (page < prevPage) {
-	// 			getData(page, 'update', 'prev')
-	// 		}
-	// 	}
-	// }, [page, prevPage])
-
-    useEffect(() => {
-        if(typeof page === 'number') {
-            getData(page, 'update', 'next')
-        }
-    }, [page])
 
     useEffect(() => {
         if(productData) setLocalData(productData)
@@ -174,10 +151,8 @@ const ProductPage = ({productData, productId, list}: {productData: IProduct, pro
                     {(localList?.length > 0 && canLoadNext && !isEnd) && (
                         <LoadNext 
                             canLoadNext={canLoadNext} 
-                            setPage={setPage} 
-                            page={page || 0}
-                            lastItemId={page}
-                            setPrevPage={setPrevPage}
+                            isEnd={isEnd}
+                            getMore={getData}
                             />
                     )}
                 </Col>
